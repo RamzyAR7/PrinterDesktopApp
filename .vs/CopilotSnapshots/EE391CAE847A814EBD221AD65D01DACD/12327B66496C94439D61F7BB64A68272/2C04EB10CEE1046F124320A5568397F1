@@ -1,0 +1,70 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Data;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class ParcodePreviewForm : DevExpress.XtraEditors.XtraForm
+    {
+        private readonly string _productName;
+        private readonly decimal _price;
+        private DataSet.Barcode _barcodeDataSet;
+
+        public ParcodePreviewForm(string productName, decimal price)
+        {
+            InitializeComponent();
+            _productName = productName;
+            _price = price;
+            
+            this.Load += ParcodePreviewForm_Load;
+        }
+
+        private void ParcodePreviewForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                GenerateBarcode();
+                SetupCrystalReport();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في إنشاء الباركود: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GenerateBarcode()
+        {
+           
+            int encryptedPrice = PriceEncrypt.EncryptPrice(_price);
+
+            byte[] barcodeImage = BarcodeGenrator.GenerateBarcodeImage(_productName, encryptedPrice.ToString());
+
+            // Create dataset and add the barcode image
+            _barcodeDataSet = new DataSet.Barcode();
+            _barcodeDataSet.BarcodeTable.AddBarcodeTableRow(barcodeImage);
+        }
+
+        private void SetupCrystalReport()
+        {
+            // Set the dataset as the data source for the report
+            var report = new CrystalReports.Barcode();
+            report.SetDataSource(_barcodeDataSet);
+            
+            // Assign the report to the viewer
+            crystalReportViewer1.ReportSource = report;
+            crystalReportViewer1.Refresh();
+        }
+
+        private void crystalReportViewer1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void crystalReportViewer1_Load_1(object sender, EventArgs e)
+        {
+
+        }
+    }
+}

@@ -1,0 +1,86 @@
+﻿using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Views.Grid;
+using System;
+using System.Data;
+using System.Drawing;
+using System.Windows.Forms;
+using PriceEncrypt;
+
+namespace DesktopApp
+{
+    public partial class ParcodePreviewForm : DevExpress.XtraEditors.XtraForm
+    {
+        private readonly string _productName;
+        private readonly decimal _price;
+        private DataTable _barcodeTable;
+
+        public ParcodePreviewForm(string productName, decimal price)
+        {
+            InitializeComponent();
+            _productName = productName;
+            _price = price;
+            
+            this.Load += ParcodePreviewForm_Load;
+            SetupGrid();
+        }
+
+        private void SetupGrid()
+        {
+            gridView1.OptionsView.ShowColumnHeaders = false;
+            gridView1.OptionsView.ShowIndicator = false;
+            gridView1.OptionsView.RowAutoHeight = true;
+            gridView1.OptionsView.ShowViewCaption = false;
+            
+            // Enable image preview
+            gridView1.OptionsView.EnableAppearanceEvenRow = false;
+            gridView1.OptionsView.EnableAppearanceOddRow = false;
+            gridView1.OptionsSelection.EnableAppearanceFocusedRow = false;
+        }
+
+        private void ParcodePreviewForm_Load(object sender, EventArgs e)
+        {
+            SetupBarcodeTable();
+            GenerateBarcode();
+        }
+
+        private void SetupBarcodeTable()
+        {
+            _barcodeTable = new DataTable("BarcodeTable");
+            _barcodeTable.Columns.Add("Image", typeof(byte[]));
+            _barcodeTable.Columns.Add("ProductName", typeof(string));
+            _barcodeTable.Columns.Add("Price", typeof(decimal));
+        }
+
+        private void GenerateBarcode()
+        {
+            try
+            {
+                int encryptedPrice = PriceEncrypt.EncryptPrice(_price);
+                byte[] barcodeImage = BarcodeGenrator.GenerateBarcodeImage(_productName, encryptedPrice.ToString());
+
+                _barcodeTable.Rows.Add(barcodeImage, _productName, _price);
+
+                gridControl1.DataSource = _barcodeTable;
+                gridView1.PopulateColumns();
+
+                // Configure image column
+                if (gridView1.Columns["Image"] != null)
+                {
+                    gridView1.Columns["Image"].OptionsColumn.ReadOnly = true;
+                    gridView1.Columns["Image"].OptionsColumn.AllowEdit = false;
+                    gridView1.Columns["Image"].Width = 400;
+                }
+
+                // Hide other columns
+                if (gridView1.Columns["ProductName"] != null)
+                    gridView1.Columns["ProductName"].Visible = false;
+                if (gridView1.Columns["Price"] != null)
+                    gridView1.Columns["Price"].Visible = false;
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في إنشاء الباركود: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
+}

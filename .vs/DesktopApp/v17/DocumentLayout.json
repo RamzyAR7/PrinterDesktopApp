@@ -1,0 +1,139 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\desktopapp\\desktopapp\\silentprintutility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\silentprintutility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\desktopapp\\desktopapp\\productform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\productform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\desktopapp\\desktopapp\\productform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\productform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\desktopapp\\desktopapp\\barcodecopyform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\barcodecopyform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 175,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:323948898:0:{81164725-9a96-4ece-a4cb-440d8fd285e5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{25f7e850-ffa1-11d0-b63f-00a0c922e851}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BarcodeCopyForm.cs",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\BarcodeCopyForm.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\BarcodeCopyForm.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\BarcodeCopyForm.cs",
+              "RelativeToolTip": "DesktopApp\\BarcodeCopyForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T02:48:38.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SilentPrintUtility.cs",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\SilentPrintUtility.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\SilentPrintUtility.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\SilentPrintUtility.cs",
+              "RelativeToolTip": "DesktopApp\\SilentPrintUtility.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T02:42:27.012Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductForm.cs",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\ProductForm.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\ProductForm.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\ProductForm.cs",
+              "RelativeToolTip": "DesktopApp\\ProductForm.cs",
+              "ViewState": "AgIAABkBAAAAAAAAAAD4vykBAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T02:43:12.282Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\ProductForm.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\ProductForm.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\ProductForm.cs [Design]",
+              "RelativeToolTip": "DesktopApp\\ProductForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T02:42:44.644Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 240,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 240,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{de1fc918-f32e-4dd7-a915-1792a051f26b}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

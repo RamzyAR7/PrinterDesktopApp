@@ -1,0 +1,228 @@
+﻿using DevExpress.XtraBars;
+using DevExpress.XtraEditors;
+using DevExpress.XtraGrid;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class ProductForm : XtraForm
+    {
+        private DataSet.Product productDataSet = new DataSet.Product();
+        private ShoppingDBEntities dbContext;
+        private DataView productView;
+
+        public ProductForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+            SetupSearchPanel();
+            LoadProductData();
+            ConfigureGridView();
+
+            // Handle window resize to adjust columns
+            this.Resize += (s, e) => AdjustColumnWidths();
+        }
+
+        private void SetupSearchPanel()
+        {
+            // Configure the product panel
+            productPanal.Dock = DockStyle.Top;
+            productPanal.Height = 50;
+            productPanal.Padding = new Padding(10);
+            productPanal.RightToLeft = RightToLeft.Yes;
+
+            // Create search label
+            var searchLabel = new LabelControl
+            {
+                Text = "بحث:",
+                Appearance = { Font = new Font("Arial", 12, FontStyle.Bold) },
+                AutoSizeMode = LabelAutoSizeMode.None,
+                Size = new Size(40, 24)
+            };
+
+            // Create search textbox
+            var searchTextBox = new TextEdit
+            {
+                Properties =
+                {
+                    NullText = "ابحث عن اسم المنتج، الشركة، أو الصنف...",
+                    Appearance = { 
+                        TextOptions = { HAlignment = DevExpress.Utils.HorzAlignment.Near },
+                        Font = new Font("Arial", 12)
+                    }
+                },
+                Size = new Size(400, 30)
+            };
+
+            // Position controls from right to left
+            searchLabel.Location = new Point(productPanal.Width - searchLabel.Width - 10, 12);
+            searchTextBox.Location = new Point(productPanal.Width - searchLabel.Width - searchTextBox.Width - 20, 10);
+
+            // Handle search text changed
+            searchTextBox.TextChanged += (s, e) =>
+            {
+                if (productView != null)
+                {
+                    string searchText = searchTextBox.Text.Trim();
+                    string filter = string.Empty;
+
+                    if (!string.IsNullOrEmpty(searchText))
+                    {
+                        filter = $"ProductName LIKE '%{searchText}%' OR CompanyName LIKE '%{searchText}%' OR CategoryName LIKE '%{searchText}%'";
+                    }
+
+                    productView.RowFilter = filter;
+                }
+            };
+
+            // Handle panel resize to maintain RTL layout
+            productPanal.Resize += (s, e) =>
+            {
+                searchLabel.Location = new Point(productPanal.Width - searchLabel.Width - 10, 12);
+                searchTextBox.Location = new Point(productPanal.Width - searchLabel.Width - searchTextBox.Width - 20, 10);
+            };
+
+            // Add controls to panel
+            productPanal.Controls.Add(searchTextBox);
+            productPanal.Controls.Add(searchLabel);
+        }
+
+        private void LoadProductData()
+        {
+            // Get the products from database with the latest prices
+            var products = dbContext.Products
+                .Select(p => new
+                {
+                    p.Id,
+                    ProductName = p.Name,
+                    CompanyName = p.Company.Name,
+                    CategoryName = p.Category.Name,
+                    SellingPrice = p.Prices.OrderByDescending(pr => pr.CreatedDate).FirstOrDefault().SellingPrice,
+                    PurchasingPrice = p.Prices.OrderByDescending(pr => pr.CreatedDate).FirstOrDefault().PurchasingPrice,
+                    p.CreatedDate
+                })
+                .OrderByDescending(p => p.CreatedDate) // Newest first
+                .ToList();
+
+            // Add data to the dataset
+            foreach (var product in products)
+            {
+                var row = productDataSet.Tables["Product"].NewRow();
+                row["Id"] = product.Id.ToString();
+                row["ProductName"] = product.ProductName;
+                row["CompanyName"] = product.CompanyName;
+                row["CategoryName"] = product.CategoryName;
+                row["SellingPrice"] = product.SellingPrice.ToString();
+                row["PurchasingPrice"] = product.PurchasingPrice.ToString();
+                row["CreatedDate"] = product.CreatedDate.ToString("yyyy-MM-dd");
+                productDataSet.Tables["Product"].Rows.Add(row);
+            }
+
+            // Set up data view for searching
+            productView = new DataView(productDataSet.Tables["Product"]);
+            productGrid.DataSource = productView;
+        }
+
+        private void ConfigureGridView()
+        {
+            // Configure grid view columns with Arabic headers
+            gridView1.Columns["Id"].Visible = false; // Hide ID column
+
+            // Show row numbers
+            gridView1.IndicatorWidth = 50;  // Width of the row numbers column
+            gridView1.CustomDrawRowIndicator += (s, e) =>
+            {
+                if (e.Info.IsRowIndicator && e.RowHandle >= 0)
+                {
+                    e.Info.DisplayText = (e.RowHandle + 1).ToString();
+                }
+            };
+
+            // Set Arabic captions
+            gridView1.Columns["ProductName"].Caption = "اسم المنتج";
+            gridView1.Columns["CategoryName"].Caption = "الصنف";
+            gridView1.Columns["CompanyName"].Caption = "الشركة";
+            gridView1.Columns["SellingPrice"].Caption = "سعر بيع";
+            gridView1.Columns["PurchasingPrice"].Caption = "سعر شراء";
+            gridView1.Columns["CreatedDate"].Caption = "تاريخ الإضافة";
+
+            // Configure grid view appearance
+            gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridView1.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridView1.OptionsView.ShowGroupPanel = false;
+
+            // Set the right-to-left reading order for Arabic text
+            gridView1.OptionsView.EnableAppearanceEvenRow = true;
+            gridView1.Appearance.EvenRow.BackColor = Color.FromArgb(242, 242, 242);
+
+            // Increase row height
+            gridView1.RowHeight = 30;
+
+            // Format price columns with thousands separator
+            gridView1.Columns["SellingPrice"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            gridView1.Columns["SellingPrice"].DisplayFormat.FormatString = "N0";
+            gridView1.Columns["PurchasingPrice"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            gridView1.Columns["PurchasingPrice"].DisplayFormat.FormatString = "N0";
+
+            // Configure grid appearance
+            gridView1.Appearance.HeaderPanel.Font = new Font(gridView1.Appearance.HeaderPanel.Font.FontFamily, 12, FontStyle.Bold);
+            gridView1.Appearance.Row.Font = new Font(gridView1.Appearance.Row.Font.FontFamily, 11);
+
+            // Make grid fill the form
+            productGrid.Dock = DockStyle.Fill;
+
+            // Configure auto-sizing options
+            gridView1.OptionsView.ColumnAutoWidth = true;
+            gridView1.BestFitColumns();
+
+            // Set column width proportions
+            AdjustColumnWidths();
+        }
+
+        private void AdjustColumnWidths()
+        {
+            if (productGrid.Width <= 0) return;
+
+            // Calculate available width (excluding indicator column and vertical scrollbar)
+            int scrollbarWidth = 20;
+            int availableWidth = productGrid.Width - gridView1.IndicatorWidth - scrollbarWidth;
+
+            // Define column proportions (total = 100)
+            var columnProportions = new Dictionary<string, int>
+            {
+                { "ProductName", 30 },      // 30%
+                { "CategoryName", 15 },     // 15%
+                { "CompanyName", 15 },      // 15%
+                { "SellingPrice", 13 },     // 13%
+                { "PurchasingPrice", 13 },  // 13%
+                { "CreatedDate", 14 }       // 14%
+            };
+
+            // Apply proportional widths
+            foreach (var column in columnProportions)
+            {
+                if (gridView1.Columns[column.Key] != null)
+                {
+                    int width = (availableWidth * column.Value) / 100;
+                    gridView1.Columns[column.Key].Width = width;
+                }
+            }
+
+            gridView1.OptionsView.ColumnAutoWidth = false;
+        }
+
+        private void productPanal_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+    }
+}

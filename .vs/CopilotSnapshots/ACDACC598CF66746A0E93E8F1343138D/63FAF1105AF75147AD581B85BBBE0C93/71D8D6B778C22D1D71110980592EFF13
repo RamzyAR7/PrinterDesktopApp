@@ -1,0 +1,96 @@
+﻿using DevExpress.XtraBars;
+using DevExpress.XtraEditors;
+using DevExpress.XtraGrid;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class ProductForm : XtraForm
+    {
+        private DataSet.Product productDataSet = new DataSet.Product();
+        private ShoppingDBEntities dbContext;
+
+        public ProductForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+            LoadProductData();
+            ConfigureGridView();
+        }
+
+        private void LoadProductData()
+        {
+            // Get the products from database with the latest prices
+            var products = dbContext.Products
+                .Select(p => new
+                {
+                    p.Id,
+                    ProductName = p.Name,
+                    CompanyName = p.Company.Name,
+                    CategoryName = p.Category.Name,
+                    // Get the latest prices (selling and purchasing)
+                    SellingPrice = p.Prices.OrderByDescending(pr => pr.CreatedDate).FirstOrDefault().SellingPrice,
+                    PurchasingPrice = p.Prices.OrderByDescending(pr => pr.CreatedDate).FirstOrDefault().PurchasingPrice,
+                    p.CreatedDate
+                })
+                .OrderByDescending(p => p.CreatedDate) // Newest first
+                .ToList();
+
+            // Add data to the dataset
+            foreach (var product in products)
+            {
+                DataSet.Product.ProductRow row = productDataSet.Product.NewProductRow();
+                row.Id = product.Id.ToString();
+                row.ProductName = product.ProductName;
+                row.CompanyName = product.CompanyName;
+                row.CategoryName = product.CategoryName;
+                row.SellingPrice = product.SellingPrice.ToString();
+                row.PurchasingPrice = product.PurchasingPrice.ToString();
+                row.CreatedDate = product.CreatedDate.ToString("yyyy-MM-dd");
+                productDataSet.Product.AddProductRow(row);
+            }
+
+            // Set the data source for the grid
+            productGrid.DataSource = productDataSet.Product;
+        }
+
+        private void ConfigureGridView()
+        {
+            // Configure grid view columns with Arabic headers
+            gridView1.Columns["Id"].Visible = false; // Hide ID column
+            
+            gridView1.Columns["ProductName"].Caption = "اسم المنتج";
+            gridView1.Columns["CategoryName"].Caption = "الصنف";
+            gridView1.Columns["CompanyName"].Caption = "الشركة";
+            gridView1.Columns["SellingPrice"].Caption = "سعر بيع";
+            gridView1.Columns["PurchasingPrice"].Caption = "سعر شراء";
+            gridView1.Columns["CreatedDate"].Caption = "تاريخ الإضافة";
+
+            // Configure grid view appearance
+            gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridView1.OptionsView.ShowGroupPanel = false;
+            
+            // Set the right-to-left reading order for Arabic text
+            gridView1.OptionsView.EnableAppearanceEvenRow = true;
+            gridView1.Appearance.EvenRow.BackColor = Color.FromArgb(242, 242, 242);
+            
+            // Set column widths
+            gridView1.OptionsView.ColumnAutoWidth = false;
+            gridView1.Columns["ProductName"].Width = 150;
+            gridView1.Columns["CategoryName"].Width = 120;
+            gridView1.Columns["CompanyName"].Width = 120;
+            gridView1.Columns["SellingPrice"].Width = 100;
+            gridView1.Columns["PurchasingPrice"].Width = 100;
+            gridView1.Columns["CreatedDate"].Width = 120;
+        }
+    }
+}

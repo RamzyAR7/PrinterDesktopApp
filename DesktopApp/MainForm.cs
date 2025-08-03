@@ -1,0 +1,55 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class MainForm : DevExpress.XtraEditors.XtraForm
+    {
+        private XtraForm activeForm = null;
+        public MainForm()
+        {
+            InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            // Initialize the main form
+            // No need to load any form here as the user will select which form to load
+        }
+
+        private void LoadForm(XtraForm form)
+        {
+            if (activeForm != null)
+            {
+                activeForm.Close();
+            }
+
+            activeForm = form;
+            form.TopLevel = false;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.Dock = DockStyle.Fill;
+
+            panelMainContainer.Controls.Clear();
+            panelMainContainer.Controls.Add(form);
+            form.Show();
+        }
+
+        private void btnProduct_Click(object sender, EventArgs e)
+        {
+            LoadForm(new ProductForm());
+        }
+
+        private void btnInvoice_Click(object sender, EventArgs e)
+        {
+            LoadForm(new InvoiceForm());
+        }
+    }
+}

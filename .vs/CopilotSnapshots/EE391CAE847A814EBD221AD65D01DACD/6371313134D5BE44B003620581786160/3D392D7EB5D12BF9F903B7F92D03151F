@@ -1,0 +1,40 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Data;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class BarcodePreviewForm : DevExpress.XtraEditors.XtraForm
+    {
+        private readonly string _productName;
+        private readonly decimal _price;
+        private DataTable _barcodeTable;
+
+        public BarcodePreviewForm(string productName, decimal price)
+        {
+            InitializeComponent();
+            _productName = productName;
+            _price = price;
+            SetupBarcodeTable();
+            GenerateBarcode();
+        }
+
+        private void SetupBarcodeTable()
+        {
+            _barcodeTable = new DataTable("BarcodeTable");
+            _barcodeTable.Columns.Add("Image", typeof(byte[]));
+            _barcodeTable.Columns.Add("ProductName", typeof(string));
+            _barcodeTable.Columns.Add("Price", typeof(decimal));
+        }
+
+        private void GenerateBarcode()
+        {
+            int encryptedPrice = PriceEncrypt.EncryptPrice(_price);
+            byte[] barcodeImage = BarcodeGenrator.GenerateBarcodeImage(_productName, encryptedPrice.ToString());
+
+            _barcodeTable.Rows.Add(barcodeImage, _productName, _price);
+        }
+    }
+}
