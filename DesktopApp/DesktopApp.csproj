@@ -99,6 +99,12 @@
       <DependentUpon>Barcode.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CrystalReports\Invoice.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Invoice.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DataSet\Barcode.cs">
       <DependentUpon>Barcode.xsd</DependentUpon>
     </Compile>
@@ -106,6 +112,14 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Barcode.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSet\InvoiceDataTable.cs">
+      <DependentUpon>InvoiceDataTable.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSet\InvoiceDataTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InvoiceDataTable.xsd</DependentUpon>
     </Compile>
     <Compile Include="DataSet\Product.cs">
       <DependentUpon>Product.xsd</DependentUpon>
@@ -127,17 +141,17 @@
     <Compile Include="InvoiceItem.cs">
       <DependentUpon>ShoppingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="InvoicePreviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InvoicePreviewForm.Designer.cs">
+      <DependentUpon>InvoicePreviewForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="InvoiceReport.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>InvoiceReport.rpt</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="ParcodePreviewForm.cs">
       <SubType>Form</SubType>
@@ -189,15 +203,18 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Barcode.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\Invoice.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Invoice.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="InvoiceForm.resx">
       <DependentUpon>InvoiceForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="InvoicePreviewForm.resx">
+      <DependentUpon>InvoicePreviewForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InvoiceReport.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>InvoiceReport.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ParcodePreviewForm.resx">
       <DependentUpon>ParcodePreviewForm.cs</DependentUpon>
@@ -214,6 +231,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="App.config" />
     <None Include="DataSet\Barcode.xsc">
@@ -226,6 +244,17 @@
     </None>
     <None Include="DataSet\Barcode.xss">
       <DependentUpon>Barcode.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet\InvoiceDataTable.xsc">
+      <DependentUpon>InvoiceDataTable.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet\InvoiceDataTable.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>InvoiceDataTable.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSet\InvoiceDataTable.xss">
+      <DependentUpon>InvoiceDataTable.xsd</DependentUpon>
     </None>
     <None Include="DataSet\Product.xsc">
       <DependentUpon>Product.xsd</DependentUpon>
@@ -266,6 +295,8 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\error-img.png" />
+    <Content Include="Images\tantawy mobile app icon.png" />
     <Content Include="ShoppingModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ShoppingModel.edmx</DependentUpon>

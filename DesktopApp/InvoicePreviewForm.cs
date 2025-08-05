@@ -11,17 +11,11 @@ using System.Windows.Forms;
 
 namespace DesktopApp
 {
-    public partial class InvoiceForm : DevExpress.XtraEditors.XtraForm
+    public partial class InvoicePreviewForm : DevExpress.XtraEditors.XtraForm
     {
-        public InvoiceForm()
+        public InvoicePreviewForm()
         {
             InitializeComponent();
-        }
-
-        private void InvoiceBtn_Click(object sender, EventArgs e)
-        {
-            var invoicePreview = new InvoicePreviewForm();
-            invoicePreview.ShowDialog(this);
         }
     }
 }

@@ -51,5 +51,10 @@ namespace DesktopApp
         {
             LoadForm(new InvoiceForm());
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

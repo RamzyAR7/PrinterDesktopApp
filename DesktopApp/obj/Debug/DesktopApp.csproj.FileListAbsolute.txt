@@ -74,3 +74,4 @@ C:\Users\Ahmed Ramzy\RamzyProject\DesktopApp\DesktopApp\bin\Debug\zxing.presenta
 C:\Users\Ahmed Ramzy\RamzyProject\DesktopApp\DesktopApp\obj\Debug\DesktopApp.exe.config
 C:\Users\Ahmed Ramzy\RamzyProject\DesktopApp\DesktopApp\obj\Debug\DesktopApp.ParcodePreviewForm.resources
 C:\Users\Ahmed Ramzy\RamzyProject\DesktopApp\DesktopApp\obj\Debug\DesktopApp.BarcodeCopyForm.resources
+C:\Users\Ahmed Ramzy\RamzyProject\DesktopApp\DesktopApp\obj\Debug\DesktopApp.InvoicePreviewForm.resources

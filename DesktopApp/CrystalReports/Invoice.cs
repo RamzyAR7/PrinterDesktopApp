@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DesktopApp {
+namespace DesktopApp.CrystalReports {
     using System;
     using System.ComponentModel;
     using CrystalDecisions.Shared;
@@ -16,14 +16,14 @@ namespace DesktopApp {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class InvoiceReport : ReportClass {
+    public class Invoice : ReportClass {
         
-        public InvoiceReport() {
+        public Invoice() {
         }
         
         public override string ResourceName {
             get {
-                return "InvoiceReport.rpt";
+                return "Invoice.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace DesktopApp {
         
         public override string FullResourceName {
             get {
-                return "DesktopApp.InvoiceReport.rpt";
+                return "DesktopApp.CrystalReports.Invoice.rpt";
             }
             set {
                 // Do nothing
@@ -74,7 +74,7 @@ namespace DesktopApp {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -98,9 +98,9 @@ namespace DesktopApp {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedInvoiceReport : Component, ICachedReport {
+    public class CachedInvoice : Component, ICachedReport {
         
-        public CachedInvoiceReport() {
+        public CachedInvoice() {
         }
         
         [Browsable(false)]
@@ -137,7 +137,7 @@ namespace DesktopApp {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            InvoiceReport rpt = new InvoiceReport();
+            Invoice rpt = new Invoice();
             rpt.Site = this.Site;
             return rpt;
         }
