@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\desktopapp\\desktopapp\\invoiceform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\invoiceform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\desktopapp\\desktopapp\\invoiceform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\invoiceform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -51,19 +55,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "InvoiceForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\InvoiceForm.Designer.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\InvoiceForm.Designer.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\InvoiceForm.Designer.cs",
+              "RelativeToolTip": "DesktopApp\\InvoiceForm.Designer.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAYwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T15:17:17.014Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "InvoiceForm.cs",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\InvoiceForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\InvoiceForm.cs",
               "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\InvoiceForm.cs",
               "RelativeToolTip": "DesktopApp\\InvoiceForm.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAgwBoAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAOMAAAAAAAAAAADwv+sAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-05T15:01:33.79Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "InvoicePreviewForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\InvoicePreviewForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\InvoicePreviewForm.cs",
@@ -74,7 +91,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "InvoiceForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\InvoiceForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\InvoiceForm.cs",
@@ -85,7 +102,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ProductForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\ProductForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\ProductForm.cs",
