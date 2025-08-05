@@ -3,5 +3,12 @@
   <Profiles>
     <Profile Name="(Default)" />
   </Profiles>
-  <Settings />
+  <Settings>
+    <Setting Name="BarcodePrinterName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Xprinter XP-235B</Value>
+    </Setting>
+    <Setting Name="InvoicePrinterName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Xprinter XP-235B</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

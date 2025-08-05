@@ -26,5 +26,35 @@ namespace DesktopApp.Properties
                 return defaultInstance;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Xprinter XP-235B")]
+        public string BarcodePrinterName
+        {
+            get
+            {
+                return ((string)(this["BarcodePrinterName"]));
+            }
+            set
+            {
+                this["BarcodePrinterName"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Xprinter XP-235B")]
+        public string InvoicePrinterName
+        {
+            get
+            {
+                return ((string)(this["InvoicePrinterName"]));
+            }
+            set
+            {
+                this["InvoicePrinterName"] = value;
+            }
+        }
     }
 }

@@ -7,5 +7,9 @@
         partial class InvoiceItemsTableDataTable
         {
         }
+
+        partial class InvoiceTableDataTable
+        {
+        }
     }
 }

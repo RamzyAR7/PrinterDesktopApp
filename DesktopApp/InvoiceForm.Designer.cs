@@ -32,6 +32,7 @@
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.InvoiceBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.SilentPrintBtn = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -58,6 +59,7 @@
             // 
             // panelControl1
             // 
+            this.panelControl1.Controls.Add(this.SilentPrintBtn);
             this.panelControl1.Controls.Add(this.InvoiceBtn);
             this.panelControl1.Location = new System.Drawing.Point(0, 2);
             this.panelControl1.Name = "panelControl1";
@@ -72,6 +74,15 @@
             this.InvoiceBtn.TabIndex = 0;
             this.InvoiceBtn.Text = "معاينة طباعة الفاتورة";
             this.InvoiceBtn.Click += new System.EventHandler(this.InvoiceBtn_Click);
+            // 
+            // SilentPrintBtn
+            // 
+            this.SilentPrintBtn.Location = new System.Drawing.Point(177, 11);
+            this.SilentPrintBtn.Name = "SilentPrintBtn";
+            this.SilentPrintBtn.Size = new System.Drawing.Size(146, 29);
+            this.SilentPrintBtn.TabIndex = 1;
+            this.SilentPrintBtn.Text = "طباعة صامتة";
+            this.SilentPrintBtn.Click += new System.EventHandler(this.SilentPrintBtn_Click);
             // 
             // InvoiceForm
             // 
@@ -103,5 +114,6 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.SimpleButton InvoiceBtn;
+        private DevExpress.XtraEditors.SimpleButton SilentPrintBtn;
     }
 }

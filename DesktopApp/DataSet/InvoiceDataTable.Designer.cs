@@ -471,7 +471,7 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public InvoiceTableRow AddInvoiceTableRow(short Id, string InvoiceNumber, System.DateTime InvoiceDate, string CustomerName, string CustomerPhone, decimal TotalAmount, decimal Discount, decimal NetAmount) {
+            public InvoiceTableRow AddInvoiceTableRow(int Id, string InvoiceNumber, string InvoiceDate, string CustomerName, string CustomerPhone, string TotalAmount, string Discount, string NetAmount) {
                 InvoiceTableRow rowInvoiceTableRow = ((InvoiceTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Id,
@@ -517,21 +517,21 @@ namespace DesktopApp.DataSet {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnId = new global::System.Data.DataColumn("Id", typeof(short), null, global::System.Data.MappingType.Element);
+                this.columnId = new global::System.Data.DataColumn("Id", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnId);
                 this.columnInvoiceNumber = new global::System.Data.DataColumn("InvoiceNumber", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnInvoiceNumber);
-                this.columnInvoiceDate = new global::System.Data.DataColumn("InvoiceDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                this.columnInvoiceDate = new global::System.Data.DataColumn("InvoiceDate", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnInvoiceDate);
                 this.columnCustomerName = new global::System.Data.DataColumn("CustomerName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCustomerName);
                 this.columnCustomerPhone = new global::System.Data.DataColumn("CustomerPhone", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCustomerPhone);
-                this.columnTotalAmount = new global::System.Data.DataColumn("TotalAmount", typeof(decimal), null, global::System.Data.MappingType.Element);
+                this.columnTotalAmount = new global::System.Data.DataColumn("TotalAmount", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotalAmount);
-                this.columnDiscount = new global::System.Data.DataColumn("Discount", typeof(decimal), null, global::System.Data.MappingType.Element);
+                this.columnDiscount = new global::System.Data.DataColumn("Discount", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDiscount);
-                this.columnNetAmount = new global::System.Data.DataColumn("NetAmount", typeof(decimal), null, global::System.Data.MappingType.Element);
+                this.columnNetAmount = new global::System.Data.DataColumn("NetAmount", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNetAmount);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, false));
@@ -677,9 +677,9 @@ namespace DesktopApp.DataSet {
             
             private global::System.Data.DataColumn columnQuantity;
             
-            private global::System.Data.DataColumn columnInvoiceId;
-            
             private global::System.Data.DataColumn columnTotalPrice;
+            
+            private global::System.Data.DataColumn columnInvoiceId;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -748,17 +748,17 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn InvoiceIdColumn {
+            public global::System.Data.DataColumn TotalPriceColumn {
                 get {
-                    return this.columnInvoiceId;
+                    return this.columnTotalPrice;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn TotalPriceColumn {
+            public global::System.Data.DataColumn InvoiceIdColumn {
                 get {
-                    return this.columnTotalPrice;
+                    return this.columnInvoiceId;
                 }
             }
             
@@ -799,17 +799,17 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public InvoiceItemsTableRow AddInvoiceItemsTableRow(short Id, string ProductName, decimal UnitPrice, short Quantity, InvoiceTableRow parentInvoiceTableRowByInvoiceTable_InvoiceItemsTable, decimal TotalPrice) {
+            public InvoiceItemsTableRow AddInvoiceItemsTableRow(int Id, string ProductName, string UnitPrice, string Quantity, string TotalPrice, InvoiceTableRow parentInvoiceTableRowByInvoiceTable_InvoiceItemsTable) {
                 InvoiceItemsTableRow rowInvoiceItemsTableRow = ((InvoiceItemsTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Id,
                         ProductName,
                         UnitPrice,
                         Quantity,
-                        null,
-                        TotalPrice};
+                        TotalPrice,
+                        null};
                 if ((parentInvoiceTableRowByInvoiceTable_InvoiceItemsTable != null)) {
-                    columnValuesArray[4] = parentInvoiceTableRowByInvoiceTable_InvoiceItemsTable[0];
+                    columnValuesArray[5] = parentInvoiceTableRowByInvoiceTable_InvoiceItemsTable[0];
                 }
                 rowInvoiceItemsTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowInvoiceItemsTableRow);
@@ -837,31 +837,28 @@ namespace DesktopApp.DataSet {
                 this.columnProductName = base.Columns["ProductName"];
                 this.columnUnitPrice = base.Columns["UnitPrice"];
                 this.columnQuantity = base.Columns["Quantity"];
-                this.columnInvoiceId = base.Columns["InvoiceId"];
                 this.columnTotalPrice = base.Columns["TotalPrice"];
+                this.columnInvoiceId = base.Columns["InvoiceId"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnId = new global::System.Data.DataColumn("Id", typeof(short), null, global::System.Data.MappingType.Element);
+                this.columnId = new global::System.Data.DataColumn("Id", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnId);
                 this.columnProductName = new global::System.Data.DataColumn("ProductName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnProductName);
-                this.columnUnitPrice = new global::System.Data.DataColumn("UnitPrice", typeof(decimal), null, global::System.Data.MappingType.Element);
+                this.columnUnitPrice = new global::System.Data.DataColumn("UnitPrice", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUnitPrice);
-                this.columnQuantity = new global::System.Data.DataColumn("Quantity", typeof(short), null, global::System.Data.MappingType.Element);
+                this.columnQuantity = new global::System.Data.DataColumn("Quantity", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnQuantity);
-                this.columnInvoiceId = new global::System.Data.DataColumn("InvoiceId", typeof(short), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnInvoiceId);
-                this.columnTotalPrice = new global::System.Data.DataColumn("TotalPrice", typeof(decimal), null, global::System.Data.MappingType.Element);
+                this.columnTotalPrice = new global::System.Data.DataColumn("TotalPrice", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTotalPrice);
+                this.columnInvoiceId = new global::System.Data.DataColumn("InvoiceId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnInvoiceId);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, false));
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint2", new global::System.Data.DataColumn[] {
-                                this.columnInvoiceId}, false));
                 this.columnId.Unique = true;
-                this.columnInvoiceId.Unique = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1004,10 +1001,10 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public short Id {
+            public int Id {
                 get {
                     try {
-                        return ((short)(this[this.tableInvoiceTable.IdColumn]));
+                        return ((int)(this[this.tableInvoiceTable.IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Id\' in table \'InvoiceTable\' is DBNull.", e);
@@ -1036,10 +1033,10 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public System.DateTime InvoiceDate {
+            public string InvoiceDate {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableInvoiceTable.InvoiceDateColumn]));
+                        return ((string)(this[this.tableInvoiceTable.InvoiceDateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'InvoiceDate\' in table \'InvoiceTable\' is DBNull.", e);
@@ -1084,10 +1081,10 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal TotalAmount {
+            public string TotalAmount {
                 get {
                     try {
-                        return ((decimal)(this[this.tableInvoiceTable.TotalAmountColumn]));
+                        return ((string)(this[this.tableInvoiceTable.TotalAmountColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'TotalAmount\' in table \'InvoiceTable\' is DBNull.", e);
@@ -1100,10 +1097,10 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal Discount {
+            public string Discount {
                 get {
                     try {
-                        return ((decimal)(this[this.tableInvoiceTable.DiscountColumn]));
+                        return ((string)(this[this.tableInvoiceTable.DiscountColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Discount\' in table \'InvoiceTable\' is DBNull.", e);
@@ -1116,10 +1113,10 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal NetAmount {
+            public string NetAmount {
                 get {
                     try {
-                        return ((decimal)(this[this.tableInvoiceTable.NetAmountColumn]));
+                        return ((string)(this[this.tableInvoiceTable.NetAmountColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'NetAmount\' in table \'InvoiceTable\' is DBNull.", e);
@@ -1254,10 +1251,10 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public short Id {
+            public int Id {
                 get {
                     try {
-                        return ((short)(this[this.tableInvoiceItemsTable.IdColumn]));
+                        return ((int)(this[this.tableInvoiceItemsTable.IdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Id\' in table \'InvoiceItemsTable\' is DBNull.", e);
@@ -1286,10 +1283,10 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal UnitPrice {
+            public string UnitPrice {
                 get {
                     try {
-                        return ((decimal)(this[this.tableInvoiceItemsTable.UnitPriceColumn]));
+                        return ((string)(this[this.tableInvoiceItemsTable.UnitPriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'UnitPrice\' in table \'InvoiceItemsTable\' is DBNull.", e);
@@ -1302,10 +1299,10 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public short Quantity {
+            public string Quantity {
                 get {
                     try {
-                        return ((short)(this[this.tableInvoiceItemsTable.QuantityColumn]));
+                        return ((string)(this[this.tableInvoiceItemsTable.QuantityColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Quantity\' in table \'InvoiceItemsTable\' is DBNull.", e);
@@ -1318,26 +1315,10 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public short InvoiceId {
+            public string TotalPrice {
                 get {
                     try {
-                        return ((short)(this[this.tableInvoiceItemsTable.InvoiceIdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'InvoiceId\' in table \'InvoiceItemsTable\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableInvoiceItemsTable.InvoiceIdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal TotalPrice {
-                get {
-                    try {
-                        return ((decimal)(this[this.tableInvoiceItemsTable.TotalPriceColumn]));
+                        return ((string)(this[this.tableInvoiceItemsTable.TotalPriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'TotalPrice\' in table \'InvoiceItemsTable\' is DBNull.", e);
@@ -1345,6 +1326,22 @@ namespace DesktopApp.DataSet {
                 }
                 set {
                     this[this.tableInvoiceItemsTable.TotalPriceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public int InvoiceId {
+                get {
+                    try {
+                        return ((int)(this[this.tableInvoiceItemsTable.InvoiceIdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'InvoiceId\' in table \'InvoiceItemsTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableInvoiceItemsTable.InvoiceIdColumn] = value;
                 }
             }
             
@@ -1409,18 +1406,6 @@ namespace DesktopApp.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsInvoiceIdNull() {
-                return this.IsNull(this.tableInvoiceItemsTable.InvoiceIdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetInvoiceIdNull() {
-                this[this.tableInvoiceItemsTable.InvoiceIdColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTotalPriceNull() {
                 return this.IsNull(this.tableInvoiceItemsTable.TotalPriceColumn);
             }
@@ -1429,6 +1414,18 @@ namespace DesktopApp.DataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTotalPriceNull() {
                 this[this.tableInvoiceItemsTable.TotalPriceColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsInvoiceIdNull() {
+                return this.IsNull(this.tableInvoiceItemsTable.InvoiceIdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetInvoiceIdNull() {
+                this[this.tableInvoiceItemsTable.InvoiceIdColumn] = global::System.Convert.DBNull;
             }
         }
         

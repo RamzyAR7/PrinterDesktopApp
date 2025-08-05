@@ -129,6 +129,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Product.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\InvoiceDataTableExtensions.cs" />
     <Compile Include="Invoice.cs">
       <DependentUpon>ShoppingModel.tt</DependentUpon>
     </Compile>
@@ -166,6 +167,12 @@
     <Compile Include="PriceList.cs">
       <DependentUpon>ShoppingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PrinterSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrinterSettingForm.Designer.cs">
+      <DependentUpon>PrinterSettingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Product.cs">
       <DependentUpon>ShoppingModel.tt</DependentUpon>
     </Compile>
@@ -196,6 +203,8 @@
       <DependentUpon>ShoppingModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="SilentPrintUtility.cs" />
+    <Compile Include="Utilities\ArabicNumberConverter.cs" />
+    <Compile Include="Utilities\PrinterSettingsManager.cs" />
     <EmbeddedResource Include="BarcodeCopyForm.resx">
       <DependentUpon>BarcodeCopyForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -218,6 +227,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ParcodePreviewForm.resx">
       <DependentUpon>ParcodePreviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrinterSettingForm.resx">
+      <DependentUpon>PrinterSettingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>

@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.btnProduct = new DevExpress.XtraEditors.SimpleButton();
             this.btnInvoice = new DevExpress.XtraEditors.SimpleButton();
             this.panelMainContainer = new DevExpress.XtraEditors.PanelControl();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.panelMainContainer)).BeginInit();
             this.panelMainContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -42,28 +44,30 @@
             // 
             // btnProduct
             // 
+            this.btnProduct.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnProduct.Appearance.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnProduct.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnProduct.Appearance.Options.UseBackColor = true;
             this.btnProduct.Appearance.Options.UseFont = true;
-            this.btnProduct.Location = new System.Drawing.Point(7, 5);
+            this.btnProduct.Location = new System.Drawing.Point(208, 3);
             this.btnProduct.Name = "btnProduct";
-            this.btnProduct.Size = new System.Drawing.Size(392, 46);
+            this.btnProduct.Size = new System.Drawing.Size(280, 46);
             this.btnProduct.TabIndex = 0;
             this.btnProduct.Text = "المنتجات";
             this.btnProduct.Click += new System.EventHandler(this.btnProduct_Click);
             // 
             // btnInvoice
             // 
+            this.btnInvoice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnInvoice.Appearance.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnInvoice.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnInvoice.Appearance.Options.UseBackColor = true;
             this.btnInvoice.Appearance.Options.UseFont = true;
             this.btnInvoice.AutoWidthInLayoutControl = true;
             this.btnInvoice.ImageOptions.ImageUri.Uri = "dashboards/insertlistbox";
-            this.btnInvoice.Location = new System.Drawing.Point(406, 8);
+            this.btnInvoice.Location = new System.Drawing.Point(494, 5);
             this.btnInvoice.Name = "btnInvoice";
-            this.btnInvoice.Size = new System.Drawing.Size(383, 44);
+            this.btnInvoice.Size = new System.Drawing.Size(289, 44);
             this.btnInvoice.TabIndex = 1;
             this.btnInvoice.Text = "الفواتير";
             this.btnInvoice.Click += new System.EventHandler(this.btnInvoice_Click);
@@ -98,6 +102,7 @@
             this.panelControl1.Appearance.BackColor = System.Drawing.Color.White;
             this.panelControl1.Appearance.Options.UseBackColor = true;
             this.panelControl1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelControl1.Controls.Add(this.simpleButton1);
             this.panelControl1.Controls.Add(this.btnInvoice);
             this.panelControl1.Controls.Add(this.btnProduct);
             this.panelControl1.Location = new System.Drawing.Point(1, 12);
@@ -105,6 +110,23 @@
             this.panelControl1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.panelControl1.Size = new System.Drawing.Size(790, 61);
             this.panelControl1.TabIndex = 2;
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Appearance.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.simpleButton1.Appearance.BorderColor = System.Drawing.Color.DodgerBlue;
+            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.simpleButton1.Appearance.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.simpleButton1.Appearance.Options.UseBackColor = true;
+            this.simpleButton1.Appearance.Options.UseBorderColor = true;
+            this.simpleButton1.Appearance.Options.UseFont = true;
+            this.simpleButton1.Appearance.Options.UseForeColor = true;
+            this.simpleButton1.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
+            this.simpleButton1.Location = new System.Drawing.Point(10, 8);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(50, 50);
+            this.simpleButton1.TabIndex = 2;
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
             // MainForm
             // 
@@ -132,6 +154,7 @@
         private DevExpress.XtraEditors.PanelControl panelMainContainer;
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
     }
 }
 

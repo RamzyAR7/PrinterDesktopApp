@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DesktopApp.Utilities;
 
 namespace DesktopApp
 {
@@ -132,6 +133,7 @@ namespace DesktopApp
             table.Columns.Add("CustomerName", typeof(string));
             table.Columns.Add("CustomerPhone", typeof(string));
             table.Columns.Add("TotalAmount", typeof(decimal));
+            table.Columns.Add("TotalAmountArabic", typeof(string)); // Add Arabic formatted amount
 
             foreach (var invoice in allInvoices)
             {
@@ -141,7 +143,8 @@ namespace DesktopApp
                     invoice.InvoiceDate,
                     invoice.CustomerName,
                     invoice.CustomerPhone,
-                    invoice.TotalAmount
+                    invoice.TotalAmount,
+                    ArabicNumberConverter.ConvertDecimalToArabic(invoice.TotalAmount) // Arabic formatted amount
                 );
             }
 
@@ -152,6 +155,7 @@ namespace DesktopApp
         {
             // Configure grid view columns with Arabic headers - same style as ProductForm
             gridView1.Columns["Id"].Visible = false; // Hide ID column
+            gridView1.Columns["TotalAmount"].Visible = false; // Hide English amount, show Arabic version
 
             // Show row numbers
             gridView1.IndicatorWidth = 50;  // Width of the row numbers column
@@ -159,7 +163,7 @@ namespace DesktopApp
             {
                 if (e.Info.IsRowIndicator && e.RowHandle >= 0)
                 {
-                    e.Info.DisplayText = (e.RowHandle + 1).ToString();
+                    e.Info.DisplayText = ArabicNumberConverter.ConvertIntegerToArabic(e.RowHandle + 1);
                 }
             };
 
@@ -168,7 +172,7 @@ namespace DesktopApp
             gridView1.Columns["InvoiceDate"].Caption = "تاريخ الفاتورة";
             gridView1.Columns["CustomerName"].Caption = "اسم العميل";
             gridView1.Columns["CustomerPhone"].Caption = "رقم الهاتف";
-            gridView1.Columns["TotalAmount"].Caption = "المبلغ الإجمالي";
+            gridView1.Columns["TotalAmountArabic"].Caption = "المبلغ الإجمالي";
 
             // Configure grid view appearance - same as ProductForm
             gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -185,10 +189,6 @@ namespace DesktopApp
             // Format date column
             gridView1.Columns["InvoiceDate"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             gridView1.Columns["InvoiceDate"].DisplayFormat.FormatString = "yyyy-MM-dd";
-
-            // Format amount column with thousands separator
-            gridView1.Columns["TotalAmount"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            gridView1.Columns["TotalAmount"].DisplayFormat.FormatString = "N0";
 
             // Configure grid appearance
             gridView1.Appearance.HeaderPanel.Font = new Font(gridView1.Appearance.HeaderPanel.Font.FontFamily, 12, FontStyle.Bold);
@@ -215,7 +215,7 @@ namespace DesktopApp
                 gridView1.Columns["InvoiceDate"].Width = (int)(totalWidth * 0.15);   // 15%
                 gridView1.Columns["CustomerName"].Width = (int)(totalWidth * 0.35);  // 35%
                 gridView1.Columns["CustomerPhone"].Width = (int)(totalWidth * 0.20); // 20%
-                gridView1.Columns["TotalAmount"].Width = (int)(totalWidth * 0.15);   // 15%
+                gridView1.Columns["TotalAmountArabic"].Width = (int)(totalWidth * 0.15);   // 15%
             }
             catch (Exception)
             {
@@ -242,8 +242,78 @@ namespace DesktopApp
 
         private void InvoiceBtn_Click(object sender, EventArgs e)
         {
-            var invoicePreview = new InvoicePreviewForm();
+            // Get selected invoice from grid
+            var selectedRowHandle = gridView1.FocusedRowHandle;
+            if (selectedRowHandle < 0)
+            {
+                XtraMessageBox.Show("يرجى اختيار فاتورة للطباعة", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Get the invoice ID from the selected row
+            var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+            if (selectedRow == null)
+            {
+                XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+            
+            // Open invoice preview with the selected invoice ID
+            var invoicePreview = new InvoicePreviewForm(invoiceId);
             invoicePreview.ShowDialog(this);
+        }
+
+        private void SilentPrintBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get selected invoice from grid
+                var selectedRowHandle = gridView1.FocusedRowHandle;
+                if (selectedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("يرجى اختيار فاتورة للطباعة", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get the invoice ID from the selected row
+                var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+                if (selectedRow == null)
+                {
+                    XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+
+                // Show copy selection form (reuse the barcode copy form)
+                using (var copyForm = new BarcodeCopyForm())
+                {
+                    if (copyForm.ShowDialog() == DialogResult.OK)
+                    {
+                        int numberOfCopies = copyForm.NumberOfCopies;
+                        
+                        // Show loading cursor
+                        this.Cursor = Cursors.WaitCursor;
+                        
+                        // Print silently
+                        SilentPrintUtility.PrintInvoiceSilent(invoiceId, numberOfCopies);
+                        
+                        // Show success message
+                        XtraMessageBox.Show($"تم طباعة {numberOfCopies} نسخة من الفاتورة بنجاح", "نجحت العملية", 
+                                          MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"حدث خطأ في الطباعة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
         }
 
         private void InvoiceForm_FormClosed(object sender, FormClosedEventArgs e)
