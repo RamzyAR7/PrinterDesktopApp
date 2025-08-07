@@ -17,9 +17,6 @@ namespace DesktopApp
             this.RightToLeft = RightToLeft.Yes;
             this.RightToLeftLayout = true;
             this.StartPosition = FormStartPosition.CenterParent;
-            
-            // Remove fixed size - let it auto-size to content
-            // The form will now automatically size to fit its components
         }
 
         private void btnOK_Click(object sender, EventArgs e)

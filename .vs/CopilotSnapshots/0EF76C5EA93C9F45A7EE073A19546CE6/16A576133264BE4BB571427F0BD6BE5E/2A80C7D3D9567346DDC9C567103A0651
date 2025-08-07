@@ -1,0 +1,522 @@
+﻿namespace DesktopApp
+{
+    partial class InvoiceForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.DeleteBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.EditBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.NewBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.SilentPrintBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.InvoiceBtn = new DevExpress.XtraEditors.SimpleButton();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+            this.panelControl1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // gridControl1
+            // 
+            this.gridControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridControl1.Location = new System.Drawing.Point(0, 54);
+            this.gridControl1.MainView = this.gridView1;
+            this.gridControl1.Name = "gridControl1";
+            this.gridControl1.Size = new System.Drawing.Size(1031, 479);
+            this.gridControl1.TabIndex = 0;
+            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView1});
+            // 
+            // gridView1
+            // 
+            this.gridView1.GridControl = this.gridControl1;
+            this.gridView1.Name = "gridView1";
+            // 
+            // panelControl1
+            // 
+            this.panelControl1.Controls.Add(this.DeleteBtn);
+            this.panelControl1.Controls.Add(this.EditBtn);
+            this.panelControl1.Controls.Add(this.NewBtn);
+            this.panelControl1.Controls.Add(this.SilentPrintBtn);
+            this.panelControl1.Controls.Add(this.InvoiceBtn);
+            this.panelControl1.Location = new System.Drawing.Point(0, 2);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(1031, 46);
+            this.panelControl1.TabIndex = 1;
+            // 
+            // DeleteBtn
+            // 
+            this.DeleteBtn.Location = new System.Drawing.Point(491, 12);
+            this.DeleteBtn.Name = "DeleteBtn";
+            this.DeleteBtn.Size = new System.Drawing.Size(88, 29);
+            this.DeleteBtn.TabIndex = 7;
+            this.DeleteBtn.Text = "حذف";
+            // 
+            // EditBtn
+            // 
+            this.EditBtn.Location = new System.Drawing.Point(375, 12);
+            this.EditBtn.Name = "EditBtn";
+            this.EditBtn.Size = new System.Drawing.Size(88, 29);
+            this.EditBtn.TabIndex = 6;
+            this.EditBtn.Text = "تعديل";
+            // 
+            // NewBtn
+            // 
+            this.NewBtn.Location = new System.Drawing.Point(260, 12);
+            this.NewBtn.Name = "NewBtn";
+            this.NewBtn.Size = new System.Drawing.Size(88, 29);
+            this.NewBtn.TabIndex = 5;
+            this.NewBtn.Text = "جديد";
+            // 
+            // SilentPrintBtn
+            // 
+            this.SilentPrintBtn.Location = new System.Drawing.Point(157, 12);
+            this.SilentPrintBtn.Name = "SilentPrintBtn";
+            this.SilentPrintBtn.Size = new System.Drawing.Size(83, 29);
+            this.SilentPrintBtn.TabIndex = 1;
+            this.SilentPrintBtn.Text = "طباعة";
+            this.SilentPrintBtn.Click += new System.EventHandler(this.SilentPrintBtn_Click);
+            // 
+            // InvoiceBtn
+            // 
+            this.InvoiceBtn.Location = new System.Drawing.Point(12, 11);
+            this.InvoiceBtn.Name = "InvoiceBtn";
+            this.InvoiceBtn.Size = new System.Drawing.Size(124, 29);
+            this.InvoiceBtn.TabIndex = 0;
+            this.InvoiceBtn.Text = "معاينةالفاتورة";
+            this.InvoiceBtn.Click += new System.EventHandler(this.InvoiceBtn_Click);
+            // 
+            // InvoiceForm
+            // 
+            this.Appearance.BackColor = System.Drawing.Color.White;
+            this.Appearance.Options.UseBackColor = true;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1031, 533);
+            this.Controls.Add(this.panelControl1);
+            this.Controls.Add(this.gridControl1);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Name = "InvoiceForm";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            this.Text = "الفواتير";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.InvoiceForm_FormClosed);
+            this.Load += new System.EventHandler(this.InvoiceForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+            this.panelControl1.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        #region UI Configuration Methods
+
+        /// <summary>
+        /// Configures the basic form layout and properties
+        /// </summary>
+        private void ConfigureFormLayout()
+        {
+            // Configure layout - same as ProductForm
+            panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
+
+            // Set form to RTL
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+        }
+
+        /// <summary>
+        /// Sets up the search panel with enhanced styling
+        /// </summary>
+        private void SetupSearchPanel()
+        {
+            // Configure the panel for both buttons and search - optimized height for clean layout
+            panelControl1.Height = 55; // Slightly increased to accommodate larger buttons
+            panelControl1.Padding = new System.Windows.Forms.Padding(15);
+            panelControl1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            panelControl1.BackColor = System.Drawing.Color.FromArgb(248, 249, 250); // Light background
+            panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+
+            // Create search label with enhanced styling
+            var searchLabel = new DevExpress.XtraEditors.LabelControl
+            {
+                Text = "🔍 بحث:",
+                Appearance = { 
+                    Font = new System.Drawing.Font("Segoe UI", 12, System.Drawing.FontStyle.Bold),
+                    ForeColor = System.Drawing.Color.FromArgb(52, 58, 64)
+                },
+                AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None,
+                Size = new System.Drawing.Size(60, 30)
+            };
+
+            // Create search textbox with enhanced styling
+            var searchTextBox = new DevExpress.XtraEditors.TextEdit
+            {
+                Properties =
+                {
+                    NullText = "ابحث عن رقم الفاتورة، اسم العميل، أو رقم الهاتف...",
+                    Appearance = { 
+                        TextOptions = { HAlignment = DevExpress.Utils.HorzAlignment.Near },
+                        Font = new System.Drawing.Font("Segoe UI", 11),
+                        BackColor = System.Drawing.Color.White,
+                        ForeColor = System.Drawing.Color.FromArgb(33, 37, 41)
+                    },
+                    BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple,
+                    LookAndFeel = { SkinName = "Office 2019 Colorful" }
+                },
+                Size = new System.Drawing.Size(400, 35) // Increased height to match buttons
+            };
+
+            // Enhanced search textbox styling
+            searchTextBox.Properties.Appearance.BorderColor = System.Drawing.Color.FromArgb(206, 212, 218);
+            searchTextBox.Properties.Appearance.Options.UseBorderColor = true;
+            searchTextBox.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+
+            // Position controls on the same line as buttons
+            int controlY = 10; // Same Y position as buttons
+            searchLabel.Location = new System.Drawing.Point(panelControl1.Width - searchLabel.Width - 15, controlY + 2);
+            searchTextBox.Location = new System.Drawing.Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 25, controlY);
+
+            // Store references for event handling
+            this.searchLabel = searchLabel;
+            this.searchTextBox = searchTextBox;
+
+            // Add focus styling for search textbox
+            searchTextBox.Enter += (s, e) => {
+                searchTextBox.Properties.Appearance.BorderColor = System.Drawing.Color.FromArgb(0, 123, 255);
+                searchTextBox.Refresh();
+            };
+
+            searchTextBox.Leave += (s, e) => {
+                searchTextBox.Properties.Appearance.BorderColor = System.Drawing.Color.FromArgb(206, 212, 218);
+                searchTextBox.Refresh();
+            };
+
+            // Add controls to panel
+            panelControl1.Controls.Add(searchLabel);
+            panelControl1.Controls.Add(searchTextBox);
+
+            // Ensure CRUD buttons are properly positioned on the same row
+            if (NewBtn != null)
+            {
+                NewBtn.Location = new System.Drawing.Point(NewBtn.Location.X, controlY);
+                NewBtn.BringToFront();
+            }
+            if (EditBtn != null)
+            {
+                EditBtn.Location = new System.Drawing.Point(EditBtn.Location.X, controlY);
+                EditBtn.BringToFront();
+            }
+            if (DeleteBtn != null)
+            {
+                DeleteBtn.Location = new System.Drawing.Point(DeleteBtn.Location.X, controlY);
+                DeleteBtn.BringToFront();
+            }
+        }
+
+        /// <summary>
+        /// Sets up enhanced button styling
+        /// </summary>
+        private void SetupEnhancedButtons()
+        {
+            // Enhanced button styling with modern appearance
+            System.Drawing.Font buttonFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            
+            // Enhanced New/Create button styling
+            if (NewBtn != null)
+            {
+                StyleEnhancedButton(NewBtn, buttonFont, 
+                    System.Drawing.Color.FromArgb(40, 167, 69),    // Success green background
+                    System.Drawing.Color.White,                    // White text
+                    System.Drawing.Color.FromArgb(52, 181, 85),    // Lighter green hover
+                    System.Drawing.Color.FromArgb(34, 139, 57),    // Darker green pressed
+                    "✚ إضافة فاتورة");              // Icon + text
+            }
+            
+            // Enhanced Edit button styling
+            if (EditBtn != null)
+            {
+                StyleEnhancedButton(EditBtn, buttonFont,
+                    System.Drawing.Color.FromArgb(0, 123, 255),    // Primary blue background
+                    System.Drawing.Color.White,                    // White text
+                    System.Drawing.Color.FromArgb(38, 143, 255),   // Lighter blue hover
+                    System.Drawing.Color.FromArgb(0, 98, 204),     // Darker blue pressed
+                    "✏ تحديث فاتورة");             // Icon + text
+            }
+            
+            // Enhanced Delete button styling
+            if (DeleteBtn != null)
+            {
+                StyleEnhancedButton(DeleteBtn, buttonFont,
+                    System.Drawing.Color.FromArgb(220, 53, 69),    // Danger red background
+                    System.Drawing.Color.White,                    // White text
+                    System.Drawing.Color.FromArgb(229, 83, 98),    // Lighter red hover
+                    System.Drawing.Color.FromArgb(200, 35, 51),    // Darker red pressed
+                    "🗑 حذف فاتورة");               // Icon + text
+            }
+
+            // Style invoice and silent print buttons if they exist
+            if (InvoiceBtn != null)
+            {
+                StyleEnhancedButton(InvoiceBtn, buttonFont,
+                    System.Drawing.Color.FromArgb(102, 16, 242),   // Purple background
+                    System.Drawing.Color.White,                    // White text
+                    System.Drawing.Color.FromArgb(124, 58, 247),   // Lighter purple hover
+                    System.Drawing.Color.FromArgb(85, 7, 201),     // Darker purple pressed
+                    "📄 معاينة فاتورة");           // Icon + text
+            }
+
+            if (SilentPrintBtn != null)
+            {
+                StyleEnhancedButton(SilentPrintBtn, buttonFont,
+                    System.Drawing.Color.FromArgb(23, 162, 184),   // Info cyan background
+                    System.Drawing.Color.White,                    // White text
+                    System.Drawing.Color.FromArgb(58, 176, 195),   // Lighter cyan hover
+                    System.Drawing.Color.FromArgb(14, 123, 140),   // Darker cyan pressed
+                    "🖨 طباعة");             // Icon + text
+            }
+        }
+
+        /// <summary>
+        /// Applies enhanced styling to a button
+        /// </summary>
+        private void StyleEnhancedButton(DevExpress.XtraEditors.SimpleButton button, System.Drawing.Font font, 
+            System.Drawing.Color backgroundColor, System.Drawing.Color textColor, System.Drawing.Color hoverColor, System.Drawing.Color pressedColor, string text = null)
+        {
+            if (button == null) return;
+
+            // Set button text if provided
+            if (!string.IsNullOrEmpty(text))
+                button.Text = text;
+
+            // Enhanced button appearance
+            button.Appearance.Font = font;
+            button.Appearance.Options.UseFont = true;
+            button.Appearance.BackColor = backgroundColor;
+            button.Appearance.ForeColor = textColor;
+            button.Appearance.Options.UseBackColor = true;
+            button.Appearance.Options.UseForeColor = true;
+            button.Appearance.BorderColor = backgroundColor;
+            button.Appearance.Options.UseBorderColor = true;
+            
+            // Modern button styling
+            button.LookAndFeel.SkinName = "Office 2019 Colorful";
+            button.Height = 45; // Increased height for better visibility
+            button.Width = System.Math.Max(button.Width, 120); // Minimum width for invoice buttons
+            
+            // Text alignment and padding
+            button.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            button.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            button.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
+            
+            // Add rounded corners effect through border styling
+            button.Appearance.BorderColor = System.Drawing.Color.FromArgb(System.Math.Max(0, backgroundColor.R - 30),
+                                                          System.Math.Max(0, backgroundColor.G - 30),
+                                                          System.Math.Max(0, backgroundColor.B - 30));
+            
+            // Enhanced hover effects
+            button.AppearanceHovered.BackColor = hoverColor;
+            button.AppearanceHovered.ForeColor = textColor;
+            button.AppearanceHovered.BorderColor = hoverColor;
+            button.AppearanceHovered.Options.UseBackColor = true;
+            button.AppearanceHovered.Options.UseForeColor = true;
+            button.AppearanceHovered.Options.UseBorderColor = true;
+            
+            // Enhanced pressed effects
+            button.AppearancePressed.BackColor = pressedColor;
+            button.AppearancePressed.ForeColor = textColor;
+            button.AppearancePressed.BorderColor = pressedColor;
+            button.AppearancePressed.Options.UseBackColor = true;
+            button.AppearancePressed.Options.UseForeColor = true;
+            button.AppearancePressed.Options.UseBorderColor = true;
+            
+            // Disabled state styling
+            button.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            button.AppearanceDisabled.ForeColor = System.Drawing.Color.FromArgb(173, 181, 189);
+            button.AppearanceDisabled.BorderColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            button.AppearanceDisabled.Options.UseBackColor = true;
+            button.AppearanceDisabled.Options.UseForeColor = true;
+            button.AppearanceDisabled.Options.UseBorderColor = true;
+
+            // Add subtle shadow effect through border
+            button.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+            
+            // Ensure button is visible and properly configured
+            button.Visible = true;
+            button.Enabled = true;
+            button.BringToFront();
+            
+            // Add mouse enter/leave events for additional visual feedback
+            button.MouseEnter += (s, e) => {
+                button.Cursor = System.Windows.Forms.Cursors.Hand;
+            };
+            
+            button.MouseLeave += (s, e) => {
+                button.Cursor = System.Windows.Forms.Cursors.Default;
+            };
+        }
+
+        /// <summary>
+        /// Configures the grid view with enhanced styling
+        /// </summary>
+        private void ConfigureGridView()
+        {
+            // Configure grid view columns with Arabic headers - enhanced styling
+            gridView1.Columns["Id"].Visible = false; // Hide ID column
+            gridView1.Columns["TotalAmount"].Visible = false; // Hide English amount, show Arabic version
+
+            // Show row numbers with enhanced styling
+            gridView1.IndicatorWidth = 50;  // Width of the row numbers column
+
+            // Set Arabic captions
+            gridView1.Columns["InvoiceNumber"].Caption = "رقم الفاتورة";
+            gridView1.Columns["InvoiceDate"].Caption = "تاريخ الفاتورة";
+            gridView1.Columns["CustomerName"].Caption = "اسم العميل";
+            gridView1.Columns["CustomerPhone"].Caption = "رقم الهاتف";
+            gridView1.Columns["TotalAmountArabic"].Caption = "المبلغ الإجمالي";
+
+            // Enhanced grid view appearance with proper header styling
+            gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridView1.Appearance.HeaderPanel.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            gridView1.Appearance.HeaderPanel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            gridView1.Appearance.HeaderPanel.Options.UseFont = true;
+            gridView1.Appearance.HeaderPanel.BackColor = System.Drawing.Color.FromArgb(233, 236, 239); // Light gray background
+            gridView1.Appearance.HeaderPanel.ForeColor = System.Drawing.Color.Black; // Black text for better readability
+            gridView1.Appearance.HeaderPanel.Options.UseBackColor = true;
+            gridView1.Appearance.HeaderPanel.Options.UseForeColor = true;
+            gridView1.Appearance.HeaderPanel.BorderColor = System.Drawing.Color.FromArgb(206, 212, 218);
+            gridView1.Appearance.HeaderPanel.Options.UseBorderColor = true;
+
+            // Enhanced row appearance
+            gridView1.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridView1.Appearance.Row.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            gridView1.Appearance.Row.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
+            gridView1.Appearance.Row.Options.UseFont = true;
+            gridView1.Appearance.Row.BackColor = System.Drawing.Color.White;
+            gridView1.Appearance.Row.ForeColor = System.Drawing.Color.FromArgb(33, 37, 41);
+            gridView1.Appearance.Row.Options.UseBackColor = true;
+            gridView1.Appearance.Row.Options.UseForeColor = true;
+
+            // Configure grid options with explicit header visibility
+            gridView1.OptionsView.ShowGroupPanel = false;
+            gridView1.OptionsView.ShowColumnHeaders = true; // Ensure headers are visible
+            gridView1.OptionsView.ShowIndicator = true; // Show row indicator
+            gridView1.OptionsView.EnableAppearanceEvenRow = true;
+            gridView1.Appearance.EvenRow.BackColor = System.Drawing.Color.FromArgb(248, 249, 250);
+            gridView1.Appearance.EvenRow.Options.UseBackColor = true;
+
+            // Force header panel to be visible and properly styled
+            gridView1.Appearance.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
+            gridView1.Appearance.HeaderPanel.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
+            
+            // Set explicit header height to ensure visibility
+            gridView1.ColumnPanelRowHeight = 40; // Increased header height for better visibility
+
+            // Enhanced row height for better visibility
+            gridView1.RowHeight = 35;
+
+            // Format date column
+            gridView1.Columns["InvoiceDate"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            gridView1.Columns["InvoiceDate"].DisplayFormat.FormatString = "yyyy-MM-dd";
+
+            // Apply grid control styling
+            gridControl1.LookAndFeel.SkinName = "Office 2019 Colorful";
+            gridControl1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+
+            // Configure auto-sizing options
+            gridView1.OptionsView.ColumnAutoWidth = true;
+            gridView1.BestFitColumns();
+        }
+
+        /// <summary>
+        /// Adjusts column widths proportionally
+        /// </summary>
+        private void AdjustColumnWidths()
+        {
+            if (gridControl1.Width <= 0) return;
+
+            try
+            {
+                // Set proportional widths like ProductForm
+                int totalWidth = gridControl1.Width - 60; // Account for scrollbar and padding
+                
+                gridView1.Columns["InvoiceNumber"].Width = (int)(totalWidth * 0.15); // 15%
+                gridView1.Columns["InvoiceDate"].Width = (int)(totalWidth * 0.15);   // 15%
+                gridView1.Columns["CustomerName"].Width = (int)(totalWidth * 0.35);  // 35%
+                gridView1.Columns["CustomerPhone"].Width = (int)(totalWidth * 0.20); // 20%
+                gridView1.Columns["TotalAmountArabic"].Width = (int)(totalWidth * 0.15);   // 15%
+            }
+            catch (System.Exception)
+            {
+                // Ignore any errors during width adjustment
+            }
+        }
+
+        /// <summary>
+        /// Sets up resize event handler for search controls
+        /// </summary>
+        private void SetupResizeHandlers()
+        {
+            // Ensure search controls stay positioned on resize with proper RTL handling
+            this.Resize += (s, e) =>
+            {
+                if (panelControl1.Width > 0 && searchLabel != null && searchTextBox != null)
+                {
+                    int controlY = 10;
+                    // Keep search controls on the same line with proper spacing
+                    searchLabel.Location = new System.Drawing.Point(panelControl1.Width - searchLabel.Width - 15, controlY + 2);
+                    searchTextBox.Location = new System.Drawing.Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 25, controlY);
+                }
+            };
+
+            // Handle window resize to adjust columns
+            this.Resize += (s, e) => AdjustColumnWidths();
+        }
+
+        #endregion
+
+        #region Private Fields for UI Components
+        private DevExpress.XtraEditors.LabelControl searchLabel;
+        private DevExpress.XtraEditors.TextEdit searchTextBox;
+        #endregion
+
+        private DevExpress.XtraGrid.GridControl gridControl1;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraEditors.PanelControl panelControl1;
+        private DevExpress.XtraEditors.SimpleButton InvoiceBtn;
+        private DevExpress.XtraEditors.SimpleButton SilentPrintBtn;
+        private DevExpress.XtraEditors.SimpleButton DeleteBtn;
+        private DevExpress.XtraEditors.SimpleButton EditBtn;
+        private DevExpress.XtraEditors.SimpleButton NewBtn;
+    }
+}

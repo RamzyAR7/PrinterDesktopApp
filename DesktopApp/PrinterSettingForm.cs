@@ -17,6 +17,7 @@ namespace DesktopApp
         public PrinterSettingForm()
         {
             InitializeComponent();
+            
             LoadCurrentSettings();
             SetupEventHandlers();
         }

@@ -1,0 +1,297 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class ProductCUForm : DevExpress.XtraEditors.XtraForm
+    {
+        public ShoppingDBEntities dbContext;
+        private Product currentProduct;
+        public bool ProductSaved { get; private set; } = false;
+
+        public ProductCUForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+            
+            // Configure UI using Designer methods
+            SetupForm();
+            SetupLargerFonts();
+            SetupValidation();
+            ConfigureScrolling();
+            AdjustFormSize();
+            
+            // Load data
+            LoadComboBoxData();
+        }
+
+        public ProductCUForm(int productId) : this()
+        {
+            LoadProductForEdit(productId);
+        }
+
+        private void LoadProductForEdit(int productId)
+        {
+            try
+            {
+                currentProduct = dbContext.Products
+                    .FirstOrDefault(p => p.Id == productId);
+
+                if (currentProduct != null)
+                {
+                    groupControl1.Text = "تعديل منتج";
+                    BtnCreate.Visible = false;
+                    EditBtn.Visible = true;
+
+                    // Load product data
+                    txtProductName.Text = currentProduct.Name;
+                    cmbCompany.EditValue = currentProduct.CompanyId;
+                    cmbCategory.EditValue = currentProduct.CategoryId;
+                    txtDescription.Text = currentProduct.Description;
+
+                    // Load latest price
+                    var latestPrice = dbContext.Prices
+                        .Where(p => p.ProductId == productId)
+                        .OrderByDescending(p => p.CreatedDate)
+                        .FirstOrDefault();
+
+                    if (latestPrice != null)
+                    {
+                        txtSellingPrice.EditValue = latestPrice.SellingPrice;
+                        txtPurchasingPrice.EditValue = latestPrice.PurchasingPrice;
+                        txtGomlaPrice.EditValue = latestPrice.GomlaPrice;
+                        txtNosGomlaPrice.EditValue = latestPrice.NosGomlaPrice;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل بيانات المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ValidateForm()
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(txtProductName.Text))
+                errors.Add("يرجى إدخال اسم المنتج");
+
+            if (cmbCompany.EditValue == null)
+                errors.Add("يرجى اختيار الشركة");
+
+            if (cmbCategory.EditValue == null)
+                errors.Add("يرجى اختيار الصنف");
+
+            if (txtSellingPrice.Value <= 0)
+                errors.Add("يرجى إدخال سعر بيع صحيح");
+
+            if (txtPurchasingPrice.Value <= 0)
+                errors.Add("يرجى إدخال سعر شراء صحيح");
+
+            if (errors.Any())
+            {
+                XtraMessageBox.Show(string.Join("\n", errors), 
+                    "بيانات مطلوبة", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            if (!ValidateForm()) return;
+
+            try
+            {
+                var newProduct = new Product
+                {
+                    Name = txtProductName.Text.Trim(),
+                    CompanyId = Convert.ToInt32(cmbCompany.EditValue),
+                    CategoryId = Convert.ToInt32(cmbCategory.EditValue),
+                    Description = txtDescription.Text?.Trim(),
+                    CreatedDate = DateTime.Now
+                };
+
+                dbContext.Products.Add(newProduct);
+                dbContext.SaveChanges();
+
+                // Add price record
+                var price = new Price
+                {
+                    ProductId = newProduct.Id,
+                    SellingPrice = txtSellingPrice.Value,
+                    PurchasingPrice = txtPurchasingPrice.Value,
+                    GomlaPrice = txtGomlaPrice.Value,
+                    NosGomlaPrice = txtNosGomlaPrice.Value,
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                };
+
+                dbContext.Prices.Add(price);
+                dbContext.SaveChanges();
+
+                ProductSaved = true;
+                XtraMessageBox.Show("تم إضافة المنتج بنجاح", 
+                    "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في إضافة المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            if (!ValidateForm() || currentProduct == null) return;
+
+            try
+            {
+                // Update product
+                currentProduct.Name = txtProductName.Text.Trim();
+                currentProduct.CompanyId = Convert.ToInt32(cmbCompany.EditValue);
+                currentProduct.CategoryId = Convert.ToInt32(cmbCategory.EditValue);
+                currentProduct.Description = txtDescription.Text?.Trim();
+
+                // Deactivate old prices
+                var oldPrices = dbContext.Prices.Where(p => p.ProductId == currentProduct.Id);
+                foreach (var oldPrice in oldPrices)
+                {
+                    oldPrice.IsActive = false;
+                }
+
+                // Add new price record
+                var newPrice = new Price
+                {
+                    ProductId = currentProduct.Id,
+                    SellingPrice = txtSellingPrice.Value,
+                    PurchasingPrice = txtPurchasingPrice.Value,
+                    GomlaPrice = txtGomlaPrice.Value,
+                    NosGomlaPrice = txtNosGomlaPrice.Value,
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                };
+
+                dbContext.Prices.Add(newPrice);
+                dbContext.SaveChanges();
+
+                ProductSaved = true;
+                XtraMessageBox.Show("تم تحديث المنتج بنجاح", 
+                    "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void cmbCategory_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkOptional_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        // Handle keyboard shortcuts
+        private void ProductCUForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Ctrl + D = Diagnostic
+            if (e.Control && e.KeyCode == Keys.D)
+            {
+                DiagnoseCategoryData();
+                e.Handled = true;
+            }
+        }
+
+        // Diagnostic method to check category data
+        private void DiagnoseCategoryData()
+        {
+            try
+            {
+                using (var context = new ShoppingDBEntities())
+                {
+                    // Check total categories
+                    var totalCategories = context.Categories.Count();
+                    var activeCategories = context.Categories.Count(c => !c.IsDeleted);
+                    var deletedCategories = context.Categories.Count(c => c.IsDeleted);
+
+                    // Check categories per company
+                    var companiesWithCategories = context.Categories
+                        .Where(c => !c.IsDeleted)
+                        .GroupBy(c => c.CompanyId)
+                        .Select(g => new { CompanyId = g.Key, Count = g.Count() })
+                        .ToList();
+
+                    // Get company names
+                    var companies = context.Companies
+                        .Where(c => !c.IsDeleted)
+                        .Select(c => new { c.Id, c.Name })
+                        .ToList();
+
+                    StringBuilder diagnosticMessage = new StringBuilder();
+                    diagnosticMessage.AppendLine("تشخيص بيانات الأصناف:");
+                    diagnosticMessage.AppendLine($"إجمالي الأصناف: {totalCategories}");
+                    diagnosticMessage.AppendLine($"الأصناف النشطة: {activeCategories}");
+                    diagnosticMessage.AppendLine($"الأصناف المحذوفة: {deletedCategories}");
+                    diagnosticMessage.AppendLine();
+                    diagnosticMessage.AppendLine("الأصناف حسب الشركة:");
+                    
+                    foreach (var company in companies)
+                    {
+                        var categoryCount = companiesWithCategories
+                            .FirstOrDefault(c => c.CompanyId == company.Id)?.Count ?? 0;
+                        diagnosticMessage.AppendLine($"- {company.Name}: {categoryCount} صنف");
+                    }
+
+                    // If no categories exist, suggest adding some
+                    if (activeCategories == 0)
+                    {
+                        diagnosticMessage.AppendLine();
+                        diagnosticMessage.AppendLine("لا توجد أصناف نشطة في قاعدة البيانات!");
+                        diagnosticMessage.AppendLine("يرجى إضافة بعض الأصناف أولاً.");
+                    }
+
+                    XtraMessageBox.Show(diagnosticMessage.ToString(), "تشخيص بيانات الأصناف", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تشخيص البيانات: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ProductCUForm_Load(object sender, EventArgs e)
+        {
+
+        }
+    }
+}

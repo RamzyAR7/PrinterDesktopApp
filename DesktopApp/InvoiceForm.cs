@@ -37,6 +37,12 @@ namespace DesktopApp
 
             // Handle window resize to adjust columns
             this.Resize += (s, e) => AdjustColumnWidths();
+            
+            // Handle double-click for editing
+            gridView1.DoubleClick += GridView1_DoubleClick;
+            
+            // Wire up CRUD button events
+            WireCrudEvents();
         }
 
         private void InvoiceForm_Load(object sender, EventArgs e)
@@ -44,20 +50,36 @@ namespace DesktopApp
             // Already handled in constructor
         }
 
+        private void WireCrudEvents()
+        {
+            // Wire up the existing buttons from designer to our event handlers
+            if (NewBtn != null)
+                NewBtn.Click += BtnCreate_Click;
+            
+            if (EditBtn != null)
+                EditBtn.Click += EditBtn_Click;
+            
+            if (DeleteBtn != null)
+                DeleteBtn.Click += DeleteBtn_Click;
+        }
+
         private void SetupSearchPanel()
         {
-            // Configure the panel - same as ProductForm
-            panelControl1.Height = 50;
-            panelControl1.Padding = new Padding(10);
+            // Configure the panel with reduced height for single row layout
+            panelControl1.Height = 50; // Reduced height
+            panelControl1.Padding = new Padding(5);
             panelControl1.RightToLeft = RightToLeft.Yes;
+
+            // Resize and reposition existing buttons to be smaller and on the left
+            ResizeAndRepositionButtons();
 
             // Create search label
             var searchLabel = new LabelControl
             {
                 Text = "بحث:",
-                Appearance = { Font = new Font("Arial", 12, FontStyle.Bold) },
+                Appearance = { Font = new Font("Arial", 10, FontStyle.Bold) },
                 AutoSizeMode = LabelAutoSizeMode.None,
-                Size = new Size(40, 24)
+                Size = new Size(35, 20)
             };
 
             // Create search textbox
@@ -68,15 +90,15 @@ namespace DesktopApp
                     NullText = "ابحث عن رقم الفاتورة، اسم العميل، أو رقم الهاتف...",
                     Appearance = { 
                         TextOptions = { HAlignment = DevExpress.Utils.HorzAlignment.Near },
-                        Font = new Font("Arial", 12)
+                        Font = new Font("Arial", 10)
                     }
                 },
-                Size = new Size(400, 30)
+                Size = new Size(300, 25)
             };
 
-            // Position controls from right to left
-            searchLabel.Location = new Point(panelControl1.Width - searchLabel.Width - 10, 12);
-            searchTextBox.Location = new Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 20, 10);
+            // Position search controls on the right side of the panel
+            searchLabel.Location = new Point(panelControl1.Width - searchLabel.Width - 10, 15);
+            searchTextBox.Location = new Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 20, 13);
 
             // Handle search text changed
             searchTextBox.TextChanged += (s, e) =>
@@ -93,19 +115,63 @@ namespace DesktopApp
             {
                 if (panelControl1.Width > 0)
                 {
-                    searchLabel.Location = new Point(panelControl1.Width - searchLabel.Width - 10, 12);
-                    searchTextBox.Location = new Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 20, 10);
+                    searchLabel.Location = new Point(panelControl1.Width - searchLabel.Width - 10, 15);
+                    searchTextBox.Location = new Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 20, 13);
                 }
             };
+        }
+
+        private void ResizeAndRepositionButtons()
+        {
+            // Make buttons smaller and position them on the left side
+            var buttonSize = new Size(70, 30);
+            var yPosition = 10;
+            var xStart = 10;
+            var spacing = 75;
+
+            // Resize and reposition buttons from left to right
+            if (NewBtn != null)
+            {
+                NewBtn.Size = buttonSize;
+                NewBtn.Location = new Point(xStart, yPosition);
+                NewBtn.Text = "جديد";
+            }
+
+            if (EditBtn != null)
+            {
+                EditBtn.Size = buttonSize;
+                EditBtn.Location = new Point(xStart + spacing, yPosition);
+                EditBtn.Text = "تعديل";
+            }
+
+            if (DeleteBtn != null)
+            {
+                DeleteBtn.Size = buttonSize;
+                DeleteBtn.Location = new Point(xStart + spacing * 2, yPosition);
+                DeleteBtn.Text = "حذف";
+            }
+
+            if (SilentPrintBtn != null)
+            {
+                SilentPrintBtn.Size = buttonSize;
+                SilentPrintBtn.Location = new Point(xStart + spacing * 3, yPosition);
+                SilentPrintBtn.Text = "طباعة";
+            }
+
+            if (InvoiceBtn != null)
+            {
+                InvoiceBtn.Size = new Size(85, 30);
+                InvoiceBtn.Location = new Point(xStart + spacing * 4, yPosition);
+                InvoiceBtn.Text = "معاينة";
+            }
         }
 
         private void LoadInvoiceData()
         {
             try
             {
-                // Load all invoices that are not deleted
+                // Load all invoices
                 allInvoices = dbContext.Invoices
-                    .Where(i => !i.IsDeleted)
                     .OrderByDescending(i => i.InvoiceDate)
                     .ToList();
 
@@ -240,6 +306,132 @@ namespace DesktopApp
             }
         }
 
+        // CRUD Button Event Handlers
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var invoiceForm = new InvoiceCUForm())
+                {
+                    if (invoiceForm.ShowDialog() == DialogResult.OK)
+                    {
+                        RefreshData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في فتح نموذج إضافة الفاتورة: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            var selectedRowHandle = gridView1.FocusedRowHandle;
+            if (selectedRowHandle < 0)
+            {
+                XtraMessageBox.Show("يرجى اختيار فاتورة للتعديل", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+                if (selectedRow == null)
+                {
+                    XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+
+                using (var invoiceForm = new InvoiceCUForm(invoiceId))
+                {
+                    if (invoiceForm.ShowDialog() == DialogResult.OK)
+                    {
+                        RefreshData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في فتح نموذج تعديل الفاتورة: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DeleteBtn_Click(object sender, EventArgs e)
+        {
+            var selectedRowHandle = gridView1.FocusedRowHandle;
+            if (selectedRowHandle < 0)
+            {
+                XtraMessageBox.Show("يرجى اختيار فاتورة للحذف", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+                if (selectedRow == null)
+                {
+                    XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+                string invoiceNumber = selectedRow["InvoiceNumber"].ToString();
+
+                // Confirm deletion
+                var result = XtraMessageBox.Show($"هل أنت متأكد من حذف الفاتورة رقم {invoiceNumber}؟\n\nهذا الإجراء لا يمكن التراجع عنه.", 
+                    "تأكيد الحذف", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+                if (result == DialogResult.Yes)
+                {
+                    var invoice = dbContext.Invoices.FirstOrDefault(i => i.Id == invoiceId);
+                    if (invoice != null)
+                    {
+                        // Remove the invoice entirely instead of soft delete
+                        dbContext.Invoices.Remove(invoice);
+                        dbContext.SaveChanges();
+
+                        XtraMessageBox.Show("تم حذف الفاتورة بنجاح", "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefreshData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حذف الفاتورة: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GridView1_DoubleClick(object sender, EventArgs e)
+        {
+            // Edit on double-click
+            EditBtn_Click(sender, e);
+        }
+
+        private void RefreshData()
+        {
+            try
+            {
+                // Refresh database context
+                dbContext.Dispose();
+                dbContext = new ShoppingDBEntities();
+                
+                LoadInvoiceData();
+                XtraMessageBox.Show("تم تحديث البيانات بنجاح", "تحديث", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث البيانات: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Original Invoice Functions
         private void InvoiceBtn_Click(object sender, EventArgs e)
         {
             // Get selected invoice from grid

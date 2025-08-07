@@ -1,0 +1,867 @@
+﻿namespace DesktopApp
+{
+    partial class ProductCUForm : DevExpress.XtraEditors.XtraForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // Dispose dbContext from code-behind
+                var form = this as ProductCUForm;
+                form?.dbContext?.Dispose();
+
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.scrollableControl1 = new DevExpress.XtraEditors.XtraScrollableControl();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+            this.BtnCreate = new DevExpress.XtraEditors.SimpleButton();
+            this.EditBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
+            this.txtProductName = new DevExpress.XtraEditors.TextEdit();
+            this.cmbCompany = new DevExpress.XtraEditors.LookUpEdit();
+            this.cmbCategory = new DevExpress.XtraEditors.LookUpEdit();
+            this.txtDescription = new DevExpress.XtraEditors.MemoEdit();
+            this.txtSellingPrice = new DevExpress.XtraEditors.SpinEdit();
+            this.txtPurchasingPrice = new DevExpress.XtraEditors.SpinEdit();
+            this.txtGomlaPrice = new DevExpress.XtraEditors.SpinEdit();
+            this.txtNosGomlaPrice = new DevExpress.XtraEditors.SpinEdit();
+            this.chkOptional = new DevExpress.XtraEditors.CheckEdit();
+            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.scrollableControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+            this.panelControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
+            this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
+            this.layoutControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
+            this.panelControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtProductName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCompany.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCategory.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSellingPrice.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPurchasingPrice.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtGomlaPrice.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNosGomlaPrice.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkOptional.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // scrollableControl1
+            // 
+            this.scrollableControl1.Controls.Add(this.panelControl1);
+            this.scrollableControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scrollableControl1.Location = new System.Drawing.Point(0, 0);
+            this.scrollableControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.scrollableControl1.Name = "scrollableControl1";
+            this.scrollableControl1.Size = new System.Drawing.Size(789, 541);
+            this.scrollableControl1.TabIndex = 0;
+            // 
+            // panelControl1
+            // 
+            this.panelControl1.Controls.Add(this.groupControl1);
+            this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelControl1.Location = new System.Drawing.Point(0, 0);
+            this.panelControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(768, 600);
+            this.panelControl1.TabIndex = 0;
+            // 
+            // groupControl1
+            // 
+            this.groupControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupControl1.Controls.Add(this.layoutControl1);
+            this.groupControl1.Location = new System.Drawing.Point(23, 12);
+            this.groupControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupControl1.Name = "groupControl1";
+            this.groupControl1.Size = new System.Drawing.Size(721, 575);
+            this.groupControl1.TabIndex = 0;
+            this.groupControl1.Text = "بيانات المنتج";
+            // 
+            // layoutControl1
+            // 
+            this.layoutControl1.Controls.Add(this.txtProductName);
+            this.layoutControl1.Controls.Add(this.cmbCompany);
+            this.layoutControl1.Controls.Add(this.cmbCategory);
+            this.layoutControl1.Controls.Add(this.txtDescription);
+            this.layoutControl1.Controls.Add(this.txtSellingPrice);
+            this.layoutControl1.Controls.Add(this.txtPurchasingPrice);
+            this.layoutControl1.Controls.Add(this.txtGomlaPrice);
+            this.layoutControl1.Controls.Add(this.txtNosGomlaPrice);
+            this.layoutControl1.Controls.Add(this.chkOptional);
+            this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layoutControl1.Location = new System.Drawing.Point(2, 28);
+            this.layoutControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.layoutControl1.Name = "layoutControl1";
+            this.layoutControl1.OptionsView.RightToLeftMirroringApplied = true;
+            this.layoutControl1.Root = this.Root;
+            this.layoutControl1.Size = new System.Drawing.Size(717, 545);
+            this.layoutControl1.TabIndex = 0;
+            this.layoutControl1.Text = "layoutControl1";
+            // 
+            // Root
+            // 
+            this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
+            this.Root.GroupBordersVisible = false;
+            this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlItem1,
+            this.layoutControlItem3,
+            this.layoutControlItem4,
+            this.layoutControlItem5,
+            this.layoutControlItem6,
+            this.layoutControlItem7,
+            this.layoutControlItem8,
+            this.layoutControlItem9,
+            this.layoutControlItem10});
+            this.Root.Name = "Root";
+            this.Root.Size = new System.Drawing.Size(717, 545);
+            this.Root.TextVisible = false;
+            // 
+            // panelControl2
+            // 
+            this.panelControl2.Controls.Add(this.BtnCreate);
+            this.panelControl2.Controls.Add(this.EditBtn);
+            this.panelControl2.Controls.Add(this.btnCancel);
+            this.panelControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelControl2.Location = new System.Drawing.Point(0, 541);
+            this.panelControl2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelControl2.Name = "panelControl2";
+            this.panelControl2.Size = new System.Drawing.Size(789, 62);
+            this.panelControl2.TabIndex = 1;
+            // 
+            // BtnCreate
+            // 
+            this.BtnCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnCreate.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.BtnCreate.Appearance.Options.UseFont = true;
+            this.BtnCreate.Location = new System.Drawing.Point(649, 12);
+            this.BtnCreate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnCreate.Name = "BtnCreate";
+            this.BtnCreate.Size = new System.Drawing.Size(117, 37);
+            this.BtnCreate.TabIndex = 0;
+            this.BtnCreate.Text = "إنشاء";
+            this.BtnCreate.Click += new System.EventHandler(this.BtnCreate_Click);
+            // 
+            // EditBtn
+            // 
+            this.EditBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.EditBtn.Appearance.Options.UseFont = true;
+            this.EditBtn.Location = new System.Drawing.Point(521, 12);
+            this.EditBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.EditBtn.Name = "EditBtn";
+            this.EditBtn.Size = new System.Drawing.Size(117, 37);
+            this.EditBtn.TabIndex = 1;
+            this.EditBtn.Text = "تعديل";
+            this.EditBtn.Visible = false;
+            this.EditBtn.Click += new System.EventHandler(this.EditBtn_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Appearance.Font = new System.Drawing.Font("Tahoma", 9F);
+            this.btnCancel.Appearance.Options.UseFont = true;
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(23, 12);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(117, 37);
+            this.btnCancel.TabIndex = 2;
+            this.btnCancel.Text = "إلغاء";
+            // 
+            // txtProductName
+            // 
+            this.txtProductName.Location = new System.Drawing.Point(14, 34);
+            this.txtProductName.Margin = new System.Windows.Forms.Padding(4);
+            this.txtProductName.Name = "txtProductName";
+            this.txtProductName.Size = new System.Drawing.Size(689, 22);
+            this.txtProductName.StyleController = this.layoutControl1;
+            this.txtProductName.TabIndex = 0;
+            // 
+            // cmbCompany
+            // 
+            this.cmbCompany.Location = new System.Drawing.Point(14, 80);
+            this.cmbCompany.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbCompany.Name = "cmbCompany";
+            this.cmbCompany.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmbCompany.Properties.NullText = "اختر الشركة...";
+            this.cmbCompany.Size = new System.Drawing.Size(689, 22);
+            this.cmbCompany.StyleController = this.layoutControl1;
+            this.cmbCompany.TabIndex = 2;
+            // 
+            // cmbCategory
+            // 
+            this.cmbCategory.Location = new System.Drawing.Point(14, 126);
+            this.cmbCategory.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbCategory.Name = "cmbCategory";
+            this.cmbCategory.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cmbCategory.Properties.NullText = "اختر الصنف...";
+            this.cmbCategory.Size = new System.Drawing.Size(689, 22);
+            this.cmbCategory.StyleController = this.layoutControl1;
+            this.cmbCategory.TabIndex = 3;
+            this.cmbCategory.EditValueChanged += new System.EventHandler(this.cmbCategory_EditValueChanged);
+            // 
+            // txtDescription
+            // 
+            this.txtDescription.Location = new System.Drawing.Point(14, 172);
+            this.txtDescription.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDescription.Name = "txtDescription";
+            this.txtDescription.Size = new System.Drawing.Size(689, 99);
+            this.txtDescription.StyleController = this.layoutControl1;
+            this.txtDescription.TabIndex = 4;
+            // 
+            // txtSellingPrice
+            // 
+            this.txtSellingPrice.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.txtSellingPrice.Location = new System.Drawing.Point(14, 295);
+            this.txtSellingPrice.Margin = new System.Windows.Forms.Padding(4);
+            this.txtSellingPrice.Name = "txtSellingPrice";
+            this.txtSellingPrice.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtSellingPrice.Properties.MaxValue = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.txtSellingPrice.Size = new System.Drawing.Size(689, 24);
+            this.txtSellingPrice.StyleController = this.layoutControl1;
+            this.txtSellingPrice.TabIndex = 5;
+            // 
+            // txtPurchasingPrice
+            // 
+            this.txtPurchasingPrice.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.txtPurchasingPrice.Location = new System.Drawing.Point(14, 343);
+            this.txtPurchasingPrice.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPurchasingPrice.Name = "txtPurchasingPrice";
+            this.txtPurchasingPrice.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtPurchasingPrice.Properties.MaxValue = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.txtPurchasingPrice.Size = new System.Drawing.Size(689, 24);
+            this.txtPurchasingPrice.StyleController = this.layoutControl1;
+            this.txtPurchasingPrice.TabIndex = 6;
+            // 
+            // txtGomlaPrice
+            // 
+            this.txtGomlaPrice.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.txtGomlaPrice.Location = new System.Drawing.Point(14, 391);
+            this.txtGomlaPrice.Margin = new System.Windows.Forms.Padding(4);
+            this.txtGomlaPrice.Name = "txtGomlaPrice";
+            this.txtGomlaPrice.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtGomlaPrice.Properties.MaxValue = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.txtGomlaPrice.Size = new System.Drawing.Size(689, 24);
+            this.txtGomlaPrice.StyleController = this.layoutControl1;
+            this.txtGomlaPrice.TabIndex = 7;
+            // 
+            // txtNosGomlaPrice
+            // 
+            this.txtNosGomlaPrice.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.txtNosGomlaPrice.Location = new System.Drawing.Point(14, 439);
+            this.txtNosGomlaPrice.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNosGomlaPrice.Name = "txtNosGomlaPrice";
+            this.txtNosGomlaPrice.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.txtNosGomlaPrice.Properties.MaxValue = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.txtNosGomlaPrice.Size = new System.Drawing.Size(689, 24);
+            this.txtNosGomlaPrice.StyleController = this.layoutControl1;
+            this.txtNosGomlaPrice.TabIndex = 8;
+            // 
+            // chkOptional
+            // 
+            this.chkOptional.Location = new System.Drawing.Point(14, 467);
+            this.chkOptional.Margin = new System.Windows.Forms.Padding(4);
+            this.chkOptional.Name = "chkOptional";
+            this.chkOptional.Properties.Caption = "منتج اختياري";
+            this.chkOptional.Size = new System.Drawing.Size(689, 24);
+            this.chkOptional.StyleController = this.layoutControl1;
+            this.chkOptional.TabIndex = 9;
+            this.chkOptional.CheckedChanged += new System.EventHandler(this.chkOptional_CheckedChanged);
+            // 
+            // layoutControlItem1
+            // 
+            this.layoutControlItem1.Control = this.txtProductName;
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem1.Name = "layoutControlItem1";
+            this.layoutControlItem1.Size = new System.Drawing.Size(693, 46);
+            this.layoutControlItem1.Text = "اسم المنتج";
+            this.layoutControlItem1.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem1.TextSize = new System.Drawing.Size(87, 16);
+            // 
+            // layoutControlItem3
+            // 
+            this.layoutControlItem3.Control = this.cmbCompany;
+            this.layoutControlItem3.Location = new System.Drawing.Point(0, 46);
+            this.layoutControlItem3.Name = "layoutControlItem3";
+            this.layoutControlItem3.Size = new System.Drawing.Size(693, 46);
+            this.layoutControlItem3.Text = "الشركة";
+            this.layoutControlItem3.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem3.TextSize = new System.Drawing.Size(87, 16);
+            // 
+            // layoutControlItem4
+            // 
+            this.layoutControlItem4.Control = this.cmbCategory;
+            this.layoutControlItem4.Location = new System.Drawing.Point(0, 92);
+            this.layoutControlItem4.Name = "layoutControlItem4";
+            this.layoutControlItem4.Size = new System.Drawing.Size(693, 46);
+            this.layoutControlItem4.Text = "الصنف";
+            this.layoutControlItem4.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem4.TextSize = new System.Drawing.Size(87, 16);
+            // 
+            // layoutControlItem5
+            // 
+            this.layoutControlItem5.Control = this.txtDescription;
+            this.layoutControlItem5.Location = new System.Drawing.Point(0, 138);
+            this.layoutControlItem5.Name = "layoutControlItem5";
+            this.layoutControlItem5.Size = new System.Drawing.Size(693, 123);
+            this.layoutControlItem5.Text = "الوصف";
+            this.layoutControlItem5.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem5.TextSize = new System.Drawing.Size(87, 16);
+            // 
+            // layoutControlItem6
+            // 
+            this.layoutControlItem6.Control = this.txtSellingPrice;
+            this.layoutControlItem6.Location = new System.Drawing.Point(0, 261);
+            this.layoutControlItem6.Name = "layoutControlItem6";
+            this.layoutControlItem6.Size = new System.Drawing.Size(693, 48);
+            this.layoutControlItem6.Text = "سعر البيع";
+            this.layoutControlItem6.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem6.TextSize = new System.Drawing.Size(87, 16);
+            // 
+            // layoutControlItem7
+            // 
+            this.layoutControlItem7.Control = this.txtPurchasingPrice;
+            this.layoutControlItem7.Location = new System.Drawing.Point(0, 309);
+            this.layoutControlItem7.Name = "layoutControlItem7";
+            this.layoutControlItem7.Size = new System.Drawing.Size(693, 48);
+            this.layoutControlItem7.Text = "سعر الشراء";
+            this.layoutControlItem7.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem7.TextSize = new System.Drawing.Size(87, 16);
+            // 
+            // layoutControlItem8
+            // 
+            this.layoutControlItem8.Control = this.txtGomlaPrice;
+            this.layoutControlItem8.Location = new System.Drawing.Point(0, 357);
+            this.layoutControlItem8.Name = "layoutControlItem8";
+            this.layoutControlItem8.Size = new System.Drawing.Size(693, 48);
+            this.layoutControlItem8.Text = "سعر الجملة";
+            this.layoutControlItem8.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem8.TextSize = new System.Drawing.Size(87, 16);
+            // 
+            // layoutControlItem9
+            // 
+            this.layoutControlItem9.Control = this.txtNosGomlaPrice;
+            this.layoutControlItem9.Location = new System.Drawing.Point(0, 405);
+            this.layoutControlItem9.Name = "layoutControlItem9";
+            this.layoutControlItem9.Size = new System.Drawing.Size(693, 48);
+            this.layoutControlItem9.Text = "سعر نص الجملة";
+            this.layoutControlItem9.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem9.TextSize = new System.Drawing.Size(87, 16);
+            // 
+            // layoutControlItem10
+            // 
+            this.layoutControlItem10.Control = this.chkOptional;
+            this.layoutControlItem10.Location = new System.Drawing.Point(0, 453);
+            this.layoutControlItem10.Name = "layoutControlItem10";
+            this.layoutControlItem10.Size = new System.Drawing.Size(693, 72);
+            this.layoutControlItem10.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem10.TextVisible = false;
+            // 
+            // ProductCUForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(789, 603);
+            this.Controls.Add(this.scrollableControl1);
+            this.Controls.Add(this.panelControl2);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Name = "ProductCUForm";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "إدارة المنتجات";
+            this.Load += new System.EventHandler(this.ProductCUForm_Load);
+            this.scrollableControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+            this.panelControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
+            this.groupControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
+            this.layoutControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
+            this.panelControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.txtProductName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCompany.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCategory.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtSellingPrice.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPurchasingPrice.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtGomlaPrice.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtNosGomlaPrice.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkOptional.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        #region UI Configuration Methods
+
+        /// <summary>
+        /// Configures basic form settings and layout
+        /// </summary>
+        private void SetupForm()
+        {
+            // Configure form for RTL
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            
+            // Set form properties with better scaling
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
+            // Enable key preview for keyboard shortcuts
+            this.KeyPreview = true;
+            this.KeyDown += ProductCUForm_KeyDown;
+            
+            // Configure form appearance with larger font
+            this.Appearance.Options.UseFont = true;
+            this.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
+        }
+
+        /// <summary>
+        /// Applies larger fonts to all controls for better visibility
+        /// </summary>
+        private void SetupLargerFonts()
+        {
+            // Set larger font for all text controls
+            System.Drawing.Font largeFont = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular);
+            System.Drawing.Font labelFont = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular);
+            System.Drawing.Font buttonFont = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            
+            // Apply fonts to text controls
+            StyleTextEdit(txtProductName, largeFont, 28);
+            StyleMemoEdit(txtDescription, largeFont, 60);
+            
+            // Apply fonts to price controls
+            StyleSpinEdit(txtSellingPrice, largeFont, 28);
+            StyleSpinEdit(txtPurchasingPrice, largeFont, 28);
+            StyleSpinEdit(txtGomlaPrice, largeFont, 28);
+            StyleSpinEdit(txtNosGomlaPrice, largeFont, 28);
+            
+            // Apply fonts to combo boxes
+            StyleLookUpEdit(cmbCompany, largeFont, 28);
+            StyleLookUpEdit(cmbCategory, largeFont, 28);
+            
+            // Apply fonts to buttons with enhanced styling
+            StyleEnhancedButton(BtnCreate, buttonFont, 
+                System.Drawing.Color.FromArgb(40, 167, 69), System.Drawing.Color.White,
+                System.Drawing.Color.FromArgb(52, 181, 85), System.Drawing.Color.FromArgb(34, 139, 57),
+                "✚ إنشاء منتج", 35);
+            
+            StyleEnhancedButton(EditBtn, buttonFont,
+                System.Drawing.Color.FromArgb(0, 123, 255), System.Drawing.Color.White,
+                System.Drawing.Color.FromArgb(38, 143, 255), System.Drawing.Color.FromArgb(0, 98, 204),
+                "✏ تحديث منتج", 35);
+            
+            StyleEnhancedButton(btnCancel, buttonFont,
+                System.Drawing.Color.FromArgb(108, 117, 125), System.Drawing.Color.White,
+                System.Drawing.Color.FromArgb(128, 137, 145), System.Drawing.Color.FromArgb(88, 97, 105),
+                "✖ إلغاء", 35);
+            
+            // Apply to group control
+            if (groupControl1 != null)
+            {
+                groupControl1.Appearance.Options.UseFont = true;
+                groupControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+                groupControl1.AppearanceCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+                groupControl1.AppearanceCaption.Options.UseFont = true;
+            }
+        }
+
+        /// <summary>
+        /// Configures validation settings for required fields
+        /// </summary>
+        private void SetupValidation()
+        {
+            System.Drawing.Font nullTextFont = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Italic);
+            
+            // Make required fields mandatory with larger fonts
+            txtProductName.Properties.NullText = "يرجى إدخال اسم المنتج";
+            txtProductName.Properties.NullValuePrompt = "يرجى إدخال اسم المنتج";
+            txtProductName.Properties.Appearance.Options.UseFont = true;
+            
+            cmbCompany.Properties.NullText = "يرجى اختيار الشركة";
+            cmbCompany.Properties.Appearance.Options.UseFont = true;
+            
+            cmbCategory.Properties.NullText = "يرجى اختيار الصنف";
+            cmbCategory.Properties.Appearance.Options.UseFont = true;
+            
+            // Set numeric validation for prices with larger fonts
+            txtSellingPrice.Properties.MinValue = 0;
+            txtSellingPrice.Properties.Appearance.Options.UseFont = true;
+            
+            txtPurchasingPrice.Properties.MinValue = 0;
+            txtPurchasingPrice.Properties.Appearance.Options.UseFont = true;
+            
+            txtGomlaPrice.Properties.MinValue = 0;
+            txtGomlaPrice.Properties.Appearance.Options.UseFont = true;
+            
+            txtNosGomlaPrice.Properties.MinValue = 0;
+            txtNosGomlaPrice.Properties.Appearance.Options.UseFont = true;
+        }
+
+        /// <summary>
+        /// Configures scrolling for the form
+        /// </summary>
+        private void ConfigureScrolling()
+        {
+            // Configure the scrollable control
+            scrollableControl1.AutoScroll = true;
+            scrollableControl1.HorizontalScroll.Enabled = false;
+            scrollableControl1.HorizontalScroll.Visible = false;
+            scrollableControl1.VerticalScroll.Enabled = true;
+            scrollableControl1.VerticalScroll.Visible = true;
+        }
+
+        /// <summary>
+        /// Adjusts form size for better display
+        /// </summary>
+        private void AdjustFormSize()
+        {
+            // Increase form size to accommodate larger fonts and controls
+            if (this.Size.Width < 650)
+                this.Width = 650;
+            if (this.Size.Height < 550)
+                this.Height = 550;
+            
+            // Ensure form is not larger than screen
+            var screen = System.Windows.Forms.Screen.FromControl(this);
+            if (this.Width > screen.WorkingArea.Width * 0.9)
+                this.Width = (int)(screen.WorkingArea.Width * 0.9);
+            if (this.Height > screen.WorkingArea.Height * 0.9)
+                this.Height = (int)(screen.WorkingArea.Height * 0.9);
+        }
+
+        /// <summary>
+        /// Styles a TextEdit control with enhanced appearance
+        /// </summary>
+        private void StyleTextEdit(DevExpress.XtraEditors.TextEdit textEdit, System.Drawing.Font font, int height)
+        {
+            if (textEdit != null)
+            {
+                textEdit.Font = font;
+                textEdit.Properties.Appearance.Font = font;
+                textEdit.Properties.Appearance.Options.UseFont = true;
+                textEdit.Properties.Appearance.BackColor = System.Drawing.Color.White;
+                textEdit.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(33, 37, 41);
+                textEdit.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                textEdit.Properties.LookAndFeel.SkinName = "Office 2019 Colorful";
+                textEdit.Height = height;
+            }
+        }
+
+        /// <summary>
+        /// Styles a MemoEdit control with enhanced appearance
+        /// </summary>
+        private void StyleMemoEdit(DevExpress.XtraEditors.MemoEdit memoEdit, System.Drawing.Font font, int height)
+        {
+            if (memoEdit != null)
+            {
+                memoEdit.Font = font;
+                memoEdit.Properties.Appearance.Font = font;
+                memoEdit.Properties.Appearance.Options.UseFont = true;
+                memoEdit.Properties.Appearance.BackColor = System.Drawing.Color.White;
+                memoEdit.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(33, 37, 41);
+                memoEdit.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                memoEdit.Properties.LookAndFeel.SkinName = "Office 2019 Colorful";
+                memoEdit.Height = height;
+            }
+        }
+
+        /// <summary>
+        /// Styles a SpinEdit control with enhanced appearance
+        /// </summary>
+        private void StyleSpinEdit(DevExpress.XtraEditors.SpinEdit spinEdit, System.Drawing.Font font, int height)
+        {
+            if (spinEdit != null)
+            {
+                spinEdit.Font = font;
+                spinEdit.Properties.Appearance.Font = font;
+                spinEdit.Properties.Appearance.Options.UseFont = true;
+                spinEdit.Properties.Appearance.BackColor = System.Drawing.Color.White;
+                spinEdit.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(33, 37, 41);
+                spinEdit.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                spinEdit.Properties.LookAndFeel.SkinName = "Office 2019 Colorful";
+                spinEdit.Height = height;
+            }
+        }
+
+        /// <summary>
+        /// Styles a LookUpEdit control with enhanced appearance
+        /// </summary>
+        private void StyleLookUpEdit(DevExpress.XtraEditors.LookUpEdit lookUpEdit, System.Drawing.Font font, int height)
+        {
+            if (lookUpEdit != null)
+            {
+                lookUpEdit.Font = font;
+                lookUpEdit.Properties.Appearance.Font = font;
+                lookUpEdit.Properties.Appearance.Options.UseFont = true;
+                lookUpEdit.Properties.Appearance.BackColor = System.Drawing.Color.White;
+                lookUpEdit.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(33, 37, 41);
+                lookUpEdit.Properties.AppearanceDropDown.Font = font;
+                lookUpEdit.Properties.AppearanceDropDown.Options.UseFont = true;
+                lookUpEdit.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                lookUpEdit.Properties.LookAndFeel.SkinName = "Office 2019 Colorful";
+                lookUpEdit.Height = height;
+                lookUpEdit.Properties.PopupSizeable = true;
+                lookUpEdit.Properties.ShowHeader = true;
+                lookUpEdit.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
+                lookUpEdit.Properties.DropDownRows = 10;
+                
+                // Enhanced dropdown appearance
+                lookUpEdit.Properties.AppearanceDropDownHeader.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+                lookUpEdit.Properties.AppearanceDropDownHeader.Options.UseFont = true;
+            }
+        }
+
+        /// <summary>
+        /// Styles a SimpleButton with modern enhanced appearance
+        /// </summary>
+        private void StyleEnhancedButton(DevExpress.XtraEditors.SimpleButton button, System.Drawing.Font font, 
+            System.Drawing.Color backgroundColor, System.Drawing.Color textColor, System.Drawing.Color hoverColor, 
+            System.Drawing.Color pressedColor, string text, int height)
+        {
+            if (button == null) return;
+
+            // Set button text and basic properties
+            if (!string.IsNullOrEmpty(text))
+                button.Text = text;
+
+            button.Font = font;
+            button.Appearance.Font = font;
+            button.Appearance.Options.UseFont = true;
+            button.Appearance.BackColor = backgroundColor;
+            button.Appearance.ForeColor = textColor;
+            button.Appearance.Options.UseBackColor = true;
+            button.Appearance.Options.UseForeColor = true;
+            button.Appearance.BorderColor = backgroundColor;
+            button.Appearance.Options.UseBorderColor = true;
+            
+            // Modern styling
+            button.LookAndFeel.SkinName = "Office 2019 Colorful";
+            button.Height = height;
+            button.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            button.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            
+            // Enhanced hover effects
+            button.AppearanceHovered.BackColor = hoverColor;
+            button.AppearanceHovered.ForeColor = textColor;
+            button.AppearanceHovered.BorderColor = hoverColor;
+            button.AppearanceHovered.Options.UseBackColor = true;
+            button.AppearanceHovered.Options.UseForeColor = true;
+            button.AppearanceHovered.Options.UseBorderColor = true;
+            
+            // Enhanced pressed effects
+            button.AppearancePressed.BackColor = pressedColor;
+            button.AppearancePressed.ForeColor = textColor;
+            button.AppearancePressed.BorderColor = pressedColor;
+            button.AppearancePressed.Options.UseBackColor = true;
+            button.AppearancePressed.Options.UseForeColor = true;
+            button.AppearancePressed.Options.UseBorderColor = true;
+            
+            // Enhanced disabled state
+            button.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            button.AppearanceDisabled.ForeColor = System.Drawing.Color.FromArgb(173, 181, 189);
+            button.AppearanceDisabled.BorderColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            button.AppearanceDisabled.Options.UseBackColor = true;
+            button.AppearanceDisabled.Options.UseForeColor = true;
+            button.AppearanceDisabled.Options.UseBorderColor = true;
+
+            // Add mouse cursor feedback
+            button.MouseEnter += (s, e) => button.Cursor = System.Windows.Forms.Cursors.Hand;
+            button.MouseLeave += (s, e) => button.Cursor = System.Windows.Forms.Cursors.Default;
+        }
+
+        /// <summary>
+        /// Loads and configures ComboBox data with enhanced search functionality
+        /// </summary>
+        private void LoadComboBoxData()
+        {
+            try
+            {
+                using (var context = new ShoppingDBEntities())
+                {
+                    // Load companies with search functionality
+                    var companies = context.Companies
+                        .Where(c => !c.IsDeleted)
+                        .Select(c => new { c.Id, c.Name })
+                        .OrderBy(c => c.Name)
+                        .ToList();
+                    
+                    ConfigureLookUpEdit(cmbCompany, companies, "Name", "Id", "اختر الشركة...", "اسم الشركة");
+                    
+                    // Load all categories without filtering by company
+                    var categories = context.Categories
+                        .Where(c => !c.IsDeleted)
+                        .Select(c => new { c.Id, c.Name })
+                        .OrderBy(c => c.Name)
+                        .ToList();
+                    
+                    ConfigureLookUpEdit(cmbCategory, categories, "Name", "Id", "اختر الصنف...", "اسم الصنف");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                DevExpress.XtraEditors.XtraMessageBox.Show($"خطأ في تحميل البيانات: {ex.Message}", 
+                    "خطأ", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Configures a LookUpEdit with standardized settings
+        /// </summary>
+        private void ConfigureLookUpEdit(DevExpress.XtraEditors.LookUpEdit lookUpEdit, object dataSource, 
+            string displayMember, string valueMember, string nullText, string columnCaption)
+        {
+            lookUpEdit.Properties.DataSource = dataSource;
+            lookUpEdit.Properties.DisplayMember = displayMember;
+            lookUpEdit.Properties.ValueMember = valueMember;
+            lookUpEdit.Properties.NullText = nullText;
+            lookUpEdit.Properties.ShowDropDown = DevExpress.XtraEditors.Controls.ShowDropDown.SingleClick;
+            
+            // Configure for search functionality
+            lookUpEdit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+            lookUpEdit.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
+            lookUpEdit.Properties.AutoSearchColumnIndex = 1; // Search in Name column
+            lookUpEdit.Properties.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFitResizePopup;
+            
+            // Configure columns
+            lookUpEdit.Properties.Columns.Clear();
+            var column = new DevExpress.XtraEditors.Controls.LookUpColumnInfo(displayMember, columnCaption);
+            column.Width = 250;
+            lookUpEdit.Properties.Columns.Add(column);
+            lookUpEdit.Properties.ShowHeader = true;
+            lookUpEdit.Properties.ShowFooter = false;
+            lookUpEdit.Properties.PopupWidth = 300;
+            lookUpEdit.Properties.DropDownRows = 10;
+        }
+
+        #endregion
+
+        private DevExpress.XtraEditors.XtraScrollableControl scrollableControl1;
+        private DevExpress.XtraEditors.PanelControl panelControl1;
+        private DevExpress.XtraEditors.GroupControl groupControl1;
+        private DevExpress.XtraLayout.LayoutControl layoutControl1;
+        private DevExpress.XtraEditors.TextEdit txtProductName;
+        private DevExpress.XtraEditors.LookUpEdit cmbCompany;
+        private DevExpress.XtraEditors.LookUpEdit cmbCategory;
+        private DevExpress.XtraEditors.MemoEdit txtDescription;
+        private DevExpress.XtraEditors.SpinEdit txtSellingPrice;
+        private DevExpress.XtraEditors.SpinEdit txtPurchasingPrice;
+        private DevExpress.XtraEditors.SpinEdit txtGomlaPrice;
+        private DevExpress.XtraEditors.SpinEdit txtNosGomlaPrice;
+        private DevExpress.XtraEditors.CheckEdit chkOptional;
+        private DevExpress.XtraLayout.LayoutControlGroup Root;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem8;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem9;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem10;
+        private DevExpress.XtraEditors.PanelControl panelControl2;
+        public DevExpress.XtraEditors.SimpleButton BtnCreate;
+        public DevExpress.XtraEditors.SimpleButton EditBtn;
+        private DevExpress.XtraEditors.SimpleButton btnCancel;
+    }
+}

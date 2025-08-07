@@ -1,4 +1,8 @@
-﻿namespace DesktopApp
+﻿using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+namespace DesktopApp
 {
     partial class InvoiceForm
     {
@@ -31,8 +35,11 @@
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.InvoiceBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.DeleteBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.EditBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.NewBtn = new DevExpress.XtraEditors.SimpleButton();
             this.SilentPrintBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.InvoiceBtn = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
@@ -44,10 +51,10 @@
             this.gridControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridControl1.Location = new System.Drawing.Point(0, 54);
+            this.gridControl1.Location = new System.Drawing.Point(0, 52);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(1031, 479);
+            this.gridControl1.Size = new System.Drawing.Size(1031, 481);
             this.gridControl1.TabIndex = 0;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -59,30 +66,78 @@
             // 
             // panelControl1
             // 
+            this.panelControl1.Controls.Add(this.DeleteBtn);
+            this.panelControl1.Controls.Add(this.EditBtn);
+            this.panelControl1.Controls.Add(this.NewBtn);
             this.panelControl1.Controls.Add(this.SilentPrintBtn);
             this.panelControl1.Controls.Add(this.InvoiceBtn);
-            this.panelControl1.Location = new System.Drawing.Point(0, 2);
+            this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(1031, 46);
+            this.panelControl1.Size = new System.Drawing.Size(1031, 50);
             this.panelControl1.TabIndex = 1;
             // 
-            // InvoiceBtn
+            // DeleteBtn
             // 
-            this.InvoiceBtn.Location = new System.Drawing.Point(12, 11);
-            this.InvoiceBtn.Name = "InvoiceBtn";
-            this.InvoiceBtn.Size = new System.Drawing.Size(159, 29);
-            this.InvoiceBtn.TabIndex = 0;
-            this.InvoiceBtn.Text = "معاينة طباعة الفاتورة";
-            this.InvoiceBtn.Click += new System.EventHandler(this.InvoiceBtn_Click);
+            this.DeleteBtn.Appearance.BackColor = System.Drawing.Color.Red;
+            this.DeleteBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DeleteBtn.Appearance.Options.UseBackColor = true;
+            this.DeleteBtn.Appearance.Options.UseFont = true;
+            this.DeleteBtn.Location = new System.Drawing.Point(161, 10);
+            this.DeleteBtn.Name = "DeleteBtn";
+            this.DeleteBtn.Size = new System.Drawing.Size(70, 30);
+            this.DeleteBtn.TabIndex = 7;
+            this.DeleteBtn.Text = "حذف";
+            // 
+            // EditBtn
+            // 
+            this.EditBtn.Appearance.BackColor = System.Drawing.Color.Blue;
+            this.EditBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EditBtn.Appearance.Options.UseBackColor = true;
+            this.EditBtn.Appearance.Options.UseFont = true;
+            this.EditBtn.Location = new System.Drawing.Point(85, 10);
+            this.EditBtn.Name = "EditBtn";
+            this.EditBtn.Size = new System.Drawing.Size(70, 30);
+            this.EditBtn.TabIndex = 6;
+            this.EditBtn.Text = "تعديل";
+            // 
+            // NewBtn
+            // 
+            this.NewBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.NewBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NewBtn.Appearance.Options.UseBackColor = true;
+            this.NewBtn.Appearance.Options.UseFont = true;
+            this.NewBtn.Location = new System.Drawing.Point(10, 10);
+            this.NewBtn.Name = "NewBtn";
+            this.NewBtn.Size = new System.Drawing.Size(70, 30);
+            this.NewBtn.TabIndex = 5;
+            this.NewBtn.Text = "جديد";
             // 
             // SilentPrintBtn
             // 
-            this.SilentPrintBtn.Location = new System.Drawing.Point(177, 11);
+            this.SilentPrintBtn.Appearance.BackColor = System.Drawing.Color.Teal;
+            this.SilentPrintBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SilentPrintBtn.Appearance.Options.UseBackColor = true;
+            this.SilentPrintBtn.Appearance.Options.UseFont = true;
+            this.SilentPrintBtn.Location = new System.Drawing.Point(281, 10);
             this.SilentPrintBtn.Name = "SilentPrintBtn";
-            this.SilentPrintBtn.Size = new System.Drawing.Size(146, 29);
+            this.SilentPrintBtn.Size = new System.Drawing.Size(70, 30);
             this.SilentPrintBtn.TabIndex = 1;
-            this.SilentPrintBtn.Text = "طباعة صامتة";
+            this.SilentPrintBtn.Text = "طباعة";
             this.SilentPrintBtn.Click += new System.EventHandler(this.SilentPrintBtn_Click);
+            // 
+            // InvoiceBtn
+            // 
+            this.InvoiceBtn.Appearance.BackColor = System.Drawing.Color.Teal;
+            this.InvoiceBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.InvoiceBtn.Appearance.Options.UseBackColor = true;
+            this.InvoiceBtn.Appearance.Options.UseFont = true;
+            this.InvoiceBtn.Location = new System.Drawing.Point(357, 10);
+            this.InvoiceBtn.Name = "InvoiceBtn";
+            this.InvoiceBtn.Size = new System.Drawing.Size(85, 30);
+            this.InvoiceBtn.TabIndex = 0;
+            this.InvoiceBtn.Text = "معاينة";
+            this.InvoiceBtn.Click += new System.EventHandler(this.InvoiceBtn_Click);
             // 
             // InvoiceForm
             // 
@@ -98,8 +153,8 @@
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RightToLeftLayout = true;
             this.Text = "الفواتير";
-            this.Load += new System.EventHandler(this.InvoiceForm_Load);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.InvoiceForm_FormClosed);
+            this.Load += new System.EventHandler(this.InvoiceForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
@@ -115,5 +170,8 @@
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.SimpleButton InvoiceBtn;
         private DevExpress.XtraEditors.SimpleButton SilentPrintBtn;
+        private DevExpress.XtraEditors.SimpleButton DeleteBtn;
+        private DevExpress.XtraEditors.SimpleButton EditBtn;
+        private DevExpress.XtraEditors.SimpleButton NewBtn;
     }
 }

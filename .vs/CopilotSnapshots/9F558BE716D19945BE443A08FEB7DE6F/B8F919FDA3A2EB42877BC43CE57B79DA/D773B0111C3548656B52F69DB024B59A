@@ -1,0 +1,585 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using DesktopApp.Utilities;
+
+namespace DesktopApp
+{
+    public partial class InvoiceForm : DevExpress.XtraEditors.XtraForm
+    {
+        private ShoppingDBEntities dbContext;
+        private List<Invoice> allInvoices;
+        private DataView invoiceView;
+
+        public InvoiceForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+
+            // Configure UI using Designer methods
+            SetupSearchPanel();
+            SetupButtons();
+            SetupGridView();
+            SetupResizeHandlers();
+
+            // Initialize data and grid
+            LoadInvoiceData();
+
+            // Handle double-click for editing
+            gridView1.DoubleClick += GridView1_DoubleClick;
+
+            // Wire up CRUD button events
+            WireCrudEvents();
+
+            // Setup search functionality
+            SetupSearchFunctionality();
+        }
+
+        private void InvoiceForm_Load(object sender, EventArgs e)
+        {
+            // Already handled in constructor
+        }
+
+        private void WireCrudEvents()
+        {
+            // Wire up the existing buttons from designer to our event handlers
+            if (NewBtn != null)
+                NewBtn.Click += BtnCreate_Click;
+
+            if (EditBtn != null)
+                EditBtn.Click += EditBtn_Click;
+
+            if (DeleteBtn != null)
+                DeleteBtn.Click += DeleteBtn_Click;
+        }
+
+        private void SetupSearchFunctionality()
+        {
+            // Handle search text changed
+            if (searchTextBox != null)
+            {
+                searchTextBox.TextChanged += (s, e) =>
+                {
+                    FilterInvoices(searchTextBox.Text);
+                };
+            }
+        }
+
+        private void LoadInvoiceData()
+        {
+            try
+            {
+                // Load all invoices
+                allInvoices = dbContext.Invoices
+                    .OrderByDescending(i => i.InvoiceDate)
+                    .ToList();
+
+                // Create a DataTable for the grid - same structure as ProductForm
+                var invoiceTable = CreateInvoiceDataTable();
+
+                // Create DataView for filtering
+                invoiceView = new DataView(invoiceTable);
+
+                // Bind to the grid
+                gridControl1.DataSource = invoiceView;
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل الفواتير: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private DataTable CreateInvoiceDataTable()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Id", typeof(int));
+            table.Columns.Add("InvoiceNumber", typeof(string));
+            table.Columns.Add("InvoiceDate", typeof(DateTime));
+            table.Columns.Add("CustomerName", typeof(string));
+            table.Columns.Add("CustomerPhone", typeof(string));
+            table.Columns.Add("TotalAmount", typeof(decimal));
+            table.Columns.Add("TotalAmountArabic", typeof(string)); // Add Arabic formatted amount
+
+            foreach (var invoice in allInvoices)
+            {
+                table.Rows.Add(
+                    invoice.Id,
+                    invoice.InvoiceNumber,
+                    invoice.InvoiceDate,
+                    invoice.CustomerName,
+                    invoice.CustomerPhone,
+                    invoice.TotalAmount,
+                    ArabicNumberConverter.ConvertDecimalToArabic(invoice.TotalAmount) // Arabic formatted amount
+                );
+            }
+
+            return table;
+        }
+
+        private void FilterInvoices(string searchText)
+        {
+            if (invoiceView == null) return;
+
+            searchText = searchText?.Trim().ToLower() ?? "";
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                invoiceView.RowFilter = "";
+            }
+            else
+            {
+                // Filter by invoice number, customer name, or phone
+                invoiceView.RowFilter = $"InvoiceNumber LIKE '%{searchText}%' OR CustomerName LIKE '%{searchText}%' OR CustomerPhone LIKE '%{searchText}%'";
+            }
+        }
+
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var invoiceForm = new InvoiceCUForm())
+                {
+                    if (invoiceForm.ShowDialog() == DialogResult.OK)
+                    {
+                        RefreshData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في فتح نموذج إضافة الفاتورة: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            var selectedRowHandle = gridView1.FocusedRowHandle;
+            if (selectedRowHandle < 0)
+            {
+                XtraMessageBox.Show("يرجى اختيار فاتورة للتعديل", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+                if (selectedRow == null)
+                {
+                    XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+
+                using (var invoiceForm = new InvoiceCUForm(invoiceId))
+                {
+                    if (invoiceForm.ShowDialog() == DialogResult.OK)
+                    {
+                        RefreshData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في فتح نموذج تعديل الفاتورة: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DeleteBtn_Click(object sender, EventArgs e)
+        {
+            var selectedRowHandle = gridView1.FocusedRowHandle;
+            if (selectedRowHandle < 0)
+            {
+                XtraMessageBox.Show("يرجى اختيار فاتورة للحذف", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+                if (selectedRow == null)
+                {
+                    XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+                string invoiceNumber = selectedRow["InvoiceNumber"].ToString();
+
+                // Confirm deletion
+                var result = XtraMessageBox.Show($"هل أنت متأكد من حذف الفاتورة رقم {invoiceNumber}؟\n\nهذا الإجراء لا يمكن التراجع عنه.",
+                    "تأكيد الحذف", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+                if (result == DialogResult.Yes)
+                {
+                    var invoice = dbContext.Invoices.FirstOrDefault(i => i.Id == invoiceId);
+                    if (invoice != null)
+                    {
+                        // Remove the invoice entirely instead of soft delete
+                        dbContext.Invoices.Remove(invoice);
+                        dbContext.SaveChanges();
+
+                        XtraMessageBox.Show("تم حذف الفاتورة بنجاح", "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefreshData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حذف الفاتورة: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GridView1_DoubleClick(object sender, EventArgs e)
+        {
+            // Edit on double-click
+            EditBtn_Click(sender, e);
+        }
+
+        private void RefreshData()
+        {
+            try
+            {
+                // Refresh database context
+                dbContext.Dispose();
+                dbContext = new ShoppingDBEntities();
+
+                LoadInvoiceData();
+                XtraMessageBox.Show("تم تحديث البيانات بنجاح", "تحديث", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث البيانات: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void InvoiceBtn_Click(object sender, EventArgs e)
+        {
+            // Get selected invoice from grid
+            var selectedRowHandle = gridView1.FocusedRowHandle;
+            if (selectedRowHandle < 0)
+            {
+                XtraMessageBox.Show("يرجى اختيار فاتورة للطباعة", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Get the invoice ID from the selected row
+            var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+            if (selectedRow == null)
+            {
+                XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+
+            // Open invoice preview with the selected invoice ID
+            var invoicePreview = new InvoicePreviewForm(invoiceId);
+            invoicePreview.ShowDialog(this);
+        }
+
+        private void SilentPrintBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get selected invoice from grid
+                var selectedRowHandle = gridView1.FocusedRowHandle;
+                if (selectedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("يرجى اختيار فاتورة للطباعة", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get the invoice ID from the selected row
+                var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+                if (selectedRow == null)
+                {
+                    XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+
+                // Show copy selection form (reuse the barcode copy form)
+                using (var copyForm = new BarcodeCopyForm())
+                {
+                    if (copyForm.ShowDialog() == DialogResult.OK)
+                    {
+                        int numberOfCopies = copyForm.NumberOfCopies;
+
+                        // Show loading cursor
+                        this.Cursor = Cursors.WaitCursor;
+
+                        // Print silently
+                        SilentPrintUtility.PrintInvoiceSilent(invoiceId, numberOfCopies);
+
+                        // Show success message
+                        XtraMessageBox.Show($"تم طباعة {numberOfCopies} نسخة من الفاتورة بنجاح", "نجحت العملية",
+                                          MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"حدث خطأ في الطباعة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void InvoiceForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (dbContext != null)
+            {
+                dbContext.Dispose();
+                dbContext = null;
+            }
+        }
+
+        private void SetupSearchPanel()
+        {
+            // Configure the panel with increased height and padding
+            panelControl1.Height = 80; // Increased from 70 for better vertical spacing
+            panelControl1.Padding = new Padding(15);
+            panelControl1.RightToLeft = RightToLeft.Yes;
+            panelControl1.Dock = DockStyle.Top;
+
+            // Create search label with larger font
+            searchLabel = new LabelControl
+            {
+                Text = "بحث:",
+                Appearance = { Font = new Font("Tahoma", 14, FontStyle.Bold) },
+                AutoSizeMode = LabelAutoSizeMode.None,
+                Size = new Size(60, 32)
+            };
+
+            // Create search textbox with larger size
+            searchTextBox = new TextEdit
+            {
+                Properties =
+                {
+                    NullText = "ابحث عن رقم الفاتورة، اسم العميل، أو رقم الهاتف...",
+                    Appearance = { 
+                        TextOptions = { HAlignment = DevExpress.Utils.HorzAlignment.Near },
+                        Font = new Font("Tahoma", 14)
+                    }
+                },
+                Size = new Size(500, 38) // Increased size for better visibility
+            };
+
+            // Position controls with proper spacing
+            searchLabel.Location = new Point(panelControl1.Width - searchLabel.Width - 20, (panelControl1.Height - searchLabel.Height) / 2);
+            searchTextBox.Location = new Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 30, (panelControl1.Height - searchTextBox.Height) / 2);
+
+            // Add controls to panel
+            panelControl1.Controls.Add(searchLabel);
+            panelControl1.Controls.Add(searchTextBox);
+        }
+
+        private void SetupButtons()
+        {
+            // Calculate button sizes based on form width
+            int formWidth = this.Width;
+            int buttonWidth = Math.Max((int)(formWidth * 0.18), 200); // At least 200px or 18% of form width
+            int buttonHeight = 50; // Fixed height for better visibility
+            int buttonSpacing = 15; // Space between buttons
+
+            var buttonFont = new Font("Tahoma", 12, FontStyle.Bold);
+
+            // Configure invoice preview button
+            if (InvoiceBtn != null)
+            {
+                StyleButton(InvoiceBtn, "👁 معاينة الفاتورة", buttonWidth, buttonHeight, buttonFont, Color.FromArgb(0, 123, 255));
+            }
+
+            // Configure silent print button
+            if (SilentPrintBtn != null)
+            {
+                StyleButton(SilentPrintBtn, "🖨 طباعة صامتة", buttonWidth, buttonHeight, buttonFont, Color.FromArgb(40, 167, 69));
+            }
+
+            // Position buttons with proper spacing
+            int currentX = this.Width - buttonWidth - 20;
+            int buttonY = (panelControl1.Height - buttonHeight) / 2;
+
+            if (NewBtn != null)
+            {
+                StyleButton(NewBtn, "✚ جديد", buttonWidth, buttonHeight, buttonFont, Color.FromArgb(40, 167, 69));
+                PositionButton(NewBtn, currentX, buttonY);
+                currentX -= (buttonWidth + buttonSpacing);
+            }
+
+            if (EditBtn != null)
+            {
+                StyleButton(EditBtn, "✏ تعديل", buttonWidth, buttonHeight, buttonFont, Color.FromArgb(0, 123, 255));
+                PositionButton(EditBtn, currentX, buttonY);
+                currentX -= (buttonWidth + buttonSpacing);
+            }
+
+            if (DeleteBtn != null)
+            {
+                StyleButton(DeleteBtn, "❌ حذف", buttonWidth, buttonHeight, buttonFont, Color.FromArgb(220, 53, 69));
+                PositionButton(DeleteBtn, currentX, buttonY);
+                currentX -= (buttonWidth + buttonSpacing);
+            }
+
+            if (InvoiceBtn != null)
+            {
+                PositionButton(InvoiceBtn, currentX, buttonY);
+                currentX -= (buttonWidth + buttonSpacing);
+            }
+
+            if (SilentPrintBtn != null)
+            {
+                PositionButton(SilentPrintBtn, currentX, buttonY);
+            }
+
+            // Handle window resize
+            this.Resize += (s, e) =>
+            {
+                int newButtonWidth = Math.Max((int)(this.Width * 0.18), 200);
+                currentX = this.Width - newButtonWidth - 20;
+
+                foreach (var btn in new[] { NewBtn, EditBtn, DeleteBtn, InvoiceBtn, SilentPrintBtn })
+                {
+                    if (btn != null)
+                    {
+                        btn.Width = newButtonWidth;
+                        btn.Left = currentX;
+                        currentX -= (newButtonWidth + buttonSpacing);
+                    }
+                }
+            };
+        }
+
+        private void StyleButton(SimpleButton button, string text, int width, int height, Font font, Color baseColor)
+        {
+            if (button == null) return;
+
+            button.Text = text;
+            button.Size = new Size(width, height);
+            button.Appearance.Font = font;
+            button.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            button.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+
+            // Set colors
+            button.Appearance.BackColor = baseColor;
+            button.Appearance.ForeColor = Color.White;
+            button.Appearance.Options.UseBackColor = true;
+            button.Appearance.Options.UseForeColor = true;
+
+            // Hover effects
+            button.AppearanceHovered.BackColor = DarkenColor(baseColor, 0.1f);
+            button.AppearanceHovered.ForeColor = Color.White;
+            button.AppearanceHovered.Options.UseBackColor = true;
+            button.AppearanceHovered.Options.UseForeColor = true;
+
+            // Pressed effects
+            button.AppearancePressed.BackColor = DarkenColor(baseColor, 0.2f);
+            button.AppearancePressed.ForeColor = Color.White;
+            button.AppearancePressed.Options.UseBackColor = true;
+            button.AppearancePressed.Options.UseForeColor = true;
+
+            // Add cursor effects
+            button.MouseEnter += (s, e) => button.Cursor = Cursors.Hand;
+            button.MouseLeave += (s, e) => button.Cursor = Cursors.Default;
+        }
+
+        private void PositionButton(SimpleButton button, int x, int y)
+        {
+            if (button == null) return;
+            button.Location = new Point(x, y);
+        }
+
+        private Color DarkenColor(Color color, float factor)
+        {
+            return Color.FromArgb(color.A,
+                (int)(color.R * (1 - factor)),
+                (int)(color.G * (1 - factor)),
+                (int)(color.B * (1 - factor)));
+        }
+
+        private void SetupGridView()
+        {
+            // Configure grid view columns with Arabic headers
+            gridView1.Columns["Id"].Visible = false; // Hide ID column
+            
+            // Set Arabic captions
+            gridView1.Columns["InvoiceNumber"].Caption = "رقم الفاتورة";
+            gridView1.Columns["InvoiceDate"].Caption = "تاريخ الفاتورة";
+            gridView1.Columns["CustomerName"].Caption = "اسم العميل";
+            gridView1.Columns["CustomerPhone"].Caption = "رقم الهاتف";
+            gridView1.Columns["TotalAmount"].Caption = "المبلغ الإجمالي";
+
+            // Configure appearance
+            gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridView1.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridView1.OptionsView.ShowGroupPanel = false;
+
+            // Set RTL for Arabic text
+            gridView1.OptionsView.EnableAppearanceEvenRow = true;
+            gridView1.Appearance.EvenRow.BackColor = Color.FromArgb(242, 242, 242);
+
+            // Increase row height
+            gridView1.RowHeight = 30;
+
+            // Format date column
+            gridView1.Columns["InvoiceDate"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            gridView1.Columns["InvoiceDate"].DisplayFormat.FormatString = "yyyy-MM-dd";
+
+            // Configure grid appearance
+            gridView1.Appearance.HeaderPanel.Font = new Font(gridView1.Appearance.HeaderPanel.Font.FontFamily, 12, FontStyle.Bold);
+            gridView1.Appearance.Row.Font = new Font(gridView1.Appearance.Row.Font.FontFamily, 11);
+        }
+
+        private void SetupResizeHandlers()
+        {
+            // Handle window resize for search panel
+            this.Resize += (s, e) =>
+            {
+                if (panelControl1.Width > 0 && searchLabel != null && searchTextBox != null)
+                {
+                    searchLabel.Location = new Point(panelControl1.Width - searchLabel.Width - 20, (panelControl1.Height - searchLabel.Height) / 2);
+                    searchTextBox.Location = new Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 30, (panelControl1.Height - searchTextBox.Height) / 2);
+                }
+            };
+
+            // Handle window resize to adjust columns
+            this.Resize += (s, e) => AdjustColumnWidths();
+        }
+
+        private void AdjustColumnWidths()
+        {
+            if (gridControl1.Width <= 0) return;
+
+            try
+            {
+                // Set proportional widths
+                int totalWidth = gridControl1.Width - 60; // Account for scrollbar and padding
+                
+                gridView1.Columns["InvoiceNumber"].Width = (int)(totalWidth * 0.15); // 15%
+                gridView1.Columns["InvoiceDate"].Width = (int)(totalWidth * 0.15);   // 15%
+                gridView1.Columns["CustomerName"].Width = (int)(totalWidth * 0.35);  // 35%
+                gridView1.Columns["CustomerPhone"].Width = (int)(totalWidth * 0.20); // 20%
+                gridView1.Columns["TotalAmount"].Width = (int)(totalWidth * 0.15);   // 15%
+            }
+            catch (Exception)
+            {
+                // Ignore any errors during width adjustment
+            }
+        }
+    }
+}

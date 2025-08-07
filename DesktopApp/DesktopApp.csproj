@@ -133,6 +133,12 @@
     <Compile Include="Invoice.cs">
       <DependentUpon>ShoppingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="InvoiceCUForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InvoiceCUForm.Designer.cs">
+      <DependentUpon>InvoiceCUForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="InvoiceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,6 +227,9 @@
     <EmbeddedResource Include="CrystalReports\Invoice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Invoice.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InvoiceCUForm.resx">
+      <DependentUpon>InvoiceCUForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InvoiceForm.resx">
       <DependentUpon>InvoiceForm.cs</DependentUpon>

@@ -1,0 +1,117 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.Entity;
+using DesktopApp.DataSet;
+using DesktopApp.Utilities;
+using DesktopApp.Extensions;
+
+namespace DesktopApp
+{
+    public partial class InvoicePreviewForm : DevExpress.XtraEditors.XtraForm
+    {
+        private int invoiceId;
+        private ShoppingDBEntities dbContext;
+        private System.Data.DataSet arabicInvoiceDataSet;
+
+        public InvoicePreviewForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+        }
+
+        public InvoicePreviewForm(int invoiceId) : this()
+        {
+            this.invoiceId = invoiceId;
+            LoadInvoiceData();
+        }
+
+        private void LoadInvoiceData()
+        {
+            try
+            {
+                // Load invoice with items - similar to your web app logic
+                var invoice = dbContext.Invoices
+                    .Include(i => i.InvoiceItems)
+                    .FirstOrDefault(i => i.Id == invoiceId);
+
+                if (invoice == null)
+                {
+                    XtraMessageBox.Show("الفاتورة غير موجودة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                    return;
+                }
+
+                // Create completely Arabic-formatted dataset
+                arabicInvoiceDataSet = InvoiceDataTableExtensions.CreateArabicInvoiceDataSet(invoice);
+
+                // Set the data source for the Crystal Report
+                Invoice1.SetDataSource(arabicInvoiceDataSet);
+                
+                // Debug: Check if Arabic formatting is working
+                DebugArabicFormatting();
+                
+                // Refresh the report viewer
+                crystalReportViewer1.ReportSource = Invoice1;
+                crystalReportViewer1.Refresh();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل بيانات الفاتورة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
+        }
+
+        private void DebugArabicFormatting()
+        {
+            try
+            {
+                // Debug: Check if Arabic dataset is working correctly
+                if (arabicInvoiceDataSet != null && arabicInvoiceDataSet.Tables.Count > 0)
+                {
+                    var invoiceTable = arabicInvoiceDataSet.Tables["InvoiceTable"];
+                    var itemsTable = arabicInvoiceDataSet.Tables["InvoiceItemsTable"];
+                    
+                    if (invoiceTable != null && invoiceTable.Rows.Count > 0)
+                    {
+                        var row = invoiceTable.Rows[0];
+                        System.Diagnostics.Debug.WriteLine($"Invoice Date (Arabic): {row["InvoiceDate"]}");
+                        System.Diagnostics.Debug.WriteLine($"Invoice Number (Arabic): {row["InvoiceNumber"]}");
+                        System.Diagnostics.Debug.WriteLine($"Customer Phone (Arabic): {row["CustomerPhone"]}");
+                        System.Diagnostics.Debug.WriteLine($"Total Amount: {row["TotalAmount"]}");
+                        System.Diagnostics.Debug.WriteLine($"Discount: {row["Discount"]}");
+                        System.Diagnostics.Debug.WriteLine($"Net Amount: {row["NetAmount"]}");
+                    }
+                    
+                    if (itemsTable != null && itemsTable.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in itemsTable.Rows)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Product: {row["ProductName"]}, Unit Price: {row["UnitPrice"]}, Quantity: {row["Quantity"]}, Total: {row["TotalPrice"]}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Debug error: {ex.Message}");
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            if (dbContext != null)
+            {
+                dbContext.Dispose();
+            }
+            base.OnFormClosed(e);
+        }
+    }
+}

@@ -49,6 +49,7 @@
             this.btnProduct.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnProduct.Appearance.Options.UseBackColor = true;
             this.btnProduct.Appearance.Options.UseFont = true;
+            this.btnProduct.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnProduct.ImageOptions.SvgImage")));
             this.btnProduct.Location = new System.Drawing.Point(208, 3);
             this.btnProduct.Name = "btnProduct";
             this.btnProduct.Size = new System.Drawing.Size(280, 46);
@@ -65,6 +66,7 @@
             this.btnInvoice.Appearance.Options.UseFont = true;
             this.btnInvoice.AutoWidthInLayoutControl = true;
             this.btnInvoice.ImageOptions.ImageUri.Uri = "dashboards/insertlistbox";
+            this.btnInvoice.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnInvoice.ImageOptions.SvgImage")));
             this.btnInvoice.Location = new System.Drawing.Point(494, 5);
             this.btnInvoice.Name = "btnInvoice";
             this.btnInvoice.Size = new System.Drawing.Size(289, 44);

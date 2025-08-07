@@ -1,0 +1,478 @@
+﻿using DevExpress.XtraBars;
+using DevExpress.XtraEditors;
+using DevExpress.XtraGrid;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class ProductForm : XtraForm
+    {
+        private DataSet.Product productDataSet = new DataSet.Product();
+        private ShoppingDBEntities dbContext;
+        private DataView productView;
+
+        public ProductForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+
+            // Configure UI and load data
+            SetupSearchPanel();
+            SetupButtons();
+            LoadProductData();
+            ConfigureGridView();
+
+            // Wire up button events
+            WireButtonEvents();
+
+            // Handle window resize
+            this.Resize += (s, e) => AdjustColumnWidths();
+        }
+
+        private void WireButtonEvents()
+        {
+            NewBtn.Click += BtnCreate_Click;
+            EditBtn.Click += EditBtn_Click;
+            DeleteBtn.Click += DeleteBtn_Click;
+            PrintBtn.Click += PrintBarcodeBtn_Click;
+
+            // Add double-click to edit functionality
+            gridView1.DoubleClick += gridView1_DoubleClick;
+        }
+
+        private void SetupSearchPanel()
+        {
+            // Configure the panel with increased height and padding
+            productPanal.Height = 80; // Increased height for better spacing
+            productPanal.Padding = new Padding(15);
+            productPanal.RightToLeft = RightToLeft.Yes;
+            productPanal.Dock = DockStyle.Top;
+
+            // Create search label with larger font
+            searchLabel = new LabelControl
+            {
+                Text = "بحث:",
+                Appearance = { Font = new Font("Tahoma", 14, FontStyle.Bold) },
+                AutoSizeMode = LabelAutoSizeMode.None,
+                Size = new Size(60, 32)
+            };
+
+            // Create search textbox with larger size
+            searchTextBox = new TextEdit
+            {
+                Properties =
+                {
+                    NullText = "ابحث عن اسم المنتج، الشركة، أو الصنف...",
+                    Appearance = { 
+                        TextOptions = { HAlignment = DevExpress.Utils.HorzAlignment.Near },
+                        Font = new Font("Tahoma", 14)
+                    }
+                },
+                Size = new Size(500, 38) // Increased size for better visibility
+            };
+
+            // Position controls with proper spacing
+            searchLabel.Location = new Point(productPanal.Width - searchLabel.Width - 20, (productPanal.Height - searchLabel.Height) / 2);
+            searchTextBox.Location = new Point(productPanal.Width - searchLabel.Width - searchTextBox.Width - 30, (productPanal.Height - searchTextBox.Height) / 2);
+
+            // Add controls to panel
+            productPanal.Controls.Add(searchLabel);
+            productPanal.Controls.Add(searchTextBox);
+
+            // Handle search functionality
+            searchTextBox.TextChanged += (s, e) =>
+            {
+                if (productView != null)
+                {
+                    string searchText = searchTextBox.Text.Trim();
+                    string filter = string.Empty;
+
+                    if (!string.IsNullOrEmpty(searchText))
+                    {
+                        filter = $"ProductName LIKE '%{searchText}%' OR CompanyName LIKE '%{searchText}%' OR CategoryName LIKE '%{searchText}%'";
+                    }
+
+                    productView.RowFilter = filter;
+                }
+            };
+
+            // Handle window resize for search controls
+            this.Resize += (s, e) =>
+            {
+                if (productPanal.Width > 0 && searchLabel != null && searchTextBox != null)
+                {
+                    searchLabel.Location = new Point(productPanal.Width - searchLabel.Width - 20, (productPanal.Height - searchLabel.Height) / 2);
+                    searchTextBox.Location = new Point(productPanal.Width - searchLabel.Width - searchTextBox.Width - 30, (productPanal.Height - searchTextBox.Height) / 2);
+                }
+            };
+        }
+
+        private void SetupButtons()
+        {
+            // Calculate button sizes based on form width
+            int formWidth = this.Width;
+            int buttonWidth = Math.Max((int)(formWidth * 0.18), 200); // At least 200px or 18% of form width
+            int buttonHeight = 50; // Fixed height for better visibility
+            int buttonSpacing = 15; // Space between buttons
+
+            var buttonFont = new Font("Tahoma", 12, FontStyle.Bold);
+
+            // Configure and style buttons
+            StyleButton(NewBtn, "✚ إضافة منتج", buttonWidth, buttonHeight, buttonFont, Color.FromArgb(40, 167, 69));
+            StyleButton(EditBtn, "✏ تعديل منتج", buttonWidth, buttonHeight, buttonFont, Color.FromArgb(0, 123, 255));
+            StyleButton(DeleteBtn, "❌ حذف منتج", buttonWidth, buttonHeight, buttonFont, Color.FromArgb(220, 53, 69));
+            StyleButton(PrintBtn, "🖨 طباعة باركود", buttonWidth, buttonHeight, buttonFont, Color.FromArgb(23, 162, 184));
+
+            // Position buttons with proper spacing
+            int currentX = this.Width - buttonWidth - 20;
+            int buttonY = (productPanal.Height - buttonHeight) / 2;
+
+            PositionButton(NewBtn, currentX, buttonY);
+            currentX -= (buttonWidth + buttonSpacing);
+            PositionButton(EditBtn, currentX, buttonY);
+            currentX -= (buttonWidth + buttonSpacing);
+            PositionButton(DeleteBtn, currentX, buttonY);
+            currentX -= (buttonWidth + buttonSpacing);
+            PositionButton(PrintBtn, currentX, buttonY);
+
+            // Handle window resize to adjust button positions and sizes
+            this.Resize += (s, e) =>
+            {
+                int newButtonWidth = Math.Max((int)(this.Width * 0.18), 200);
+                currentX = this.Width - newButtonWidth - 20;
+
+                foreach (var btn in new[] { NewBtn, EditBtn, DeleteBtn, PrintBtn })
+                {
+                    if (btn != null)
+                    {
+                        btn.Width = newButtonWidth;
+                        btn.Left = currentX;
+                        currentX -= (newButtonWidth + buttonSpacing);
+                    }
+                }
+            };
+        }
+
+        private void StyleButton(SimpleButton button, string text, int width, int height, Font font, Color baseColor)
+        {
+            if (button == null) return;
+
+            button.Text = text;
+            button.Size = new Size(width, height);
+            button.Appearance.Font = font;
+            button.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            button.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+
+            // Set colors
+            button.Appearance.BackColor = baseColor;
+            button.Appearance.ForeColor = Color.White;
+            button.Appearance.Options.UseBackColor = true;
+            button.Appearance.Options.UseForeColor = true;
+
+            // Hover effects
+            button.AppearanceHovered.BackColor = DarkenColor(baseColor, 0.1f);
+            button.AppearanceHovered.ForeColor = Color.White;
+            button.AppearanceHovered.Options.UseBackColor = true;
+            button.AppearanceHovered.Options.UseForeColor = true;
+
+            // Pressed effects
+            button.AppearancePressed.BackColor = DarkenColor(baseColor, 0.2f);
+            button.AppearancePressed.ForeColor = Color.White;
+            button.AppearancePressed.Options.UseBackColor = true;
+            button.AppearancePressed.Options.UseForeColor = true;
+
+            // Add cursor effects
+            button.MouseEnter += (s, e) => button.Cursor = Cursors.Hand;
+            button.MouseLeave += (s, e) => button.Cursor = Cursors.Default;
+        }
+
+        private void PositionButton(SimpleButton button, int x, int y)
+        {
+            if (button == null) return;
+            button.Location = new Point(x, y);
+        }
+
+        private Color DarkenColor(Color color, float factor)
+        {
+            return Color.FromArgb(color.A,
+                (int)(color.R * (1 - factor)),
+                (int)(color.G * (1 - factor)),
+                (int)(color.B * (1 - factor)));
+        }
+
+        private void LoadProductData()
+        {
+            // Get the products from database with the latest prices
+            var products = dbContext.Products
+                .Select(p => new
+                {
+                    p.Id,
+                    ProductName = p.Name,
+                    CompanyName = p.Company.Name,
+                    CategoryName = p.Category.Name,
+                    SellingPrice = p.Prices.OrderByDescending(pr => pr.CreatedDate).FirstOrDefault().SellingPrice,
+                    PurchasingPrice = p.Prices.OrderByDescending(pr => pr.CreatedDate).FirstOrDefault().PurchasingPrice,
+                    p.CreatedDate
+                })
+                .OrderByDescending(p => p.CreatedDate) // Newest first
+                .ToList();
+
+            // Add data to the dataset
+            foreach (var product in products)
+            {
+                var row = productDataSet.Tables["Product"].NewRow();
+                row["Id"] = product.Id.ToString();
+                row["ProductName"] = product.ProductName;
+                row["CompanyName"] = product.CompanyName;
+                row["CategoryName"] = product.CategoryName;
+                row["SellingPrice"] = product.SellingPrice.ToString();
+                row["PurchasingPrice"] = product.PurchasingPrice.ToString();
+                row["CreatedDate"] = product.CreatedDate.ToString("yyyy-MM-dd");
+                productDataSet.Tables["Product"].Rows.Add(row);
+            }
+
+            // Set up data view for searching
+            productView = new DataView(productDataSet.Tables["Product"]);
+            productGrid.DataSource = productView;
+
+            // Set column width proportions after data is loaded
+            AdjustColumnWidths();
+        }
+
+        private void productPanal_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnBarcode_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the focused row handle
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("الرجاء اختيار منتج", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get product data from the focused row
+                var productName = gridView1.GetRowCellValue(focusedRowHandle, "ProductName").ToString();
+                var priceStr = gridView1.GetRowCellValue(focusedRowHandle, "SellingPrice").ToString();
+                
+                if (!decimal.TryParse(priceStr, out decimal sellingPrice))
+                {
+                    XtraMessageBox.Show("خطأ في قراءة سعر المنتج", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var barcodePreview = new ParcodePreviewForm(productName, sellingPrice);
+                barcodePreview.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"حدث خطأ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void PrintBarcodeBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the focused row handle
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("الرجاء اختيار منتج", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get product data from the focused row
+                var productName = gridView1.GetRowCellValue(focusedRowHandle, "ProductName").ToString();
+                var priceStr = gridView1.GetRowCellValue(focusedRowHandle, "SellingPrice").ToString();
+                
+                if (!decimal.TryParse(priceStr, out decimal sellingPrice))
+                {
+                    XtraMessageBox.Show("خطأ في قراءة سعر المنتج", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Show the copy selection form
+                using (var copyForm = new BarcodeCopyForm())
+                {
+                    if (copyForm.ShowDialog() == DialogResult.OK)
+                    {
+                        int numberOfCopies = copyForm.NumberOfCopies;
+                        
+                        // Show loading message
+                        this.Cursor = Cursors.WaitCursor;
+                        
+                        // Print silently
+                        SilentPrintUtility.PrintBarcodeSilent(productName, sellingPrice, numberOfCopies);
+                        
+                        // Show success message
+                        XtraMessageBox.Show($"تم طباعة {numberOfCopies} نسخة بنجاح", "نجحت العملية", 
+                                          MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"حدث خطأ في الطباعة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void simpleButton2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open create form
+                using (var createForm = new ProductCUForm())
+                {
+                    if (createForm.ShowDialog() == DialogResult.OK && createForm.ProductSaved)
+                    {
+                        // Refresh the grid
+                        RefreshProductData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في إضافة منتج جديد: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the focused row handle
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("الرجاء اختيار منتج للتعديل", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get product ID from the focused row
+                var productIdStr = gridView1.GetRowCellValue(focusedRowHandle, "Id").ToString();
+                if (int.TryParse(productIdStr, out int productId))
+                {
+                    // Open edit form
+                    using (var editForm = new ProductCUForm(productId))
+                    {
+                        if (editForm.ShowDialog() == DialogResult.OK && editForm.ProductSaved)
+                        {
+                            // Refresh the grid
+                            RefreshProductData();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث المنتج: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DeleteBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the focused row handle
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("الرجاء اختيار منتج للحذف", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get product data from the focused row
+                var productIdStr = gridView1.GetRowCellValue(focusedRowHandle, "Id").ToString();
+                var productName = gridView1.GetRowCellValue(focusedRowHandle, "ProductName").ToString();
+
+                // Confirm deletion
+                var result = XtraMessageBox.Show($"هل أنت متأكد من حذف المنتج '{productName}'؟\n\nتحذير: هذا الإجراء لا يمكن التراجع عنه", 
+                    "تأكيد الحذف", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes && int.TryParse(productIdStr, out int productId))
+                {
+                    using (var context = new ShoppingDBEntities())
+                    {
+                        // Find the product
+                        var product = context.Products.FirstOrDefault(p => p.Id == productId);
+                        if (product != null)
+                        {
+                            // Delete related records first
+                            var prices = context.Prices.Where(p => p.ProductId == productId);
+                            context.Prices.RemoveRange(prices);
+
+                            var images = context.ProductImages.Where(pi => pi.ProductId == productId);
+                            context.ProductImages.RemoveRange(images);
+
+                            // Delete the product
+                            context.Products.Remove(product);
+                            context.SaveChanges();
+
+                            XtraMessageBox.Show("تم حذف المنتج بنجاح", "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            
+                            // Refresh the grid
+                            RefreshProductData();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حذف المنتج: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void RefreshProductData()
+        {
+            try
+            {
+                // Clear existing data
+                productDataSet.Tables["Product"].Clear();
+                
+                // Reload data
+                LoadProductData();
+                
+                // Refresh the view
+                productView = new DataView(productDataSet.Tables["Product"]);
+                productGrid.DataSource = productView;
+                
+                // Adjust columns
+                AdjustColumnWidths();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث البيانات: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Add double-click to edit functionality
+        private void gridView1_DoubleClick(object sender, EventArgs e)
+        {
+            EditBtn_Click(sender, e);
+        }
+    }
+}

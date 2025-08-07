@@ -1,0 +1,683 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using DesktopApp.Utilities;
+
+namespace DesktopApp
+{
+    public partial class InvoiceForm : DevExpress.XtraEditors.XtraForm
+    {
+        private ShoppingDBEntities dbContext;
+        private List<Invoice> allInvoices;
+        private DataView invoiceView;
+        
+        public InvoiceForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+
+            // Configure layout - same as ProductForm
+            panelControl1.Dock = DockStyle.Top;
+
+            // Set form to RTL
+            this.RightToLeft = RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+
+            // Initialize components
+            SetupSearchPanel();
+            LoadInvoiceData();
+            ConfigureGridView();
+
+            // Handle window resize to adjust columns
+            this.Resize += (s, e) => AdjustColumnWidths();
+            
+            // Handle double-click for editing
+            gridView1.DoubleClick += GridView1_DoubleClick;
+            
+            // Wire up CRUD button events
+            WireCrudEvents();
+        }
+
+        private void InvoiceForm_Load(object sender, EventArgs e)
+        {
+            // Already handled in constructor
+        }
+
+        private void WireCrudEvents()
+        {
+            // Wire up the existing buttons from designer to our event handlers
+            if (NewBtn != null)
+                NewBtn.Click += BtnCreate_Click;
+            
+            if (EditBtn != null)
+                EditBtn.Click += EditBtn_Click;
+            
+            if (DeleteBtn != null)
+                DeleteBtn.Click += DeleteBtn_Click;
+                
+            // Setup enhanced button styling
+            SetupEnhancedButtons();
+        }
+
+        private void SetupEnhancedButtons()
+        {
+            // Enhanced button styling with modern appearance
+            Font buttonFont = new Font("Segoe UI", 12F, FontStyle.Bold);
+            
+            // Enhanced New/Create button styling
+            if (NewBtn != null)
+            {
+                StyleEnhancedButton(NewBtn, buttonFont, 
+                    Color.FromArgb(40, 167, 69),    // Success green background
+                    Color.White,                    // White text
+                    Color.FromArgb(52, 181, 85),    // Lighter green hover
+                    Color.FromArgb(34, 139, 57),    // Darker green pressed
+                    "✚ إضافة فاتورة");              // Icon + text
+            }
+            
+            // Enhanced Edit button styling
+            if (EditBtn != null)
+            {
+                StyleEnhancedButton(EditBtn, buttonFont,
+                    Color.FromArgb(0, 123, 255),    // Primary blue background
+                    Color.White,                    // White text
+                    Color.FromArgb(38, 143, 255),   // Lighter blue hover
+                    Color.FromArgb(0, 98, 204),     // Darker blue pressed
+                    "✏ تحديث فاتورة");             // Icon + text
+            }
+            
+            // Enhanced Delete button styling
+            if (DeleteBtn != null)
+            {
+                StyleEnhancedButton(DeleteBtn, buttonFont,
+                    Color.FromArgb(220, 53, 69),    // Danger red background
+                    Color.White,                    // White text
+                    Color.FromArgb(229, 83, 98),    // Lighter red hover
+                    Color.FromArgb(200, 35, 51),    // Darker red pressed
+                    "🗑 حذف فاتورة");               // Icon + text
+            }
+
+            // Style invoice and silent print buttons if they exist
+            if (this.Controls.Find("InvoiceBtn", true).FirstOrDefault() is DevExpress.XtraEditors.SimpleButton invoiceBtn)
+            {
+                StyleEnhancedButton(invoiceBtn, buttonFont,
+                    Color.FromArgb(102, 16, 242),   // Purple background
+                    Color.White,                    // White text
+                    Color.FromArgb(124, 58, 247),   // Lighter purple hover
+                    Color.FromArgb(85, 7, 201),     // Darker purple pressed
+                    "📄 معاينة فاتورة");           // Icon + text
+            }
+
+            if (this.Controls.Find("SilentPrintBtn", true).FirstOrDefault() is DevExpress.XtraEditors.SimpleButton silentPrintBtn)
+            {
+                StyleEnhancedButton(silentPrintBtn, buttonFont,
+                    Color.FromArgb(23, 162, 184),   // Info cyan background
+                    Color.White,                    // White text
+                    Color.FromArgb(58, 176, 195),   // Lighter cyan hover
+                    Color.FromArgb(14, 123, 140),   // Darker cyan pressed
+                    "🖨 طباعة صامتة");             // Icon + text
+            }
+        }
+
+        private void StyleEnhancedButton(DevExpress.XtraEditors.SimpleButton button, Font font, 
+            Color backgroundColor, Color textColor, Color hoverColor, Color pressedColor, string text = null)
+        {
+            if (button == null) return;
+
+            // Set button text if provided
+            if (!string.IsNullOrEmpty(text))
+                button.Text = text;
+
+            // Enhanced button appearance
+            button.Appearance.Font = font;
+            button.Appearance.Options.UseFont = true;
+            button.Appearance.BackColor = backgroundColor;
+            button.Appearance.ForeColor = textColor;
+            button.Appearance.Options.UseBackColor = true;
+            button.Appearance.Options.UseForeColor = true;
+            button.Appearance.BorderColor = backgroundColor;
+            button.Appearance.Options.UseBorderColor = true;
+            
+            // Modern button styling
+            button.LookAndFeel.SkinName = "Office 2019 Colorful";
+            button.Height = 45; // Increased height for better visibility
+            button.Width = Math.Max(button.Width, 120); // Minimum width for invoice buttons
+            
+            // Text alignment and padding
+            button.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            button.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            button.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
+            
+            // Add rounded corners effect through border styling
+            button.Appearance.BorderColor = Color.FromArgb(Math.Max(0, backgroundColor.R - 30),
+                                                          Math.Max(0, backgroundColor.G - 30),
+                                                          Math.Max(0, backgroundColor.B - 30));
+            
+            // Enhanced hover effects
+            button.AppearanceHovered.BackColor = hoverColor;
+            button.AppearanceHovered.ForeColor = textColor;
+            button.AppearanceHovered.BorderColor = hoverColor;
+            button.AppearanceHovered.Options.UseBackColor = true;
+            button.AppearanceHovered.Options.UseForeColor = true;
+            button.AppearanceHovered.Options.UseBorderColor = true;
+            
+            // Enhanced pressed effects
+            button.AppearancePressed.BackColor = pressedColor;
+            button.AppearancePressed.ForeColor = textColor;
+            button.AppearancePressed.BorderColor = pressedColor;
+            button.AppearancePressed.Options.UseBackColor = true;
+            button.AppearancePressed.Options.UseForeColor = true;
+            button.AppearancePressed.Options.UseBorderColor = true;
+            
+            // Disabled state styling
+            button.AppearanceDisabled.BackColor = Color.FromArgb(108, 117, 125);
+            button.AppearanceDisabled.ForeColor = Color.FromArgb(173, 181, 189);
+            button.AppearanceDisabled.BorderColor = Color.FromArgb(108, 117, 125);
+            button.AppearanceDisabled.Options.UseBackColor = true;
+            button.AppearanceDisabled.Options.UseForeColor = true;
+            button.AppearanceDisabled.Options.UseBorderColor = true;
+
+            // Add subtle shadow effect through border
+            button.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+            
+            // Ensure button is visible and properly configured
+            button.Visible = true;
+            button.Enabled = true;
+            button.BringToFront();
+            
+            // Add mouse enter/leave events for additional visual feedback
+            button.MouseEnter += (s, e) => {
+                button.Cursor = Cursors.Hand;
+            };
+            
+            button.MouseLeave += (s, e) => {
+                button.Cursor = Cursors.Default;
+            };
+        }
+
+        private void SetupSearchPanel()
+        {
+            // Configure the panel for both buttons and search - optimized height for clean layout
+            panelControl1.Height = 55; // Slightly increased to accommodate larger buttons
+            panelControl1.Padding = new Padding(15);
+            panelControl1.RightToLeft = RightToLeft.Yes;
+            panelControl1.BackColor = Color.FromArgb(248, 249, 250); // Light background
+            panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+
+            // Create search label with enhanced styling
+            var searchLabel = new LabelControl
+            {
+                Text = "🔍 بحث:",
+                Appearance = { 
+                    Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                    ForeColor = Color.FromArgb(52, 58, 64)
+                },
+                AutoSizeMode = LabelAutoSizeMode.None,
+                Size = new Size(60, 30)
+            };
+
+            // Create search textbox with enhanced styling
+            var searchTextBox = new TextEdit
+            {
+                Properties =
+                {
+                    NullText = "ابحث عن رقم الفاتورة، اسم العميل، أو رقم الهاتف...",
+                    Appearance = { 
+                        TextOptions = { HAlignment = DevExpress.Utils.HorzAlignment.Near },
+                        Font = new Font("Segoe UI", 11),
+                        BackColor = Color.White,
+                        ForeColor = Color.FromArgb(33, 37, 41)
+                    },
+                    BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple,
+                    LookAndFeel = { SkinName = "Office 2019 Colorful" }
+                },
+                Size = new Size(400, 35) // Increased height to match buttons
+            };
+
+            // Enhanced search textbox styling
+            searchTextBox.Properties.Appearance.BorderColor = Color.FromArgb(206, 212, 218);
+            searchTextBox.Properties.Appearance.Options.UseBorderColor = true;
+            searchTextBox.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+
+            // Position controls on the same line as buttons
+            int controlY = 10; // Same Y position as buttons
+            searchLabel.Location = new Point(panelControl1.Width - searchLabel.Width - 15, controlY + 2);
+            searchTextBox.Location = new Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 25, controlY);
+
+            // Handle search text changed
+            searchTextBox.TextChanged += (s, e) =>
+            {
+                FilterInvoices(searchTextBox.Text);
+            };
+
+            // Add focus styling for search textbox
+            searchTextBox.Enter += (s, e) => {
+                searchTextBox.Properties.Appearance.BorderColor = Color.FromArgb(0, 123, 255);
+                searchTextBox.Refresh();
+            };
+
+            searchTextBox.Leave += (s, e) => {
+                searchTextBox.Properties.Appearance.BorderColor = Color.FromArgb(206, 212, 218);
+                searchTextBox.Refresh();
+            };
+
+            // Add controls to panel
+            panelControl1.Controls.Add(searchLabel);
+            panelControl1.Controls.Add(searchTextBox);
+
+            // Ensure search controls stay positioned on resize with proper RTL handling
+            this.Resize += (s, e) =>
+            {
+                if (panelControl1.Width > 0)
+                {
+                    // Keep search controls on the same line with proper spacing
+                    searchLabel.Location = new Point(panelControl1.Width - searchLabel.Width - 15, controlY + 2);
+                    searchTextBox.Location = new Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 25, controlY);
+                }
+            };
+
+            // Ensure CRUD buttons are properly positioned on the same row
+            if (NewBtn != null)
+            {
+                NewBtn.Location = new Point(NewBtn.Location.X, controlY);
+                NewBtn.BringToFront();
+            }
+            if (EditBtn != null)
+            {
+                EditBtn.Location = new Point(EditBtn.Location.X, controlY);
+                EditBtn.BringToFront();
+            }
+            if (DeleteBtn != null)
+            {
+                DeleteBtn.Location = new Point(DeleteBtn.Location.X, controlY);
+                DeleteBtn.BringToFront();
+            }
+        }
+
+        private void LoadInvoiceData()
+        {
+            try
+            {
+                // Load all invoices
+                allInvoices = dbContext.Invoices
+                    .OrderByDescending(i => i.InvoiceDate)
+                    .ToList();
+
+                // Create a DataTable for the grid - same structure as ProductForm
+                var invoiceTable = CreateInvoiceDataTable();
+                
+                // Create DataView for filtering
+                invoiceView = new DataView(invoiceTable);
+                
+                // Bind to the grid
+                gridControl1.DataSource = invoiceView;
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل الفواتير: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private DataTable CreateInvoiceDataTable()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Id", typeof(int));
+            table.Columns.Add("InvoiceNumber", typeof(string));
+            table.Columns.Add("InvoiceDate", typeof(DateTime));
+            table.Columns.Add("CustomerName", typeof(string));
+            table.Columns.Add("CustomerPhone", typeof(string));
+            table.Columns.Add("TotalAmount", typeof(decimal));
+            table.Columns.Add("TotalAmountArabic", typeof(string)); // Add Arabic formatted amount
+
+            foreach (var invoice in allInvoices)
+            {
+                table.Rows.Add(
+                    invoice.Id,
+                    invoice.InvoiceNumber,
+                    invoice.InvoiceDate,
+                    invoice.CustomerName,
+                    invoice.CustomerPhone,
+                    invoice.TotalAmount,
+                    ArabicNumberConverter.ConvertDecimalToArabic(invoice.TotalAmount) // Arabic formatted amount
+                );
+            }
+
+            return table;
+        }
+
+        private void ConfigureGridView()
+        {
+            // Configure grid view columns with Arabic headers - enhanced styling
+            gridView1.Columns["Id"].Visible = false; // Hide ID column
+            gridView1.Columns["TotalAmount"].Visible = false; // Hide English amount, show Arabic version
+
+            // Show row numbers with enhanced styling
+            gridView1.IndicatorWidth = 50;  // Width of the row numbers column
+            gridView1.CustomDrawRowIndicator += (s, e) =>
+            {
+                if (e.Info.IsRowIndicator && e.RowHandle >= 0)
+                {
+                    e.Info.DisplayText = ArabicNumberConverter.ConvertIntegerToArabic(e.RowHandle + 1);
+                }
+            };
+
+            // Set Arabic captions
+            gridView1.Columns["InvoiceNumber"].Caption = "رقم الفاتورة";
+            gridView1.Columns["InvoiceDate"].Caption = "تاريخ الفاتورة";
+            gridView1.Columns["CustomerName"].Caption = "اسم العميل";
+            gridView1.Columns["CustomerPhone"].Caption = "رقم الهاتف";
+            gridView1.Columns["TotalAmountArabic"].Caption = "المبلغ الإجمالي";
+
+            // Enhanced grid view appearance with proper header styling
+            gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridView1.Appearance.HeaderPanel.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            gridView1.Appearance.HeaderPanel.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            gridView1.Appearance.HeaderPanel.Options.UseFont = true;
+            gridView1.Appearance.HeaderPanel.BackColor = Color.FromArgb(233, 236, 239); // Light gray background
+            gridView1.Appearance.HeaderPanel.ForeColor = Color.Black; // Black text for better readability
+            gridView1.Appearance.HeaderPanel.Options.UseBackColor = true;
+            gridView1.Appearance.HeaderPanel.Options.UseForeColor = true;
+            gridView1.Appearance.HeaderPanel.BorderColor = Color.FromArgb(206, 212, 218);
+            gridView1.Appearance.HeaderPanel.Options.UseBorderColor = true;
+
+            // Enhanced row appearance
+            gridView1.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridView1.Appearance.Row.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            gridView1.Appearance.Row.Font = new Font("Segoe UI", 12F, FontStyle.Regular);
+            gridView1.Appearance.Row.Options.UseFont = true;
+            gridView1.Appearance.Row.BackColor = Color.White;
+            gridView1.Appearance.Row.ForeColor = Color.FromArgb(33, 37, 41);
+            gridView1.Appearance.Row.Options.UseBackColor = true;
+            gridView1.Appearance.Row.Options.UseForeColor = true;
+
+            // Configure grid options with explicit header visibility
+            gridView1.OptionsView.ShowGroupPanel = false;
+            gridView1.OptionsView.ShowColumnHeaders = true; // Ensure headers are visible
+            gridView1.OptionsView.ShowIndicator = true; // Show row indicator
+            gridView1.OptionsView.EnableAppearanceEvenRow = true;
+            gridView1.Appearance.EvenRow.BackColor = Color.FromArgb(248, 249, 250);
+            gridView1.Appearance.EvenRow.Options.UseBackColor = true;
+
+            // Force header panel to be visible and properly styled
+            gridView1.Appearance.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
+            gridView1.Appearance.HeaderPanel.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
+            
+            // Set explicit header height to ensure visibility
+            gridView1.ColumnPanelRowHeight = 40; // Increased header height for better visibility
+
+            // Enhanced row height for better visibility
+            gridView1.RowHeight = 35;
+
+            // Format date column
+            gridView1.Columns["InvoiceDate"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            gridView1.Columns["InvoiceDate"].DisplayFormat.FormatString = "yyyy-MM-dd";
+
+            // Apply grid control styling
+            gridControl1.LookAndFeel.SkinName = "Office 2019 Colorful";
+            gridControl1.BackgroundImageLayout = ImageLayout.None;
+
+            // Configure auto-sizing options
+            gridView1.OptionsView.ColumnAutoWidth = true;
+            gridView1.BestFitColumns();
+
+            // Set column width proportions
+            AdjustColumnWidths();
+        }
+
+        private void AdjustColumnWidths()
+        {
+            if (gridControl1.Width <= 0) return;
+
+            try
+            {
+                // Set proportional widths like ProductForm
+                int totalWidth = gridControl1.Width - 60; // Account for scrollbar and padding
+                
+                gridView1.Columns["InvoiceNumber"].Width = (int)(totalWidth * 0.15); // 15%
+                gridView1.Columns["InvoiceDate"].Width = (int)(totalWidth * 0.15);   // 15%
+                gridView1.Columns["CustomerName"].Width = (int)(totalWidth * 0.35);  // 35%
+                gridView1.Columns["CustomerPhone"].Width = (int)(totalWidth * 0.20); // 20%
+                gridView1.Columns["TotalAmountArabic"].Width = (int)(totalWidth * 0.15);   // 15%
+            }
+            catch (Exception)
+            {
+                // Ignore any errors during width adjustment
+            }
+        }
+
+        private void FilterInvoices(string searchText)
+        {
+            if (invoiceView == null) return;
+
+            searchText = searchText?.Trim().ToLower() ?? "";
+            
+            if (string.IsNullOrEmpty(searchText))
+            {
+                invoiceView.RowFilter = "";
+            }
+            else
+            {
+                // Filter by invoice number, customer name, or phone
+                invoiceView.RowFilter = $"InvoiceNumber LIKE '%{searchText}%' OR CustomerName LIKE '%{searchText}%' OR CustomerPhone LIKE '%{searchText}%'";
+            }
+        }
+
+        // CRUD Button Event Handlers
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var invoiceForm = new InvoiceCUForm())
+                {
+                    if (invoiceForm.ShowDialog() == DialogResult.OK)
+                    {
+                        RefreshData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في فتح نموذج إضافة الفاتورة: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            var selectedRowHandle = gridView1.FocusedRowHandle;
+            if (selectedRowHandle < 0)
+            {
+                XtraMessageBox.Show("يرجى اختيار فاتورة للتعديل", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+                if (selectedRow == null)
+                {
+                    XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+
+                using (var invoiceForm = new InvoiceCUForm(invoiceId))
+                {
+                    if (invoiceForm.ShowDialog() == DialogResult.OK)
+                    {
+                        RefreshData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في فتح نموذج تعديل الفاتورة: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DeleteBtn_Click(object sender, EventArgs e)
+        {
+            var selectedRowHandle = gridView1.FocusedRowHandle;
+            if (selectedRowHandle < 0)
+            {
+                XtraMessageBox.Show("يرجى اختيار فاتورة للحذف", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+                if (selectedRow == null)
+                {
+                    XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+                string invoiceNumber = selectedRow["InvoiceNumber"].ToString();
+
+                // Confirm deletion
+                var result = XtraMessageBox.Show($"هل أنت متأكد من حذف الفاتورة رقم {invoiceNumber}؟\n\nهذا الإجراء لا يمكن التراجع عنه.", 
+                    "تأكيد الحذف", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+                if (result == DialogResult.Yes)
+                {
+                    var invoice = dbContext.Invoices.FirstOrDefault(i => i.Id == invoiceId);
+                    if (invoice != null)
+                    {
+                        // Remove the invoice entirely instead of soft delete
+                        dbContext.Invoices.Remove(invoice);
+                        dbContext.SaveChanges();
+
+                        XtraMessageBox.Show("تم حذف الفاتورة بنجاح", "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefreshData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حذف الفاتورة: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GridView1_DoubleClick(object sender, EventArgs e)
+        {
+            // Edit on double-click
+            EditBtn_Click(sender, e);
+        }
+
+        private void RefreshData()
+        {
+            try
+            {
+                // Refresh database context
+                dbContext.Dispose();
+                dbContext = new ShoppingDBEntities();
+                
+                LoadInvoiceData();
+                XtraMessageBox.Show("تم تحديث البيانات بنجاح", "تحديث", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث البيانات: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Original Invoice Functions
+        private void InvoiceBtn_Click(object sender, EventArgs e)
+        {
+            // Get selected invoice from grid
+            var selectedRowHandle = gridView1.FocusedRowHandle;
+            if (selectedRowHandle < 0)
+            {
+                XtraMessageBox.Show("يرجى اختيار فاتورة للطباعة", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Get the invoice ID from the selected row
+            var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+            if (selectedRow == null)
+            {
+                XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+            
+            // Open invoice preview with the selected invoice ID
+            var invoicePreview = new InvoicePreviewForm(invoiceId);
+            invoicePreview.ShowDialog(this);
+        }
+
+        private void SilentPrintBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get selected invoice from grid
+                var selectedRowHandle = gridView1.FocusedRowHandle;
+                if (selectedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("يرجى اختيار فاتورة للطباعة", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get the invoice ID from the selected row
+                var selectedRow = gridView1.GetDataRow(selectedRowHandle);
+                if (selectedRow == null)
+                {
+                    XtraMessageBox.Show("خطأ في اختيار الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                int invoiceId = Convert.ToInt32(selectedRow["Id"]);
+
+                // Show copy selection form (reuse the barcode copy form)
+                using (var copyForm = new BarcodeCopyForm())
+                {
+                    if (copyForm.ShowDialog() == DialogResult.OK)
+                    {
+                        int numberOfCopies = copyForm.NumberOfCopies;
+                        
+                        // Show loading cursor
+                        this.Cursor = Cursors.WaitCursor;
+                        
+                        // Print silently
+                        SilentPrintUtility.PrintInvoiceSilent(invoiceId, numberOfCopies);
+                        
+                        // Show success message
+                        XtraMessageBox.Show($"تم طباعة {numberOfCopies} نسخة من الفاتورة بنجاح", "نجحت العملية", 
+                                          MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"حدث خطأ في الطباعة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void InvoiceForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (dbContext != null)
+            {
+                dbContext.Dispose();
+                dbContext = null;
+            }
+        }
+    }
+}

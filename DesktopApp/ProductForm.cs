@@ -44,18 +44,21 @@ namespace DesktopApp
 
         private void SetupSearchPanel()
         {
-            // Configure the product panel
-            productPanal.Height = 50;
-            productPanal.Padding = new Padding(10);
+            // Configure the product panel with reduced height for single row layout
+            productPanal.Height = 50; // Reduced height
+            productPanal.Padding = new Padding(5);
             productPanal.RightToLeft = RightToLeft.Yes;
+
+            // Resize and reposition existing buttons to be smaller and on the left
+            ResizeAndRepositionButtons();
 
             // Create search label
             var searchLabel = new LabelControl
             {
                 Text = "بحث:",
-                Appearance = { Font = new Font("Arial", 12, FontStyle.Bold) },
+                Appearance = { Font = new Font("Arial", 10, FontStyle.Bold) },
                 AutoSizeMode = LabelAutoSizeMode.None,
-                Size = new Size(40, 24)
+                Size = new Size(35, 20)
             };
 
             // Create search textbox
@@ -66,15 +69,15 @@ namespace DesktopApp
                     NullText = "ابحث عن اسم المنتج، الشركة، أو الصنف...",
                     Appearance = { 
                         TextOptions = { HAlignment = DevExpress.Utils.HorzAlignment.Near },
-                        Font = new Font("Arial", 12)
+                        Font = new Font("Arial", 10)
                     }
                 },
-                Size = new Size(400, 30)
+                Size = new Size(300, 25)
             };
 
-            // Position controls from right to left
-            searchLabel.Location = new Point(productPanal.Width - searchLabel.Width - 10, 12);
-            searchTextBox.Location = new Point(productPanal.Width - searchLabel.Width - searchTextBox.Width - 20, 10);
+            // Position search controls on the right side of the panel
+            searchLabel.Location = new Point(productPanal.Width - searchLabel.Width - 10, 15);
+            searchTextBox.Location = new Point(productPanal.Width - searchLabel.Width - searchTextBox.Width - 20, 13);
 
             // Handle search text changed
             searchTextBox.TextChanged += (s, e) =>
@@ -96,13 +99,60 @@ namespace DesktopApp
             // Handle panel resize to maintain RTL layout
             productPanal.Resize += (s, e) =>
             {
-                searchLabel.Location = new Point(productPanal.Width - searchLabel.Width - 10, 12);
-                searchTextBox.Location = new Point(productPanal.Width - searchLabel.Width - searchTextBox.Width - 20, 10);
+                searchLabel.Location = new Point(productPanal.Width - searchLabel.Width - 10, 15);
+                searchTextBox.Location = new Point(productPanal.Width - searchLabel.Width - searchTextBox.Width - 20, 13);
             };
 
             // Add controls to panel
             productPanal.Controls.Add(searchTextBox);
             productPanal.Controls.Add(searchLabel);
+        }
+
+        private void ResizeAndRepositionButtons()
+        {
+            // Make buttons smaller and position them on the left side
+            var buttonSize = new Size(70, 30);
+            var barcodeButtonSize = new Size(85, 30); // Slightly wider for barcode button
+            var yPosition = 10;
+            var xStart = 10;
+            var spacing = 75;
+
+            // Resize and reposition buttons from left to right
+            if (NewBtn != null)
+            {
+                NewBtn.Size = buttonSize;
+                NewBtn.Location = new Point(xStart, yPosition);
+                NewBtn.Text = "جديد";
+            }
+
+            if (EditBtn != null)
+            {
+                EditBtn.Size = buttonSize;
+                EditBtn.Location = new Point(xStart + spacing, yPosition);
+                EditBtn.Text = "تعديل";
+            }
+
+            if (DeleteBtn != null)
+            {
+                DeleteBtn.Size = buttonSize;
+                DeleteBtn.Location = new Point(xStart + spacing * 2, yPosition);
+                DeleteBtn.Text = "حذف";
+            }
+
+            if (BtnPrint != null)
+            {
+                BtnPrint.Size = buttonSize;
+                BtnPrint.Location = new Point(xStart + spacing * 3, yPosition);
+                BtnPrint.Text = "طباعة";
+            }
+
+            // Handle barcode button
+            if (btnBarcode != null)
+            {
+                btnBarcode.Size = barcodeButtonSize;
+                btnBarcode.Location = new Point(xStart + spacing * 4, yPosition);
+                btnBarcode.Text = "معاينة";
+            }
         }
 
         private void LoadProductData()
@@ -322,9 +372,13 @@ namespace DesktopApp
         private void SetupCrudButtons()
         {
             // Setup Create button (NewBtn)
-            NewBtn.Click += CreateBtn_Click;
+            NewBtn.Click += BtnCreate_Click;
             EditBtn.Click += EditBtn_Click;
             DeleteBtn.Click += DeleteBtn_Click;
+            
+            // Wire up btnBarcode click event
+            if (btnBarcode != null)
+                btnBarcode.Click += btnBarcode_Click;
             
             // Configure button properties
             NewBtn.Appearance.Font = new Font("Tahoma", 10, FontStyle.Bold);
@@ -343,7 +397,7 @@ namespace DesktopApp
             gridView1.DoubleClick += gridView1_DoubleClick;
         }
 
-        private void CreateBtn_Click(object sender, EventArgs e)
+        private void BtnCreate_Click(object sender, EventArgs e)
         {
             try
             {

@@ -1,0 +1,532 @@
+﻿using DevExpress.XtraBars;
+using DevExpress.XtraEditors;
+using DevExpress.XtraGrid;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class ProductForm : XtraForm
+    {
+        private DataSet.Product productDataSet = new DataSet.Product();
+        private ShoppingDBEntities dbContext;
+        private DataView productView;
+
+        public ProductForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+
+            // Configure layout
+            productPanal.Dock = DockStyle.Top;
+
+            // Set form to RTL
+            this.RightToLeft = RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+
+            // Initialize components
+            SetupSearchPanel();
+            LoadProductData();
+            ConfigureGridView();
+            SetupCrudButtons();
+
+            // Handle window resize to adjust columns
+            this.Resize += (s, e) => AdjustColumnWidths();
+        }
+
+        private void SetupSearchPanel()
+        {
+            // Configure the product panel for both buttons and search with optimized layout
+            productPanal.Height = 50; // Keep single row height
+            productPanal.Padding = new Padding(12);
+            productPanal.RightToLeft = RightToLeft.Yes;
+            productPanal.BackColor = Color.FromArgb(248, 249, 250); // Light background
+            productPanal.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+
+            // Create search label with optimized styling
+            var searchLabel = new LabelControl
+            {
+                Text = "بحث:",
+                Appearance = { 
+                    Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                    ForeColor = Color.FromArgb(52, 58, 64)
+                },
+                AutoSizeMode = LabelAutoSizeMode.None,
+                Size = new Size(40, 28)
+            };
+
+            // Create search textbox with optimized styling
+            var searchTextBox = new TextEdit
+            {
+                Properties =
+                {
+                    NullText = "ابحث عن اسم المنتج، الشركة، أو الصنف...",
+                    Appearance = { 
+                        TextOptions = { HAlignment = DevExpress.Utils.HorzAlignment.Near },
+                        Font = new Font("Segoe UI", 11),
+                        BackColor = Color.White,
+                        ForeColor = Color.FromArgb(33, 37, 41)
+                    },
+                    BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple,
+                    LookAndFeel = { SkinName = "Office 2019 Colorful" }
+                },
+                Size = new Size(380, 30)
+            };
+
+            // Position controls on the same line as buttons
+            int controlY = 10; // Same Y position as buttons
+            searchLabel.Location = new Point(productPanal.Width - searchLabel.Width - 12, controlY + 1);
+            searchTextBox.Location = new Point(productPanal.Width - searchLabel.Width - searchTextBox.Width - 20, controlY);
+
+            // Handle search text changed
+            searchTextBox.TextChanged += (s, e) =>
+            {
+                if (productView != null)
+                {
+                    string searchText = searchTextBox.Text.Trim();
+                    string filter = string.Empty;
+
+                    if (!string.IsNullOrEmpty(searchText))
+                    {
+                        filter = $"ProductName LIKE '%{searchText}%' OR CompanyName LIKE '%{searchText}%' OR CategoryName LIKE '%{searchText}%'";
+                    }
+
+                    productView.RowFilter = filter;
+                }
+            };
+
+            // Handle panel resize to maintain RTL layout with proper spacing
+            productPanal.Resize += (s, e) =>
+            {
+                if (productPanal.Width > 0)
+                {
+                    searchLabel.Location = new Point(productPanal.Width - searchLabel.Width - 12, controlY + 1);
+                    searchTextBox.Location = new Point(productPanal.Width - searchLabel.Width - searchTextBox.Width - 20, controlY);
+                }
+            };
+
+            // Add controls to panel
+            productPanal.Controls.Add(searchTextBox);
+            productPanal.Controls.Add(searchLabel);
+
+            // Ensure CRUD buttons are properly positioned on the same row
+            foreach (Control control in productPanal.Controls)
+            {
+                if (control is DevExpress.XtraEditors.SimpleButton button)
+                {
+                    // Move all buttons to the same row
+                    button.Location = new Point(button.Location.X, controlY);
+                    button.BringToFront();
+                }
+            }
+        }
+
+        private void LoadProductData()
+        {
+            // Get the products from database with the latest prices
+            var products = dbContext.Products
+                .Select(p => new
+                {
+                    p.Id,
+                    ProductName = p.Name,
+                    CompanyName = p.Company.Name,
+                    CategoryName = p.Category.Name,
+                    SellingPrice = p.Prices.OrderByDescending(pr => pr.CreatedDate).FirstOrDefault().SellingPrice,
+                    PurchasingPrice = p.Prices.OrderByDescending(pr => pr.CreatedDate).FirstOrDefault().PurchasingPrice,
+                    p.CreatedDate
+                })
+                .OrderByDescending(p => p.CreatedDate) // Newest first
+                .ToList();
+
+            // Add data to the dataset
+            foreach (var product in products)
+            {
+                var row = productDataSet.Tables["Product"].NewRow();
+                row["Id"] = product.Id.ToString();
+                row["ProductName"] = product.ProductName;
+                row["CompanyName"] = product.CompanyName;
+                row["CategoryName"] = product.CategoryName;
+                row["SellingPrice"] = product.SellingPrice.ToString();
+                row["PurchasingPrice"] = product.PurchasingPrice.ToString();
+                row["CreatedDate"] = product.CreatedDate.ToString("yyyy-MM-dd");
+                productDataSet.Tables["Product"].Rows.Add(row);
+            }
+
+            // Set up data view for searching
+            productView = new DataView(productDataSet.Tables["Product"]);
+            productGrid.DataSource = productView;
+        }
+
+        private void ConfigureGridView()
+        {
+            // Configure grid view columns with Arabic headers
+            gridView1.Columns["Id"].Visible = false; // Hide ID column
+
+            // Show row numbers with enhanced styling
+            gridView1.IndicatorWidth = 50;  // Width of the row numbers column
+            gridView1.CustomDrawRowIndicator += (s, e) =>
+            {
+                if (e.Info.IsRowIndicator && e.RowHandle >= 0)
+                {
+                    e.Info.DisplayText = (e.RowHandle + 1).ToString();
+                }
+            };
+
+            // Set Arabic captions
+            gridView1.Columns["ProductName"].Caption = "اسم المنتج";
+            gridView1.Columns["CategoryName"].Caption = "الصنف";
+            gridView1.Columns["CompanyName"].Caption = "الشركة";
+            gridView1.Columns["SellingPrice"].Caption = "سعر بيع";
+            gridView1.Columns["PurchasingPrice"].Caption = "سعر شراء";
+            gridView1.Columns["CreatedDate"].Caption = "تاريخ الإضافة";
+
+            // Enhanced grid view appearance with proper header styling
+            gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridView1.Appearance.HeaderPanel.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            gridView1.Appearance.HeaderPanel.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            gridView1.Appearance.HeaderPanel.Options.UseFont = true;
+            gridView1.Appearance.HeaderPanel.BackColor = Color.FromArgb(233, 236, 239); // Light gray background
+            gridView1.Appearance.HeaderPanel.ForeColor = Color.Black; // Black text for better readability
+            gridView1.Appearance.HeaderPanel.Options.UseBackColor = true;
+            gridView1.Appearance.HeaderPanel.Options.UseForeColor = true;
+            gridView1.Appearance.HeaderPanel.BorderColor = Color.FromArgb(206, 212, 218);
+            gridView1.Appearance.HeaderPanel.Options.UseBorderColor = true;
+
+            // Enhanced row appearance
+            gridView1.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridView1.Appearance.Row.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            gridView1.Appearance.Row.Font = new Font("Segoe UI", 12F, FontStyle.Regular);
+            gridView1.Appearance.Row.Options.UseFont = true;
+            gridView1.Appearance.Row.BackColor = Color.White;
+            gridView1.Appearance.Row.ForeColor = Color.FromArgb(33, 37, 41);
+            gridView1.Appearance.Row.Options.UseBackColor = true;
+            gridView1.Appearance.Row.Options.UseForeColor = true;
+
+            // Configure grid options with explicit header visibility
+            gridView1.OptionsView.ShowGroupPanel = false;
+            gridView1.OptionsView.ShowColumnHeaders = true; // Ensure headers are visible
+            gridView1.OptionsView.ShowIndicator = true; // Show row indicator
+            gridView1.OptionsView.EnableAppearanceEvenRow = true;
+            gridView1.Appearance.EvenRow.BackColor = Color.FromArgb(248, 249, 250);
+            gridView1.Appearance.EvenRow.Options.UseBackColor = true;
+
+            // Force header panel to be visible and properly styled
+            gridView1.Appearance.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
+            gridView1.Appearance.HeaderPanel.TextOptions.Trimming = DevExpress.Utils.Trimming.EllipsisCharacter;
+            
+            // Set explicit header height to ensure visibility
+            gridView1.ColumnPanelRowHeight = 40; // Increased header height for better visibility
+
+            // Enhanced row height for better visibility
+            gridView1.RowHeight = 35;
+
+            // Format price columns with thousands separator
+            gridView1.Columns["SellingPrice"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            gridView1.Columns["SellingPrice"].DisplayFormat.FormatString = "N0";
+            gridView1.Columns["PurchasingPrice"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            gridView1.Columns["PurchasingPrice"].DisplayFormat.FormatString = "N0";
+
+            // Apply grid control styling
+            productGrid.LookAndFeel.SkinName = "Office 2019 Colorful";
+            productGrid.BackgroundImageLayout = ImageLayout.None;
+
+            // Configure auto-sizing options
+            gridView1.OptionsView.ColumnAutoWidth = true;
+            gridView1.BestFitColumns();
+
+            // Set column width proportions
+            AdjustColumnWidths();
+        }
+
+        private void AdjustColumnWidths()
+        {
+            if (productGrid.Width <= 0) return;
+
+            // Calculate available width (excluding indicator column and vertical scrollbar)
+            int scrollbarWidth = 20;
+            int availableWidth = productGrid.Width - gridView1.IndicatorWidth - scrollbarWidth;
+
+            // Define column proportions (total = 100)
+            var columnProportions = new Dictionary<string, int>
+            {
+                { "ProductName", 30 },      // 30%
+                { "CategoryName", 15 },     // 15%
+                { "CompanyName", 15 },      // 15%
+                { "SellingPrice", 13 },     // 13%
+                { "PurchasingPrice", 13 },  // 13%
+                { "CreatedDate", 14 }       // 14%
+            };
+
+            // Apply proportional widths
+            foreach (var column in columnProportions)
+            {
+                if (gridView1.Columns[column.Key] != null)
+                {
+                    int width = (availableWidth * column.Value) / 100;
+                    gridView1.Columns[column.Key].Width = width;
+                }
+            }
+
+            gridView1.OptionsView.ColumnAutoWidth = false;
+        }
+
+        private void productPanal_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnBarcode_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the focused row handle
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("الرجاء اختيار منتج", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get product data from the focused row
+                var productName = gridView1.GetRowCellValue(focusedRowHandle, "ProductName").ToString();
+                var priceStr = gridView1.GetRowCellValue(focusedRowHandle, "SellingPrice").ToString();
+                
+                if (!decimal.TryParse(priceStr, out decimal sellingPrice))
+                {
+                    XtraMessageBox.Show("خطأ في قراءة سعر المنتج", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var barcodePreview = new ParcodePreviewForm(productName, sellingPrice);
+                barcodePreview.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"حدث خطأ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void PrintBarcodeBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the focused row handle
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("الرجاء اختيار منتج", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get product data from the focused row
+                var productName = gridView1.GetRowCellValue(focusedRowHandle, "ProductName").ToString();
+                var priceStr = gridView1.GetRowCellValue(focusedRowHandle, "SellingPrice").ToString();
+                
+                if (!decimal.TryParse(priceStr, out decimal sellingPrice))
+                {
+                    XtraMessageBox.Show("خطأ في قراءة سعر المنتج", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Show the copy selection form
+                using (var copyForm = new BarcodeCopyForm())
+                {
+                    if (copyForm.ShowDialog() == DialogResult.OK)
+                    {
+                        int numberOfCopies = copyForm.NumberOfCopies;
+                        
+                        // Show loading message
+                        this.Cursor = Cursors.WaitCursor;
+                        
+                        // Print silently
+                        SilentPrintUtility.PrintBarcodeSilent(productName, sellingPrice, numberOfCopies);
+                        
+                        // Show success message
+                        XtraMessageBox.Show($"تم طباعة {numberOfCopies} نسخة بنجاح", "نجحت العملية", 
+                                          MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"حدث خطأ في الطباعة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void simpleButton2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SetupCrudButtons()
+        {
+            // Setup Create button (NewBtn)
+            NewBtn.Click += BtnCreate_Click;
+            EditBtn.Click += EditBtn_Click;
+            DeleteBtn.Click += DeleteBtn_Click;
+            
+            // Configure button properties
+            NewBtn.Appearance.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            EditBtn.Appearance.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            DeleteBtn.Appearance.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            
+            // Set button colors
+            NewBtn.Appearance.BackColor = Color.ForestGreen;
+            NewBtn.Appearance.ForeColor = Color.White;
+            EditBtn.Appearance.BackColor = Color.DodgerBlue;
+            EditBtn.Appearance.ForeColor = Color.White;
+            DeleteBtn.Appearance.BackColor = Color.Crimson;
+            DeleteBtn.Appearance.ForeColor = Color.White;
+
+            // Add double-click to edit functionality
+            gridView1.DoubleClick += gridView1_DoubleClick;
+        }
+
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open create form
+                using (var createForm = new ProductCUForm())
+                {
+                    if (createForm.ShowDialog() == DialogResult.OK && createForm.ProductSaved)
+                    {
+                        // Refresh the grid
+                        RefreshProductData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في إضافة منتج جديد: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the focused row handle
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("الرجاء اختيار منتج للتعديل", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get product ID from the focused row
+                var productIdStr = gridView1.GetRowCellValue(focusedRowHandle, "Id").ToString();
+                if (int.TryParse(productIdStr, out int productId))
+                {
+                    // Open edit form
+                    using (var editForm = new ProductCUForm(productId))
+                    {
+                        if (editForm.ShowDialog() == DialogResult.OK && editForm.ProductSaved)
+                        {
+                            // Refresh the grid
+                            RefreshProductData();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث المنتج: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DeleteBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the focused row handle
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("الرجاء اختيار منتج للحذف", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get product data from the focused row
+                var productIdStr = gridView1.GetRowCellValue(focusedRowHandle, "Id").ToString();
+                var productName = gridView1.GetRowCellValue(focusedRowHandle, "ProductName").ToString();
+
+                // Confirm deletion
+                var result = XtraMessageBox.Show($"هل أنت متأكد من حذف المنتج '{productName}'؟\n\nتحذير: هذا الإجراء لا يمكن التراجع عنه", 
+                    "تأكيد الحذف", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes && int.TryParse(productIdStr, out int productId))
+                {
+                    using (var context = new ShoppingDBEntities())
+                    {
+                        // Find the product
+                        var product = context.Products.FirstOrDefault(p => p.Id == productId);
+                        if (product != null)
+                        {
+                            // Delete related records first
+                            var prices = context.Prices.Where(p => p.ProductId == productId);
+                            context.Prices.RemoveRange(prices);
+
+                            var images = context.ProductImages.Where(pi => pi.ProductId == productId);
+                            context.ProductImages.RemoveRange(images);
+
+                            // Delete the product
+                            context.Products.Remove(product);
+                            context.SaveChanges();
+
+                            XtraMessageBox.Show("تم حذف المنتج بنجاح", "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            
+                            // Refresh the grid
+                            RefreshProductData();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حذف المنتج: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void RefreshProductData()
+        {
+            try
+            {
+                // Clear existing data
+                productDataSet.Tables["Product"].Clear();
+                
+                // Reload data
+                LoadProductData();
+                
+                // Refresh the view
+                productView = new DataView(productDataSet.Tables["Product"]);
+                productGrid.DataSource = productView;
+                
+                // Adjust columns
+                AdjustColumnWidths();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث البيانات: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Add double-click to edit functionality
+        private void gridView1_DoubleClick(object sender, EventArgs e)
+        {
+            EditBtn_Click(sender, e);
+        }
+    }
+}
