@@ -216,7 +216,11 @@
     </Compile>
     <Compile Include="SilentPrintUtility.cs" />
     <Compile Include="Utilities\ArabicNumberConverter.cs" />
+    <Compile Include="Utilities\LoadingManager.cs" />
     <Compile Include="Utilities\PrinterSettingsManager.cs" />
+    <Compile Include="Controls\LoadingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <EmbeddedResource Include="BarcodeCopyForm.resx">
       <DependentUpon>BarcodeCopyForm.cs</DependentUpon>
     </EmbeddedResource>

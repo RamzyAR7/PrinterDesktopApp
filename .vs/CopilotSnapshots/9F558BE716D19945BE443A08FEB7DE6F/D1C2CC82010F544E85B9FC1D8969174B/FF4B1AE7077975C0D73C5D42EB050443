@@ -55,6 +55,7 @@ namespace DesktopApp
             ConfigureGridView();
         }
 
+
         private void SetupSearchPanel()
         {
             // Configure the product panel with reduced height for single row layout
@@ -221,10 +222,11 @@ namespace DesktopApp
 
         private void ConfigureGridView()
         {
+            if (gridView1?.Columns == null || gridView1.Columns.Count == 0)
+                return;
+
             try
             {
-                if (gridView1 == null || productGrid == null) return;
-
                 // Configure grid view columns with Arabic headers
                 if (gridView1.Columns["Id"] != null)
                     gridView1.Columns["Id"].Visible = false; // Hide ID column
@@ -239,13 +241,22 @@ namespace DesktopApp
                     }
                 };
 
-                // Set Arabic captions if columns exist
-                SetColumnCaption("ProductName", "اسم المنتج");
-                SetColumnCaption("CategoryName", "الصنف");
-                SetColumnCaption("CompanyName", "الشركة");
-                SetColumnCaption("SellingPrice", "سعر بيع");
-                SetColumnCaption("PurchasingPrice", "سعر شراء");
-                SetColumnCaption("CreatedDate", "تاريخ الإضافة");
+                // Set Arabic captions
+                var columnCaptions = new Dictionary<string, string>
+                {
+                    { "ProductName", "اسم المنتج" },
+                    { "CategoryName", "الصنف" },
+                    { "CompanyName", "الشركة" },
+                    { "SellingPrice", "سعر بيع" },
+                    { "PurchasingPrice", "سعر شراء" },
+                    { "CreatedDate", "تاريخ الإضافة" }
+                };
+
+                foreach (var caption in columnCaptions)
+                {
+                    if (gridView1.Columns[caption.Key] != null)
+                        gridView1.Columns[caption.Key].Caption = caption.Value;
+                }
 
                 // Configure grid view appearance
                 gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -259,41 +270,23 @@ namespace DesktopApp
                 // Increase row height
                 gridView1.RowHeight = 30;
 
-                // Configure scrollbars for better navigation with large datasets
-                gridView1.OptionsView.ShowHorizontalLines = DevExpress.Utils.DefaultBoolean.True;
-                gridView1.OptionsView.ShowVerticalLines = DevExpress.Utils.DefaultBoolean.True;
-                gridView1.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Auto;
-                gridView1.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Auto;
-                
-                // Enable smooth scrolling for better user experience
-                gridView1.OptionsView.ShowIndicator = true; // Show row indicators (numbers)
-                gridView1.OptionsNavigation.AutoFocusNewRow = true;
-                gridView1.OptionsNavigation.UseTabKey = false; // Prevent tab from leaving grid
-                
-                // Configure grid control scrollbars as backup
-                productGrid.UseEmbeddedNavigator = false; // We'll use scrollbars instead
-                productGrid.EmbeddedNavigator.Buttons.Append.Visible = false;
-                productGrid.EmbeddedNavigator.Buttons.CancelEdit.Visible = false;
-                productGrid.EmbeddedNavigator.Buttons.Edit.Visible = false;
-                productGrid.EmbeddedNavigator.Buttons.EndEdit.Visible = false;
-                productGrid.EmbeddedNavigator.Buttons.Remove.Visible = false;
-
-                // Format price columns with thousands separator if they exist
-                if (gridView1.Columns["SellingPrice"] != null)
+                // Format price columns with thousands separator
+                string[] priceColumns = { "SellingPrice", "PurchasingPrice" };
+                foreach (var columnName in priceColumns)
                 {
-                    gridView1.Columns["SellingPrice"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-                    gridView1.Columns["SellingPrice"].DisplayFormat.FormatString = "N0";
-                }
-
-                if (gridView1.Columns["PurchasingPrice"] != null)
-                {
-                    gridView1.Columns["PurchasingPrice"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-                    gridView1.Columns["PurchasingPrice"].DisplayFormat.FormatString = "N0";
+                    if (gridView1.Columns[columnName] != null)
+                    {
+                        gridView1.Columns[columnName].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+                        gridView1.Columns[columnName].DisplayFormat.FormatString = "N0";
+                    }
                 }
 
                 // Configure grid appearance
-                gridView1.Appearance.HeaderPanel.Font = new Font(gridView1.Appearance.HeaderPanel.Font.FontFamily, 12, FontStyle.Bold);
-                gridView1.Appearance.Row.Font = new Font(gridView1.Appearance.Row.Font.FontFamily, 11);
+                if (gridView1.Appearance.HeaderPanel.Font != null)
+                    gridView1.Appearance.HeaderPanel.Font = new Font(gridView1.Appearance.HeaderPanel.Font.FontFamily, 12, FontStyle.Bold);
+
+                if (gridView1.Appearance.Row.Font != null)
+                    gridView1.Appearance.Row.Font = new Font(gridView1.Appearance.Row.Font.FontFamily, 11);
 
                 // Configure auto-sizing options
                 gridView1.OptionsView.ColumnAutoWidth = true;
@@ -301,152 +294,43 @@ namespace DesktopApp
 
                 // Set column width proportions
                 AdjustColumnWidths();
-
-                // Add keyboard navigation support for large datasets
-                ConfigureKeyboardNavigation();
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error configuring grid view: {ex.Message}");
-                // Don't throw - this is called during initialization and we don't want to crash
-            }
-        }
-
-        /// <summary>
-        /// Configure keyboard navigation for efficient browsing of large datasets
-        /// </summary>
-        private void ConfigureKeyboardNavigation()
-        {
-            try
-            {
-                // Enable keyboard shortcuts for navigation
-                gridView1.OptionsNavigation.EnterMoveNextColumn = false; // Enter stays in same column, moves to next row
-                gridView1.OptionsNavigation.AutoMoveRowFocus = true; // Auto move focus when typing
-                
-                // Add keyboard event handlers for enhanced navigation
-                gridView1.KeyDown += GridView1_KeyDown;
-                
-                // Configure selection behavior
-                gridView1.OptionsSelection.EnableAppearanceFocusedCell = true;
-                gridView1.OptionsSelection.EnableAppearanceHideSelection = false;
-                
-                // Add status information for large datasets
-                this.Text = $"المنتجات - عدد المنتجات: {gridView1.RowCount}";
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error configuring keyboard navigation: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Handle keyboard shortcuts for grid navigation
-        /// </summary>
-        private void GridView1_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                switch (e.KeyCode)
-                {
-                    case Keys.Home:
-                        if (e.Control) // Ctrl+Home: Go to first row
-                        {
-                            gridView1.MoveFirst();
-                            e.Handled = true;
-                        }
-                        break;
-                    
-                    case Keys.End:
-                        if (e.Control) // Ctrl+End: Go to last row
-                        {
-                            gridView1.MoveLast();
-                            e.Handled = true;
-                        }
-                        break;
-                    
-                    case Keys.PageUp:
-                        // Page Up: Move up by visible row count
-                        for (int i = 0; i < 10; i++)
-                        {
-                            if (gridView1.FocusedRowHandle > 0)
-                                gridView1.FocusedRowHandle--;
-                            else
-                                break;
-                        }
-                        e.Handled = true;
-                        break;
-                    
-                    case Keys.PageDown:
-                        // Page Down: Move down by visible row count
-                        for (int i = 0; i < 10; i++)
-                        {
-                            if (gridView1.FocusedRowHandle < gridView1.RowCount - 1)
-                                gridView1.FocusedRowHandle++;
-                            else
-                                break;
-                        }
-                        e.Handled = true;
-                        break;
-                    
-                    case Keys.F5:
-                        // F5: Refresh data
-                        _ = RefreshProductDataAsync(); // Fire and forget for F5 refresh
-                        e.Handled = true;
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error handling key navigation: {ex.Message}");
-            }
-        }
-
-        private void SetColumnCaption(string columnName, string caption)
-        {
-            if (gridView1?.Columns[columnName] != null)
-            {
-                gridView1.Columns[columnName].Caption = caption;
+                XtraMessageBox.Show($"خطأ في تهيئة الجدول: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void AdjustColumnWidths()
         {
-            if (productGrid?.Width <= 0 || gridView1 == null) return;
+            if (productGrid.Width <= 0) return;
 
-            try
+            // Calculate available width (excluding indicator column and vertical scrollbar)
+            int scrollbarWidth = 20;
+            int availableWidth = productGrid.Width - gridView1.IndicatorWidth - scrollbarWidth;
+
+            // Define column proportions (total = 100)
+            var columnProportions = new Dictionary<string, int>
             {
-                // Calculate available width (excluding indicator column and vertical scrollbar)
-                int scrollbarWidth = 20;
-                int availableWidth = productGrid.Width - gridView1.IndicatorWidth - scrollbarWidth;
+                { "ProductName", 30 },      // 30%
+                { "CategoryName", 15 },     // 15%
+                { "CompanyName", 15 },      // 15%
+                { "SellingPrice", 13 },     // 13%
+                { "PurchasingPrice", 13 },  // 13%
+                { "CreatedDate", 14 }       // 14%
+            };
 
-                // Define column proportions (total = 100)
-                var columnProportions = new Dictionary<string, int>
+            // Apply proportional widths
+            foreach (var column in columnProportions)
+            {
+                if (gridView1.Columns[column.Key] != null)
                 {
-                    { "ProductName", 30 },      // 30%
-                    { "CategoryName", 15 },     // 15%
-                    { "CompanyName", 15 },      // 15%
-                    { "SellingPrice", 13 },     // 13%
-                    { "PurchasingPrice", 13 },  // 13%
-                    { "CreatedDate", 14 }       // 14%
-                };
-
-                // Apply proportional widths
-                foreach (var column in columnProportions)
-                {
-                    if (gridView1.Columns[column.Key] != null)
-                    {
-                        int width = (availableWidth * column.Value) / 100;
-                        gridView1.Columns[column.Key].Width = width;
-                    }
+                    int width = (availableWidth * column.Value) / 100;
+                    gridView1.Columns[column.Key].Width = width;
                 }
+            }
 
-                gridView1.OptionsView.ColumnAutoWidth = false;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error adjusting column widths: {ex.Message}");
-                // Don't throw - this is called during resize events
-            }
+            gridView1.OptionsView.ColumnAutoWidth = false;
         }
 
         private void productPanal_Paint(object sender, PaintEventArgs e)
