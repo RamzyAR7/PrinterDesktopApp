@@ -36,6 +36,7 @@ namespace DesktopApp
             SetupSearchPanel();
             LoadProductData();
             ConfigureGridView();
+            SetupCrudButtons();
 
             // Handle window resize to adjust columns
             this.Resize += (s, e) => AdjustColumnWidths();
@@ -311,6 +312,170 @@ namespace DesktopApp
             {
                 this.Cursor = Cursors.Default;
             }
+        }
+
+        private void simpleButton2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SetupCrudButtons()
+        {
+            // Setup Create button (NewBtn)
+            NewBtn.Click += CreateBtn_Click;
+            EditBtn.Click += EditBtn_Click;
+            DeleteBtn.Click += DeleteBtn_Click;
+            
+            // Configure button properties
+            NewBtn.Appearance.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            EditBtn.Appearance.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            DeleteBtn.Appearance.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            
+            // Set button colors
+            NewBtn.Appearance.BackColor = Color.ForestGreen;
+            NewBtn.Appearance.ForeColor = Color.White;
+            EditBtn.Appearance.BackColor = Color.DodgerBlue;
+            EditBtn.Appearance.ForeColor = Color.White;
+            DeleteBtn.Appearance.BackColor = Color.Crimson;
+            DeleteBtn.Appearance.ForeColor = Color.White;
+
+            // Add double-click to edit functionality
+            gridView1.DoubleClick += gridView1_DoubleClick;
+        }
+
+        private void CreateBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open create form
+                using (var createForm = new ProductCUForm())
+                {
+                    if (createForm.ShowDialog() == DialogResult.OK && createForm.ProductSaved)
+                    {
+                        // Refresh the grid
+                        RefreshProductData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في إضافة منتج جديد: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the focused row handle
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("الرجاء اختيار منتج للتعديل", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get product ID from the focused row
+                var productIdStr = gridView1.GetRowCellValue(focusedRowHandle, "Id").ToString();
+                if (int.TryParse(productIdStr, out int productId))
+                {
+                    // Open edit form
+                    using (var editForm = new ProductCUForm(productId))
+                    {
+                        if (editForm.ShowDialog() == DialogResult.OK && editForm.ProductSaved)
+                        {
+                            // Refresh the grid
+                            RefreshProductData();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث المنتج: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DeleteBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the focused row handle
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("الرجاء اختيار منتج للحذف", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get product data from the focused row
+                var productIdStr = gridView1.GetRowCellValue(focusedRowHandle, "Id").ToString();
+                var productName = gridView1.GetRowCellValue(focusedRowHandle, "ProductName").ToString();
+
+                // Confirm deletion
+                var result = XtraMessageBox.Show($"هل أنت متأكد من حذف المنتج '{productName}'؟\n\nتحذير: هذا الإجراء لا يمكن التراجع عنه", 
+                    "تأكيد الحذف", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes && int.TryParse(productIdStr, out int productId))
+                {
+                    using (var context = new ShoppingDBEntities())
+                    {
+                        // Find the product
+                        var product = context.Products.FirstOrDefault(p => p.Id == productId);
+                        if (product != null)
+                        {
+                            // Delete related records first
+                            var prices = context.Prices.Where(p => p.ProductId == productId);
+                            context.Prices.RemoveRange(prices);
+
+                            var images = context.ProductImages.Where(pi => pi.ProductId == productId);
+                            context.ProductImages.RemoveRange(images);
+
+                            // Delete the product
+                            context.Products.Remove(product);
+                            context.SaveChanges();
+
+                            XtraMessageBox.Show("تم حذف المنتج بنجاح", "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            
+                            // Refresh the grid
+                            RefreshProductData();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حذف المنتج: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void RefreshProductData()
+        {
+            try
+            {
+                // Clear existing data
+                productDataSet.Tables["Product"].Clear();
+                
+                // Reload data
+                LoadProductData();
+                
+                // Refresh the view
+                productView = new DataView(productDataSet.Tables["Product"]);
+                productGrid.DataSource = productView;
+                
+                // Adjust columns
+                AdjustColumnWidths();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث البيانات: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Add double-click to edit functionality
+        private void gridView1_DoubleClick(object sender, EventArgs e)
+        {
+            EditBtn_Click(sender, e);
         }
     }
 }

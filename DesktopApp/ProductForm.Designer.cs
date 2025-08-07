@@ -34,6 +34,9 @@
             this.productPanal = new DevExpress.XtraEditors.PanelControl();
             this.PrintBarcodeBtn = new DevExpress.XtraEditors.SimpleButton();
             this.btnBarcode = new DevExpress.XtraEditors.SimpleButton();
+            this.NewBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.EditBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.DeleteBtn = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.productGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productPanal)).BeginInit();
@@ -60,6 +63,9 @@
             // 
             // productPanal
             // 
+            this.productPanal.Controls.Add(this.DeleteBtn);
+            this.productPanal.Controls.Add(this.EditBtn);
+            this.productPanal.Controls.Add(this.NewBtn);
             this.productPanal.Controls.Add(this.PrintBarcodeBtn);
             this.productPanal.Controls.Add(this.btnBarcode);
             this.productPanal.Location = new System.Drawing.Point(0, 2);
@@ -70,9 +76,9 @@
             // 
             // PrintBarcodeBtn
             // 
-            this.PrintBarcodeBtn.Location = new System.Drawing.Point(177, 12);
+            this.PrintBarcodeBtn.Location = new System.Drawing.Point(112, 10);
             this.PrintBarcodeBtn.Name = "PrintBarcodeBtn";
-            this.PrintBarcodeBtn.Size = new System.Drawing.Size(146, 29);
+            this.PrintBarcodeBtn.Size = new System.Drawing.Size(88, 29);
             this.PrintBarcodeBtn.TabIndex = 1;
             this.PrintBarcodeBtn.Text = "طباعة صامتة";
             this.PrintBarcodeBtn.Click += new System.EventHandler(this.PrintBarcodeBtn_Click);
@@ -81,10 +87,35 @@
             // 
             this.btnBarcode.Location = new System.Drawing.Point(12, 11);
             this.btnBarcode.Name = "btnBarcode";
-            this.btnBarcode.Size = new System.Drawing.Size(159, 29);
+            this.btnBarcode.Size = new System.Drawing.Size(94, 29);
             this.btnBarcode.TabIndex = 0;
             this.btnBarcode.Text = "طباعة باركود";
             this.btnBarcode.Click += new System.EventHandler(this.btnBarcode_Click);
+            // 
+            // NewBtn
+            // 
+            this.NewBtn.Location = new System.Drawing.Point(219, 10);
+            this.NewBtn.Name = "NewBtn";
+            this.NewBtn.Size = new System.Drawing.Size(88, 29);
+            this.NewBtn.TabIndex = 2;
+            this.NewBtn.Text = "جديد";
+            // 
+            // EditBtn
+            // 
+            this.EditBtn.Location = new System.Drawing.Point(313, 10);
+            this.EditBtn.Name = "EditBtn";
+            this.EditBtn.Size = new System.Drawing.Size(88, 29);
+            this.EditBtn.TabIndex = 3;
+            this.EditBtn.Text = "تعديل";
+            this.EditBtn.Click += new System.EventHandler(this.simpleButton2_Click);
+            // 
+            // DeleteBtn
+            // 
+            this.DeleteBtn.Location = new System.Drawing.Point(407, 10);
+            this.DeleteBtn.Name = "DeleteBtn";
+            this.DeleteBtn.Size = new System.Drawing.Size(88, 29);
+            this.DeleteBtn.TabIndex = 4;
+            this.DeleteBtn.Text = "حذف";
             // 
             // ProductForm
             // 
@@ -115,5 +146,8 @@
         private DevExpress.XtraEditors.PanelControl productPanal;
         public DevExpress.XtraEditors.SimpleButton btnBarcode;
         private DevExpress.XtraEditors.SimpleButton PrintBarcodeBtn;
+        private DevExpress.XtraEditors.SimpleButton DeleteBtn;
+        private DevExpress.XtraEditors.SimpleButton EditBtn;
+        private DevExpress.XtraEditors.SimpleButton NewBtn;
     }
 }

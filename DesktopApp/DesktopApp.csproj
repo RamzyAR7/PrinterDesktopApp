@@ -176,6 +176,12 @@
     <Compile Include="Product.cs">
       <DependentUpon>ShoppingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProductCUForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductCUForm.Designer.cs">
+      <DependentUpon>ProductCUForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ProductImage.cs">
       <DependentUpon>ShoppingModel.tt</DependentUpon>
     </Compile>
@@ -230,6 +236,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PrinterSettingForm.resx">
       <DependentUpon>PrinterSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductCUForm.resx">
+      <DependentUpon>ProductCUForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProductForm.resx">
       <DependentUpon>ProductForm.cs</DependentUpon>

@@ -1,14 +1,50 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\",
+  "WorkspaceRootPath": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\desktopapp\\desktopapp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\productform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\productform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\productform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\productform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\productcuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\productcuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\productcuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\productcuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\desktopapp\\desktopapp\\utilities\\printersettingsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\desktopapp\\utilities\\printersettingsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\utilities\\printersettingsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\properties\\resources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\properties\\resources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +54,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 132,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,23 +74,136 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProductCUForm.cs",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\ProductCUForm.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\ProductCUForm.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\ProductCUForm.cs",
+              "RelativeToolTip": "DesktopApp\\ProductCUForm.cs",
+              "ViewState": "AgIAAPUBAAAAAAAAAAAuwBMAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-07T01:36:26.879Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductCUForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\ProductCUForm.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\ProductCUForm.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\ProductCUForm.cs [Design]",
+              "RelativeToolTip": "DesktopApp\\ProductCUForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-07T01:22:25.843Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductForm.cs",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\ProductForm.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\ProductForm.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\ProductForm.cs",
+              "RelativeToolTip": "DesktopApp\\ProductForm.cs",
+              "ViewState": "AgIAAEoBAAAAAAAAAAAnwFYBAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-07T01:19:56.385Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MainForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\MainForm.cs",
+              "Title": "ProductForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\ProductForm.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\ProductForm.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\ProductForm.cs [Design]",
+              "RelativeToolTip": "DesktopApp\\ProductForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-07T01:19:06.999Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MainForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\MainForm.Designer.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\MainForm.Designer.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\MainForm.Designer.cs",
+              "RelativeToolTip": "DesktopApp\\MainForm.Designer.cs",
+              "ViewState": "AgIAAHAAAAAAAAAAAAAkwIEAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-07T01:13:46.313Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "App.config",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\App.config",
+              "RelativeDocumentMoniker": "DesktopApp\\App.config",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\App.config",
+              "RelativeToolTip": "DesktopApp\\App.config",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACcAAACQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-08-07T01:12:06.948Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Settings.settings",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\Properties\\Settings.settings",
+              "RelativeDocumentMoniker": "DesktopApp\\Properties\\Settings.settings",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\Properties\\Settings.settings",
+              "RelativeToolTip": "DesktopApp\\Properties\\Settings.settings",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002767|",
+              "WhenOpened": "2025-08-07T01:12:00.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Resources.resx",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\Properties\\Resources.resx",
+              "RelativeDocumentMoniker": "DesktopApp\\Properties\\Resources.resx",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\Properties\\Resources.resx",
+              "RelativeToolTip": "DesktopApp\\Properties\\Resources.resx",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2025-08-07T01:11:57.521Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\MainForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\MainForm.cs",
-              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\MainForm.cs [Design]*",
-              "RelativeToolTip": "DesktopApp\\MainForm.cs [Design]*",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\MainForm.cs",
+              "RelativeToolTip": "DesktopApp\\MainForm.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAYwDkAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-07T01:10:57.571Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MainForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\MainForm.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\MainForm.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\MainForm.cs [Design]",
+              "RelativeToolTip": "DesktopApp\\MainForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-05T17:43:14.92Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "PrinterSettingsManager.cs",
-              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\Utilities\\PrinterSettingsManager.cs",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\Utilities\\PrinterSettingsManager.cs",
               "RelativeDocumentMoniker": "DesktopApp\\Utilities\\PrinterSettingsManager.cs",
-              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\DesktopApp\\DesktopApp\\Utilities\\PrinterSettingsManager.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\Utilities\\PrinterSettingsManager.cs",
               "RelativeToolTip": "DesktopApp\\Utilities\\PrinterSettingsManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
