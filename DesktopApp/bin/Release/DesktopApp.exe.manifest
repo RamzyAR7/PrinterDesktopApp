@@ -234,14 +234,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesktopApp.exe" size="1335296">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesktopApp.exe" size="1328128">
       <assemblyIdentity name="DesktopApp" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>AnGdm4RX9dJ1Wo+3Nvysfjqx/xLmJ2Q/VUUTYEO5nG0=</dsig:DigestValue>
+        <dsig:DigestValue>d2VMI8UqUFQOkLMVzUKO1YrBlkWKWEkTA9C1AhkT2C0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -536,7 +536,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>qcS9kZCrFQZzK369F8nRAWt9j6lXBU1pwnVRbiGIRrw=</dsig:DigestValue>
+      <dsig:DigestValue>r4BEloMUSjgr3Z+2srxiMUpkmsW0f+yTFKSfQFCnN/c=</dsig:DigestValue>
     </hash>
   </file>
   <file name="DesktopApp.exe.config" size="2746">

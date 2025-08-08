@@ -84,3 +84,5 @@ C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Rele
 c:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Release\DesktopApp.exe.config
 C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\bin\Release\CrystalReports\Barcode.rpt
 C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\bin\Release\CrystalReports\Invoice.rpt
+c:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Release\DesktopApp.ActionForm.resources
+c:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Release\DesktopApp.InvoiceActionForm.resources
