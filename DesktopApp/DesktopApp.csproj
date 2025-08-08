@@ -115,6 +115,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionForm.Designer.cs">
+      <DependentUpon>ActionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BarcodeCopyForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -256,6 +262,9 @@
     <Compile Include="Controls\LoadingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="ActionForm.resx">
+      <DependentUpon>ActionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BarcodeCopyForm.resx">
       <DependentUpon>BarcodeCopyForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -267,6 +276,12 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Invoice.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="CrystalReports\Barcode.rpt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CrystalReports\Invoice.rpt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="InvoiceCUForm.resx">
       <DependentUpon>InvoiceCUForm.cs</DependentUpon>
     </EmbeddedResource>

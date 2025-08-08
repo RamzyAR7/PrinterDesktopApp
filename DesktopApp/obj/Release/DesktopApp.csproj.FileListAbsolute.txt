@@ -82,3 +82,5 @@ C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Rele
 C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Release\DesktopApp.exe
 C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Release\DesktopApp.pdb
 c:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Release\DesktopApp.exe.config
+C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\bin\Release\CrystalReports\Barcode.rpt
+C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\bin\Release\CrystalReports\Invoice.rpt

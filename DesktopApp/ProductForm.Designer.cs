@@ -30,10 +30,6 @@
         {
             this.productPanal = new DevExpress.XtraEditors.PanelControl();
             this.NewBtn = new DevExpress.XtraEditors.SimpleButton();
-            this.EditBtn = new DevExpress.XtraEditors.SimpleButton();
-            this.DeleteBtn = new DevExpress.XtraEditors.SimpleButton();
-            this.BtnPrint = new DevExpress.XtraEditors.SimpleButton();
-            this.btnBarcode = new DevExpress.XtraEditors.SimpleButton();
             this.productGrid = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             ((System.ComponentModel.ISupportInitialize)(this.productPanal)).BeginInit();
@@ -45,10 +41,6 @@
             // productPanal
             // 
             this.productPanal.Controls.Add(this.NewBtn);
-            this.productPanal.Controls.Add(this.EditBtn);
-            this.productPanal.Controls.Add(this.DeleteBtn);
-            this.productPanal.Controls.Add(this.BtnPrint);
-            this.productPanal.Controls.Add(this.btnBarcode);
             this.productPanal.Dock = System.Windows.Forms.DockStyle.Top;
             this.productPanal.Location = new System.Drawing.Point(0, 0);
             this.productPanal.Name = "productPanal";
@@ -63,60 +55,9 @@
             this.NewBtn.Appearance.Options.UseFont = true;
             this.NewBtn.Location = new System.Drawing.Point(10, 10);
             this.NewBtn.Name = "NewBtn";
-            this.NewBtn.Size = new System.Drawing.Size(70, 30);
+            this.NewBtn.Size = new System.Drawing.Size(160, 30);
             this.NewBtn.TabIndex = 0;
             this.NewBtn.Text = "جديد";
-            // 
-            // EditBtn
-            // 
-            this.EditBtn.Appearance.BackColor = System.Drawing.Color.Blue;
-            this.EditBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.EditBtn.Appearance.Options.UseBackColor = true;
-            this.EditBtn.Appearance.Options.UseFont = true;
-            this.EditBtn.Location = new System.Drawing.Point(85, 10);
-            this.EditBtn.Name = "EditBtn";
-            this.EditBtn.Size = new System.Drawing.Size(70, 30);
-            this.EditBtn.TabIndex = 1;
-            this.EditBtn.Text = "تعديل";
-            this.EditBtn.Click += new System.EventHandler(this.EditBtn_Click_1);
-            // 
-            // DeleteBtn
-            // 
-            this.DeleteBtn.Appearance.BackColor = System.Drawing.Color.Red;
-            this.DeleteBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.DeleteBtn.Appearance.Options.UseBackColor = true;
-            this.DeleteBtn.Appearance.Options.UseFont = true;
-            this.DeleteBtn.Location = new System.Drawing.Point(160, 10);
-            this.DeleteBtn.Name = "DeleteBtn";
-            this.DeleteBtn.Size = new System.Drawing.Size(70, 30);
-            this.DeleteBtn.TabIndex = 2;
-            this.DeleteBtn.Text = "حذف";
-            // 
-            // BtnPrint
-            // 
-            this.BtnPrint.Appearance.BackColor = System.Drawing.Color.Teal;
-            this.BtnPrint.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.BtnPrint.Appearance.Options.UseBackColor = true;
-            this.BtnPrint.Appearance.Options.UseFont = true;
-            this.BtnPrint.Location = new System.Drawing.Point(258, 10);
-            this.BtnPrint.Name = "BtnPrint";
-            this.BtnPrint.Size = new System.Drawing.Size(70, 30);
-            this.BtnPrint.TabIndex = 3;
-            this.BtnPrint.Text = "طباعة";
-            this.BtnPrint.Click += new System.EventHandler(this.BtnPrint_Click);
-            // 
-            // btnBarcode
-            // 
-            this.btnBarcode.Appearance.BackColor = System.Drawing.Color.Teal;
-            this.btnBarcode.Appearance.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBarcode.Appearance.Options.UseBackColor = true;
-            this.btnBarcode.Appearance.Options.UseFont = true;
-            this.btnBarcode.Location = new System.Drawing.Point(334, 10);
-            this.btnBarcode.Name = "btnBarcode";
-            this.btnBarcode.Size = new System.Drawing.Size(75, 30);
-            this.btnBarcode.TabIndex = 4;
-            this.btnBarcode.Text = "معاينة";
-            this.btnBarcode.Click += new System.EventHandler(this.btnBarcode_Click);
             // 
             // productGrid
             // 
@@ -186,29 +127,7 @@
                 System.Drawing.Color.FromArgb(34, 139, 57),    // Darker green pressed
                 "✚ إضافة");                    // Icon + text
             
-            // Enhanced Edit button styling
-            StyleEnhancedButton(EditBtn, buttonFont,
-                System.Drawing.Color.FromArgb(0, 123, 255),    // Primary blue background
-                System.Drawing.Color.White,                    // White text
-                System.Drawing.Color.FromArgb(38, 143, 255),   // Lighter blue hover
-                System.Drawing.Color.FromArgb(0, 98, 204),     // Darker blue pressed
-                "✏ تحديث");                    // Icon + text
-            
-            // Enhanced Delete button styling
-            StyleEnhancedButton(DeleteBtn, buttonFont,
-                System.Drawing.Color.FromArgb(220, 53, 69),    // Danger red background
-                System.Drawing.Color.White,                    // White text
-                System.Drawing.Color.FromArgb(229, 83, 98),    // Lighter red hover
-                System.Drawing.Color.FromArgb(200, 35, 51),    // Darker red pressed
-                "🗑 حذف");                     // Icon + text
-
-            // Style barcode and print buttons
-            StyleEnhancedButton(btnBarcode, buttonFont,
-                System.Drawing.Color.FromArgb(102, 16, 242),   // Purple background
-                System.Drawing.Color.White,                    // White text
-                System.Drawing.Color.FromArgb(124, 58, 247),   // Lighter purple hover
-                System.Drawing.Color.FromArgb(85, 7, 201),     // Darker purple pressed
-                "🏷 معاينةالباركود");                  // Icon + text
+            // Note: Action buttons (Edit, Delete, Print, Barcode) are now handled by ActionForm on double-click
 
             // Note: PrintBarcodeBtn not currently implemented
             // StyleEnhancedButton(PrintBarcodeBtn, buttonFont,
@@ -303,10 +222,6 @@
         private DevExpress.XtraGrid.GridControl productGrid;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraEditors.PanelControl productPanal;
-        public DevExpress.XtraEditors.SimpleButton btnBarcode;
-        private DevExpress.XtraEditors.SimpleButton DeleteBtn;
-        private DevExpress.XtraEditors.SimpleButton EditBtn;
         private DevExpress.XtraEditors.SimpleButton NewBtn;
-        private DevExpress.XtraEditors.SimpleButton BtnPrint;
     }
 }

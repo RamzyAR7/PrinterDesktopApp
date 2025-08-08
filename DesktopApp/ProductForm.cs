@@ -124,47 +124,16 @@ namespace DesktopApp
         private void ResizeAndRepositionButtons()
         {
             // Make buttons smaller and position them on the left side
-            var buttonSize = new Size(70, 30);
-            var barcodeButtonSize = new Size(85, 30); // Slightly wider for barcode button
+            var buttonSize = new Size(120, 30);
             var yPosition = 10;
             var xStart = 10;
-            var spacing = 75;
 
-            // Resize and reposition buttons from left to right
+            // Resize and reposition New button only
             if (NewBtn != null)
             {
                 NewBtn.Size = buttonSize;
                 NewBtn.Location = new Point(xStart, yPosition);
                 NewBtn.Text = "جديد";
-            }
-
-            if (EditBtn != null)
-            {
-                EditBtn.Size = buttonSize;
-                EditBtn.Location = new Point(xStart + spacing, yPosition);
-                EditBtn.Text = "تعديل";
-            }
-
-            if (DeleteBtn != null)
-            {
-                DeleteBtn.Size = buttonSize;
-                DeleteBtn.Location = new Point(xStart + spacing * 2, yPosition);
-                DeleteBtn.Text = "حذف";
-            }
-
-            if (BtnPrint != null)
-            {
-                BtnPrint.Size = buttonSize;
-                BtnPrint.Location = new Point(xStart + spacing * 3, yPosition);
-                BtnPrint.Text = "طباعة";
-            }
-
-            // Handle barcode button
-            if (btnBarcode != null)
-            {
-                btnBarcode.Size = barcodeButtonSize;
-                btnBarcode.Location = new Point(xStart + spacing * 4, yPosition);
-                btnBarcode.Text = "معاينة";
             }
         }
 
@@ -269,6 +238,12 @@ namespace DesktopApp
                 gridView1.OptionsView.ShowIndicator = true; // Show row indicators (numbers)
                 gridView1.OptionsNavigation.AutoFocusNewRow = true;
                 gridView1.OptionsNavigation.UseTabKey = false; // Prevent tab from leaving grid
+                
+                // Make grid read-only - prevent inline editing
+                gridView1.OptionsBehavior.Editable = false;
+                gridView1.OptionsBehavior.ReadOnly = true;
+                gridView1.OptionsEditForm.ShowOnEnterKey = DevExpress.Utils.DefaultBoolean.False;
+                gridView1.OptionsEditForm.ShowOnDoubleClick = DevExpress.Utils.DefaultBoolean.False;
                 
                 // Configure grid control scrollbars as backup
                 productGrid.UseEmbeddedNavigator = false; // We'll use scrollbars instead
@@ -454,37 +429,6 @@ namespace DesktopApp
 
         }
 
-        private void btnBarcode_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Get the focused row handle
-                int focusedRowHandle = gridView1.FocusedRowHandle;
-                if (focusedRowHandle < 0)
-                {
-                    XtraMessageBox.Show("الرجاء اختيار منتج", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Get product data from the focused row
-                var productName = gridView1.GetRowCellValue(focusedRowHandle, "ProductName").ToString();
-                var priceStr = gridView1.GetRowCellValue(focusedRowHandle, "SellingPrice").ToString();
-                
-                if (!decimal.TryParse(priceStr, out decimal sellingPrice))
-                {
-                    XtraMessageBox.Show("خطأ في قراءة سعر المنتج", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                var barcodePreview = new ParcodePreviewForm(productName, sellingPrice);
-                barcodePreview.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show($"حدث خطأ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void PrintBarcodeBtn_Click(object sender, EventArgs e)
         {
             try
@@ -545,25 +489,13 @@ namespace DesktopApp
         {
             // Setup Create button (NewBtn)
             NewBtn.Click += BtnCreate_Click;
-            EditBtn.Click += EditBtn_Click;
-            DeleteBtn.Click += DeleteBtn_Click;
-            
-            // Wire up btnBarcode click event
-            if (btnBarcode != null)
-                btnBarcode.Click += btnBarcode_Click;
             
             // Configure button properties
             NewBtn.Appearance.Font = new Font("Tahoma", 10, FontStyle.Bold);
-            EditBtn.Appearance.Font = new Font("Tahoma", 10, FontStyle.Bold);
-            DeleteBtn.Appearance.Font = new Font("Tahoma", 10, FontStyle.Bold);
             
             // Set button colors
             NewBtn.Appearance.BackColor = Color.ForestGreen;
             NewBtn.Appearance.ForeColor = Color.White;
-            EditBtn.Appearance.BackColor = Color.DodgerBlue;
-            EditBtn.Appearance.ForeColor = Color.White;
-            DeleteBtn.Appearance.BackColor = Color.Crimson;
-            DeleteBtn.Appearance.ForeColor = Color.White;
 
             // Add double-click to edit functionality
             gridView1.DoubleClick += gridView1_DoubleClick;
@@ -586,99 +518,6 @@ namespace DesktopApp
             catch (Exception ex)
             {
                 XtraMessageBox.Show($"خطأ في إضافة منتج جديد: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async void EditBtn_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Get the focused row handle
-                int focusedRowHandle = gridView1.FocusedRowHandle;
-                if (focusedRowHandle < 0)
-                {
-                    XtraMessageBox.Show("الرجاء اختيار منتج للتعديل", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Get product ID from the focused row
-                var productIdStr = gridView1.GetRowCellValue(focusedRowHandle, "Id").ToString();
-                if (int.TryParse(productIdStr, out int productId))
-                {
-                    // Open edit form
-                    using (var editForm = new ProductCUForm(productId))
-                    {
-                        if (editForm.ShowDialog() == DialogResult.OK && editForm.ProductSaved)
-                        {
-                            // Refresh the grid with loading indicator
-                            await RefreshProductDataAsync();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show($"خطأ في تحديث المنتج: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async void DeleteBtn_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Get the focused row handle
-                int focusedRowHandle = gridView1.FocusedRowHandle;
-                if (focusedRowHandle < 0)
-                {
-                    XtraMessageBox.Show("الرجاء اختيار منتج للحذف", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Get product data from the focused row
-                var productIdStr = gridView1.GetRowCellValue(focusedRowHandle, "Id").ToString();
-                var productName = gridView1.GetRowCellValue(focusedRowHandle, "ProductName").ToString();
-
-                // Confirm deletion
-                var result = XtraMessageBox.Show($"هل أنت متأكد من حذف المنتج '{productName}'؟\n\nتحذير: هذا الإجراء لا يمكن التراجع عنه", 
-                    "تأكيد الحذف", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes && int.TryParse(productIdStr, out int productId))
-                {
-                    await LoadingManager.ExecuteDatabaseOperationAsync(this, async () =>
-                    {
-                        await Task.Run(() =>
-                        {
-                            using (var context = new ShoppingDBEntities())
-                            {
-                                // Find the product
-                                var product = context.Products.FirstOrDefault(p => p.Id == productId);
-                                if (product != null)
-                                {
-                                    // Delete related records first
-                                    var prices = context.Prices.Where(p => p.ProductId == productId);
-                                    context.Prices.RemoveRange(prices);
-
-                                    var images = context.ProductImages.Where(pi => pi.ProductId == productId);
-                                    context.ProductImages.RemoveRange(images);
-
-                                    // Delete the product
-                                    context.Products.Remove(product);
-                                    context.SaveChanges();
-                                }
-                            }
-                        });
-
-                        XtraMessageBox.Show("تم حذف المنتج بنجاح", "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        
-                        // Refresh the grid
-                        await LoadProductDataAsync();
-                        
-                    }, DatabaseOperationType.Delete);
-                }
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show($"خطأ في حذف المنتج: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -708,13 +547,8 @@ namespace DesktopApp
             Task.Run(async () => await RefreshProductDataAsync());
         }
 
-        // Add double-click to edit functionality
-        private void gridView1_DoubleClick(object sender, EventArgs e)
-        {
-            EditBtn_Click(sender, e);
-        }
-
-        private void BtnPrint_Click(object sender, EventArgs e)
+        // Add double-click to open ActionForm with product actions
+        private async void gridView1_DoubleClick(object sender, EventArgs e)
         {
             try
             {
@@ -722,52 +556,43 @@ namespace DesktopApp
                 int focusedRowHandle = gridView1.FocusedRowHandle;
                 if (focusedRowHandle < 0)
                 {
-                    XtraMessageBox.Show("الرجاء اختيار منتج", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return; // No row selected
+                }
+
+                // Get product ID from the focused row
+                var productIdObj = gridView1.GetRowCellValue(focusedRowHandle, "Id");
+                if (productIdObj == null || !int.TryParse(productIdObj.ToString(), out int productId))
+                {
+                    XtraMessageBox.Show("خطأ في تحديد المنتج", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Get product data from the focused row
-                var productName = gridView1.GetRowCellValue(focusedRowHandle, "ProductName").ToString();
-                var priceStr = gridView1.GetRowCellValue(focusedRowHandle, "SellingPrice").ToString();
-
-                if (!decimal.TryParse(priceStr, out decimal sellingPrice))
+                // Get the full product from database
+                using (var context = new ShoppingDBEntities())
                 {
-                    XtraMessageBox.Show("خطأ في قراءة سعر المنتج", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // Show the copy selection form
-                using (var copyForm = new BarcodeCopyForm())
-                {
-                    if (copyForm.ShowDialog() == DialogResult.OK)
+                    var product = context.Products.FirstOrDefault(p => p.Id == productId);
+                    if (product == null)
                     {
-                        int numberOfCopies = copyForm.NumberOfCopies;
+                        XtraMessageBox.Show("المنتج غير موجود", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-                        // Show loading cursor
-                        this.Cursor = Cursors.WaitCursor;
-
-                        // Print silently using utility
-                        SilentPrintUtility.PrintBarcodeSilent(productName, sellingPrice, numberOfCopies);
-
-                        // Show success message
-                        XtraMessageBox.Show($"تم طباعة {numberOfCopies} نسخة بنجاح", "نجحت العملية",
-                                          MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Open ActionForm with the selected product
+                    using (var actionForm = new ActionForm(product))
+                    {
+                        if (actionForm.ShowDialog() == DialogResult.OK || actionForm.ProductModified)
+                        {
+                            // Refresh the grid if product was modified
+                            await RefreshProductDataAsync();
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show($"حدث خطأ في الطباعة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show($"خطأ في فتح المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
-        }
-
-        private void EditBtn_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }

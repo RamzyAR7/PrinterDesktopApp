@@ -1,0 +1,758 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public enum FormMode
+    {
+        Create,
+        Edit,
+        ViewFromGrid
+    }
+
+    public partial class ProductCUForm : DevExpress.XtraEditors.XtraForm
+    {
+        public ShoppingDBEntities dbContext;
+        private Product currentProduct;
+        public bool ProductSaved { get; private set; } = false;
+        public FormMode CurrentMode { get; private set; } = FormMode.Create;
+
+        public ProductCUForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+            
+            // Configure UI using Designer methods
+            SetupForm();
+            SetupLargerFonts();
+            SetupValidation();
+            ConfigureScrolling();
+            AdjustFormSize();
+            
+            // Configure buttons for current mode
+            ConfigureButtonsForMode();
+            
+            // Load data
+            LoadComboBoxData();
+        }
+
+        public ProductCUForm(int productId) : this()
+        {
+            CurrentMode = FormMode.Edit;
+            ConfigureButtonsForMode();
+            LoadProductForEdit(productId);
+        }
+
+        public ProductCUForm(Product product, FormMode mode) : this()
+        {
+            CurrentMode = mode;
+            currentProduct = product;
+            ConfigureButtonsForMode();
+            
+            if (mode == FormMode.ViewFromGrid || mode == FormMode.Edit)
+            {
+                LoadProductData(product);
+            }
+        }
+
+        #region UI Configuration Methods
+
+        /// <summary>
+        /// Configures basic form settings and layout
+        /// </summary>
+        private void SetupForm()
+        {
+            // Configure form for RTL
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            
+            // Set form properties with better scaling
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
+            // Enable key preview for keyboard shortcuts
+            this.KeyPreview = true;
+            this.KeyDown += ProductCUForm_KeyDown;
+            
+            // Configure form appearance with larger font
+            this.Appearance.Options.UseFont = true;
+            this.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
+        }
+
+        /// <summary>
+        /// Applies larger fonts to all controls for better visibility
+        /// </summary>
+        private void SetupLargerFonts()
+        {
+            // Set larger font for all text controls
+            System.Drawing.Font largeFont = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular);
+            System.Drawing.Font labelFont = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular);
+            System.Drawing.Font buttonFont = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            
+            // Apply fonts to text controls
+            StyleTextEdit(txtProductName, largeFont, 28);
+            StyleMemoEdit(txtDescription, largeFont, 60);
+            
+            // Apply fonts to price controls
+            StyleSpinEdit(txtSellingPrice, largeFont, 28);
+            StyleSpinEdit(txtPurchasingPrice, largeFont, 28);
+            StyleSpinEdit(txtGomlaPrice, largeFont, 28);
+            StyleSpinEdit(txtNosGomlaPrice, largeFont, 28);
+            
+            // Apply fonts to combo boxes
+            StyleLookUpEdit(cmbCompany, largeFont, 28);
+            StyleLookUpEdit(cmbCategory, largeFont, 28);
+            
+            // Apply fonts to buttons with enhanced styling
+            StyleEnhancedButton(BtnCreate, buttonFont, 
+                System.Drawing.Color.FromArgb(40, 167, 69), System.Drawing.Color.White,
+                System.Drawing.Color.FromArgb(52, 181, 85), System.Drawing.Color.FromArgb(34, 139, 57),
+                "✚ إنشاء منتج", 35);
+            
+            StyleEnhancedButton(EditBtn, buttonFont,
+                System.Drawing.Color.FromArgb(0, 123, 255), System.Drawing.Color.White,
+                System.Drawing.Color.FromArgb(38, 143, 255), System.Drawing.Color.FromArgb(0, 98, 204),
+                "✏ تحديث منتج", 35);
+            
+            StyleEnhancedButton(btnCancel, buttonFont,
+                System.Drawing.Color.FromArgb(108, 117, 125), System.Drawing.Color.White,
+                System.Drawing.Color.FromArgb(128, 137, 145), System.Drawing.Color.FromArgb(88, 97, 105),
+                "✖ إلغاء", 35);
+            
+            // Apply to group control
+            if (groupControl1 != null)
+            {
+                groupControl1.Appearance.Options.UseFont = true;
+                groupControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+                groupControl1.AppearanceCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+                groupControl1.AppearanceCaption.Options.UseFont = true;
+            }
+        }
+
+        /// <summary>
+        /// Configures validation settings for required fields
+        /// </summary>
+        private void SetupValidation()
+        {
+            System.Drawing.Font nullTextFont = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Italic);
+            
+            // Make required fields mandatory with larger fonts
+            txtProductName.Properties.NullText = "يرجى إدخال اسم المنتج";
+            txtProductName.Properties.NullValuePrompt = "يرجى إدخال اسم المنتج";
+            txtProductName.Properties.Appearance.Options.UseFont = true;
+            
+            cmbCompany.Properties.NullText = "يرجى اختيار الشركة";
+            cmbCompany.Properties.Appearance.Options.UseFont = true;
+            
+            cmbCategory.Properties.NullText = "يرجى اختيار الصنف";
+            cmbCategory.Properties.Appearance.Options.UseFont = true;
+            
+            // Set numeric validation for prices with larger fonts
+            txtSellingPrice.Properties.MinValue = 0;
+            txtSellingPrice.Properties.Appearance.Options.UseFont = true;
+            
+            txtPurchasingPrice.Properties.MinValue = 0;
+            txtPurchasingPrice.Properties.Appearance.Options.UseFont = true;
+            
+            txtGomlaPrice.Properties.MinValue = 0;
+            txtGomlaPrice.Properties.Appearance.Options.UseFont = true;
+            
+            txtNosGomlaPrice.Properties.MinValue = 0;
+            txtNosGomlaPrice.Properties.Appearance.Options.UseFont = true;
+        }
+
+        /// <summary>
+        /// Configures button visibility based on the current form mode
+        /// </summary>
+        private void ConfigureButtonsForMode()
+        {
+            switch (CurrentMode)
+            {
+                case FormMode.Create:
+                    // Create mode: Show save buttons only
+                    BtnCreate.Visible = true;
+                    BtnCreate.Text = "حفظ";
+                    EditBtn.Visible = true;
+                    EditBtn.Text = "حفظ و معاينة";
+                    btnCancel.Visible = true;
+                    
+                    this.Text = "إضافة منتج جديد";
+                    break;
+
+                case FormMode.Edit:
+                    // Edit mode: Show save buttons
+                    BtnCreate.Visible = true;
+                    BtnCreate.Text = "حفظ التغييرات";
+                    EditBtn.Visible = true;
+                    EditBtn.Text = "حفظ وطباعة";
+                    btnCancel.Visible = true;
+                    
+                    this.Text = "تعديل منتج";
+                    break;
+
+                case FormMode.ViewFromGrid:
+                    // View from grid: Hide save buttons, actions are handled by ActionForm
+                    BtnCreate.Visible = false;
+                    EditBtn.Visible = false;
+                    btnCancel.Visible = true;
+                    btnCancel.Text = "إغلاق";
+                    
+                    this.Text = "عرض منتج";
+                    
+                    // Make controls read-only
+                    SetFormReadOnly(true);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Sets all form controls to read-only mode
+        /// </summary>
+        private void SetFormReadOnly(bool readOnly)
+        {
+            txtProductName.Properties.ReadOnly = readOnly;
+            txtDescription.Properties.ReadOnly = readOnly;
+            txtSellingPrice.Properties.ReadOnly = readOnly;
+            txtPurchasingPrice.Properties.ReadOnly = readOnly;
+            txtGomlaPrice.Properties.ReadOnly = readOnly;
+            txtNosGomlaPrice.Properties.ReadOnly = readOnly;
+            cmbCompany.Properties.ReadOnly = readOnly;
+            cmbCategory.Properties.ReadOnly = readOnly;
+        }
+
+        /// <summary>
+        /// Configures scrolling for the form
+        /// </summary>
+        private void ConfigureScrolling()
+        {
+            // Configure the scrollable control
+            scrollableControl1.AutoScroll = true;
+            scrollableControl1.HorizontalScroll.Enabled = false;
+            scrollableControl1.HorizontalScroll.Visible = false;
+            scrollableControl1.VerticalScroll.Enabled = true;
+            scrollableControl1.VerticalScroll.Visible = true;
+        }
+
+        /// <summary>
+        /// Adjusts form size for better display
+        /// </summary>
+        private void AdjustFormSize()
+        {
+            // Increase form size to accommodate larger fonts and controls
+            if (this.Size.Width < 650)
+                this.Width = 650;
+            if (this.Size.Height < 550)
+                this.Height = 550;
+            
+            // Ensure form is not larger than screen
+            var screen = System.Windows.Forms.Screen.FromControl(this);
+            if (this.Width > screen.WorkingArea.Width * 0.9)
+                this.Width = (int)(screen.WorkingArea.Width * 0.9);
+            if (this.Height > screen.WorkingArea.Height * 0.9)
+                this.Height = (int)(screen.WorkingArea.Height * 0.9);
+        }
+
+        /// <summary>
+        /// Styles a TextEdit control with enhanced appearance
+        /// </summary>
+        private void StyleTextEdit(DevExpress.XtraEditors.TextEdit textEdit, System.Drawing.Font font, int height)
+        {
+            if (textEdit != null)
+            {
+                textEdit.Font = font;
+                textEdit.Properties.Appearance.Font = font;
+                textEdit.Properties.Appearance.Options.UseFont = true;
+                textEdit.Properties.Appearance.BackColor = System.Drawing.Color.White;
+                textEdit.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(33, 37, 41);
+                textEdit.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                textEdit.Properties.LookAndFeel.SkinName = "Office 2019 Colorful";
+                textEdit.Height = height;
+            }
+        }
+
+        /// <summary>
+        /// Styles a MemoEdit control with enhanced appearance
+        /// </summary>
+        private void StyleMemoEdit(DevExpress.XtraEditors.MemoEdit memoEdit, System.Drawing.Font font, int height)
+        {
+            if (memoEdit != null)
+            {
+                memoEdit.Font = font;
+                memoEdit.Properties.Appearance.Font = font;
+                memoEdit.Properties.Appearance.Options.UseFont = true;
+                memoEdit.Properties.Appearance.BackColor = System.Drawing.Color.White;
+                memoEdit.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(33, 37, 41);
+                memoEdit.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                memoEdit.Properties.LookAndFeel.SkinName = "Office 2019 Colorful";
+                memoEdit.Height = height;
+            }
+        }
+
+        /// <summary>
+        /// Styles a SpinEdit control with enhanced appearance
+        /// </summary>
+        private void StyleSpinEdit(DevExpress.XtraEditors.SpinEdit spinEdit, System.Drawing.Font font, int height)
+        {
+            if (spinEdit != null)
+            {
+                spinEdit.Font = font;
+                spinEdit.Properties.Appearance.Font = font;
+                spinEdit.Properties.Appearance.Options.UseFont = true;
+                spinEdit.Properties.Appearance.BackColor = System.Drawing.Color.White;
+                spinEdit.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(33, 37, 41);
+                spinEdit.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                spinEdit.Properties.LookAndFeel.SkinName = "Office 2019 Colorful";
+                spinEdit.Height = height;
+            }
+        }
+
+        /// <summary>
+        /// Styles a LookUpEdit control with enhanced appearance
+        /// </summary>
+        private void StyleLookUpEdit(DevExpress.XtraEditors.LookUpEdit lookUpEdit, System.Drawing.Font font, int height)
+        {
+            if (lookUpEdit != null)
+            {
+                lookUpEdit.Font = font;
+                lookUpEdit.Properties.Appearance.Font = font;
+                lookUpEdit.Properties.Appearance.Options.UseFont = true;
+                lookUpEdit.Properties.Appearance.BackColor = System.Drawing.Color.White;
+                lookUpEdit.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(33, 37, 41);
+                lookUpEdit.Properties.AppearanceDropDown.Font = font;
+                lookUpEdit.Properties.AppearanceDropDown.Options.UseFont = true;
+                lookUpEdit.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                lookUpEdit.Properties.LookAndFeel.SkinName = "Office 2019 Colorful";
+                lookUpEdit.Height = height;
+                lookUpEdit.Properties.PopupSizeable = true;
+                lookUpEdit.Properties.ShowHeader = true;
+                lookUpEdit.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
+                lookUpEdit.Properties.DropDownRows = 10;
+                
+                // Enhanced dropdown appearance
+                lookUpEdit.Properties.AppearanceDropDownHeader.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+                lookUpEdit.Properties.AppearanceDropDownHeader.Options.UseFont = true;
+            }
+        }
+
+        /// <summary>
+        /// Styles a SimpleButton with modern enhanced appearance
+        /// </summary>
+        private void StyleEnhancedButton(DevExpress.XtraEditors.SimpleButton button, System.Drawing.Font font, 
+            System.Drawing.Color backgroundColor, System.Drawing.Color textColor, System.Drawing.Color hoverColor, 
+            System.Drawing.Color pressedColor, string text, int height)
+        {
+            if (button == null) return;
+
+            // Set button text and basic properties
+            if (!string.IsNullOrEmpty(text))
+                button.Text = text;
+
+            button.Font = font;
+            button.Appearance.Font = font;
+            button.Appearance.Options.UseFont = true;
+            button.Appearance.BackColor = backgroundColor;
+            button.Appearance.ForeColor = textColor;
+            button.Appearance.Options.UseBackColor = true;
+            button.Appearance.Options.UseForeColor = true;
+            button.Appearance.BorderColor = backgroundColor;
+            button.Appearance.Options.UseBorderColor = true;
+            
+            // Modern styling
+            button.LookAndFeel.SkinName = "Office 2019 Colorful";
+            button.Height = height;
+            button.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            button.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            
+            // Enhanced hover effects
+            button.AppearanceHovered.BackColor = hoverColor;
+            button.AppearanceHovered.ForeColor = textColor;
+            button.AppearanceHovered.BorderColor = hoverColor;
+            button.AppearanceHovered.Options.UseBackColor = true;
+            button.AppearanceHovered.Options.UseForeColor = true;
+            button.AppearanceHovered.Options.UseBorderColor = true;
+            
+            // Enhanced pressed effects
+            button.AppearancePressed.BackColor = pressedColor;
+            button.AppearancePressed.ForeColor = textColor;
+            button.AppearancePressed.BorderColor = pressedColor;
+            button.AppearancePressed.Options.UseBackColor = true;
+            button.AppearancePressed.Options.UseForeColor = true;
+            button.AppearancePressed.Options.UseBorderColor = true;
+            
+            // Enhanced disabled state
+            button.AppearanceDisabled.BackColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            button.AppearanceDisabled.ForeColor = System.Drawing.Color.FromArgb(173, 181, 189);
+            button.AppearanceDisabled.BorderColor = System.Drawing.Color.FromArgb(108, 117, 125);
+            button.AppearanceDisabled.Options.UseBackColor = true;
+            button.AppearanceDisabled.Options.UseForeColor = true;
+            button.AppearanceDisabled.Options.UseBorderColor = true;
+
+            // Add mouse cursor feedback
+            button.MouseEnter += (s, e) => button.Cursor = System.Windows.Forms.Cursors.Hand;
+            button.MouseLeave += (s, e) => button.Cursor = System.Windows.Forms.Cursors.Default;
+        }
+
+        /// <summary>
+        /// Loads and configures ComboBox data with enhanced search functionality
+        /// </summary>
+        private void LoadComboBoxData()
+        {
+            try
+            {
+                using (var context = new ShoppingDBEntities())
+                {
+                    // Load companies with search functionality
+                    var companies = context.Companies
+                        .Where(c => !c.IsDeleted)
+                        .Select(c => new { c.Id, c.Name })
+                        .OrderBy(c => c.Name)
+                        .ToList();
+                    
+                    ConfigureLookUpEdit(cmbCompany, companies, "Name", "Id", "اختر الشركة...", "اسم الشركة");
+                    
+                    // Load all categories without filtering by company
+                    var categories = context.Categories
+                        .Where(c => !c.IsDeleted)
+                        .Select(c => new { c.Id, c.Name })
+                        .OrderBy(c => c.Name)
+                        .ToList();
+                    
+                    ConfigureLookUpEdit(cmbCategory, categories, "Name", "Id", "اختر الصنف...", "اسم الصنف");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                DevExpress.XtraEditors.XtraMessageBox.Show($"خطأ في تحميل البيانات: {ex.Message}", 
+                    "خطأ", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Configures a LookUpEdit with standardized settings
+        /// </summary>
+        private void ConfigureLookUpEdit(DevExpress.XtraEditors.LookUpEdit lookUpEdit, object dataSource, 
+            string displayMember, string valueMember, string nullText, string columnCaption)
+        {
+            lookUpEdit.Properties.DataSource = dataSource;
+            lookUpEdit.Properties.DisplayMember = displayMember;
+            lookUpEdit.Properties.ValueMember = valueMember;
+            lookUpEdit.Properties.NullText = nullText;
+            lookUpEdit.Properties.ShowDropDown = DevExpress.XtraEditors.Controls.ShowDropDown.SingleClick;
+            
+            // Configure for search functionality
+            lookUpEdit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+            lookUpEdit.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
+            lookUpEdit.Properties.AutoSearchColumnIndex = 1; // Search in Name column
+            lookUpEdit.Properties.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFitResizePopup;
+            
+            // Configure columns
+            lookUpEdit.Properties.Columns.Clear();
+            var column = new DevExpress.XtraEditors.Controls.LookUpColumnInfo(displayMember, columnCaption);
+            column.Width = 250;
+            lookUpEdit.Properties.Columns.Add(column);
+            lookUpEdit.Properties.ShowHeader = true;
+            lookUpEdit.Properties.ShowFooter = false;
+            lookUpEdit.Properties.PopupWidth = 300;
+            lookUpEdit.Properties.DropDownRows = 10;
+        }
+
+        #endregion
+
+        private void LoadProductForEdit(int productId)
+        {
+            try
+            {
+                currentProduct = dbContext.Products
+                    .FirstOrDefault(p => p.Id == productId);
+
+                if (currentProduct != null)
+                {
+                    groupControl1.Text = "تعديل منتج";
+                    BtnCreate.Visible = false;
+                    EditBtn.Visible = true;
+
+                    // Load product data
+                    txtProductName.Text = currentProduct.Name;
+                    cmbCompany.EditValue = currentProduct.CompanyId;
+                    cmbCategory.EditValue = currentProduct.CategoryId;
+                    txtDescription.Text = currentProduct.Description;
+
+                    // Load latest price
+                    var latestPrice = dbContext.Prices
+                        .Where(p => p.ProductId == productId)
+                        .OrderByDescending(p => p.CreatedDate)
+                        .FirstOrDefault();
+
+                    if (latestPrice != null)
+                    {
+                        txtSellingPrice.EditValue = latestPrice.SellingPrice;
+                        txtPurchasingPrice.EditValue = latestPrice.PurchasingPrice;
+                        txtGomlaPrice.EditValue = latestPrice.GomlaPrice;
+                        txtNosGomlaPrice.EditValue = latestPrice.NosGomlaPrice;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل بيانات المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ValidateForm()
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(txtProductName.Text))
+                errors.Add("يرجى إدخال اسم المنتج");
+
+            if (cmbCompany.EditValue == null)
+                errors.Add("يرجى اختيار الشركة");
+
+            if (cmbCategory.EditValue == null)
+                errors.Add("يرجى اختيار الصنف");
+
+            if (txtSellingPrice.Value <= 0)
+                errors.Add("يرجى إدخال سعر بيع صحيح");
+
+            if (txtPurchasingPrice.Value <= 0)
+                errors.Add("يرجى إدخال سعر شراء صحيح");
+
+            if (errors.Any())
+            {
+                XtraMessageBox.Show(string.Join("\n", errors), 
+                    "بيانات مطلوبة", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            if (!ValidateForm()) return;
+
+            try
+            {
+                var newProduct = new Product
+                {
+                    Name = txtProductName.Text.Trim(),
+                    CompanyId = Convert.ToInt32(cmbCompany.EditValue),
+                    CategoryId = Convert.ToInt32(cmbCategory.EditValue),
+                    Description = txtDescription.Text?.Trim(),
+                    CreatedDate = DateTime.Now
+                };
+
+                dbContext.Products.Add(newProduct);
+                dbContext.SaveChanges();
+
+                // Add price record
+                var price = new Price
+                {
+                    ProductId = newProduct.Id,
+                    SellingPrice = txtSellingPrice.Value,
+                    PurchasingPrice = txtPurchasingPrice.Value,
+                    GomlaPrice = txtGomlaPrice.Value,
+                    NosGomlaPrice = txtNosGomlaPrice.Value,
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                };
+
+                dbContext.Prices.Add(price);
+                dbContext.SaveChanges();
+
+                ProductSaved = true;
+                XtraMessageBox.Show("تم إضافة المنتج بنجاح", 
+                    "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في إضافة المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            if (!ValidateForm() || currentProduct == null) return;
+
+            try
+            {
+                // Update product
+                currentProduct.Name = txtProductName.Text.Trim();
+                currentProduct.CompanyId = Convert.ToInt32(cmbCompany.EditValue);
+                currentProduct.CategoryId = Convert.ToInt32(cmbCategory.EditValue);
+                currentProduct.Description = txtDescription.Text?.Trim();
+
+                // Deactivate old prices
+                var oldPrices = dbContext.Prices.Where(p => p.ProductId == currentProduct.Id);
+                foreach (var oldPrice in oldPrices)
+                {
+                    oldPrice.IsActive = false;
+                }
+
+                // Add new price record
+                var newPrice = new Price
+                {
+                    ProductId = currentProduct.Id,
+                    SellingPrice = txtSellingPrice.Value,
+                    PurchasingPrice = txtPurchasingPrice.Value,
+                    GomlaPrice = txtGomlaPrice.Value,
+                    NosGomlaPrice = txtNosGomlaPrice.Value,
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                };
+
+                dbContext.Prices.Add(newPrice);
+                dbContext.SaveChanges();
+
+                ProductSaved = true;
+                XtraMessageBox.Show("تم تحديث المنتج بنجاح", 
+                    "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void cmbCategory_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkOptional_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        // Handle keyboard shortcuts
+        private void ProductCUForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Ctrl + D = Diagnostic
+            if (e.Control && e.KeyCode == Keys.D)
+            {
+                DiagnoseCategoryData();
+                e.Handled = true;
+            }
+        }
+
+        // Diagnostic method to check category data
+        private void DiagnoseCategoryData()
+        {
+            try
+            {
+                using (var context = new ShoppingDBEntities())
+                {
+                    // Check total categories
+                    var totalCategories = context.Categories.Count();
+                    var activeCategories = context.Categories.Count(c => !c.IsDeleted);
+                    var deletedCategories = context.Categories.Count(c => c.IsDeleted);
+
+                    // Check categories per company
+                    var companiesWithCategories = context.Categories
+                        .Where(c => !c.IsDeleted)
+                        .GroupBy(c => c.CompanyId)
+                        .Select(g => new { CompanyId = g.Key, Count = g.Count() })
+                        .ToList();
+
+                    // Get company names
+                    var companies = context.Companies
+                        .Where(c => !c.IsDeleted)
+                        .Select(c => new { c.Id, c.Name })
+                        .ToList();
+
+                    StringBuilder diagnosticMessage = new StringBuilder();
+                    diagnosticMessage.AppendLine("تشخيص بيانات الأصناف:");
+                    diagnosticMessage.AppendLine($"إجمالي الأصناف: {totalCategories}");
+                    diagnosticMessage.AppendLine($"الأصناف النشطة: {activeCategories}");
+                    diagnosticMessage.AppendLine($"الأصناف المحذوفة: {deletedCategories}");
+                    diagnosticMessage.AppendLine();
+                    diagnosticMessage.AppendLine("الأصناف حسب الشركة:");
+                    
+                    foreach (var company in companies)
+                    {
+                        var categoryCount = companiesWithCategories
+                            .FirstOrDefault(c => c.CompanyId == company.Id)?.Count ?? 0;
+                        diagnosticMessage.AppendLine($"- {company.Name}: {categoryCount} صنف");
+                    }
+
+                    // If no categories exist, suggest adding some
+                    if (activeCategories == 0)
+                    {
+                        diagnosticMessage.AppendLine();
+                        diagnosticMessage.AppendLine("لا توجد أصناف نشطة في قاعدة البيانات!");
+                        diagnosticMessage.AppendLine("يرجى إضافة بعض الأصناف أولاً.");
+                    }
+
+                    XtraMessageBox.Show(diagnosticMessage.ToString(), "تشخيص بيانات الأصناف", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تشخيص البيانات: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ProductCUForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Load product data into form controls
+        /// </summary>
+        private void LoadProductData(Product product)
+        {
+            if (product == null) return;
+
+            currentProduct = product;
+            
+            txtProductName.Text = product.Name;
+            txtDescription.Text = product.Description;
+            
+            cmbCompany.EditValue = product.CompanyId;
+            cmbCategory.EditValue = product.CategoryId;
+            
+            // Load current prices
+            var currentPrice = dbContext.Prices
+                .Where(p => p.ProductId == product.Id && p.IsActive == true)
+                .OrderByDescending(p => p.CreatedDate)
+                .FirstOrDefault();
+                
+            if (currentPrice != null)
+            {
+                txtSellingPrice.Value = currentPrice.SellingPrice;
+                txtPurchasingPrice.Value = currentPrice.PurchasingPrice;
+                txtGomlaPrice.Value = currentPrice.GomlaPrice;
+                txtNosGomlaPrice.Value = currentPrice.NosGomlaPrice;
+            }
+        }
+    }
+}

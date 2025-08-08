@@ -1,0 +1,281 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class ProductCUForm : DevExpress.XtraEditors.XtraForm
+    {
+        public ShoppingDBEntities dbContext;
+        private Product currentProduct;
+        public bool ProductSaved { get; private set; } = false;
+
+        public ProductCUForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+            
+            SetupForm();
+            LoadComboBoxData();
+        }
+
+        public ProductCUForm(int productId) : this()
+        {
+            LoadProductForEdit(productId);
+        }
+
+        private void SetupForm()
+        {
+            // Configure form for RTL
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            
+            // Set form properties
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "إدارة المنتجات";
+            
+            // Configure buttons - only show save button
+            BtnCreate.Text = "حفظ";
+            BtnCreate.Visible = true;
+            EditBtn.Visible = false; // Hide the second button
+            btnCancel.Text = "إلغاء";
+            
+            // Apply styling
+            StyleButton(BtnCreate, Color.FromArgb(0, 123, 255), Color.White);
+            StyleButton(btnCancel, Color.FromArgb(108, 117, 125), Color.White);
+        }
+        
+        private void StyleButton(DevExpress.XtraEditors.SimpleButton button, Color backColor, Color foreColor)
+        {
+            if (button != null)
+            {
+                button.Appearance.BackColor = backColor;
+                button.Appearance.ForeColor = foreColor;
+                button.Appearance.Options.UseBackColor = true;
+                button.Appearance.Options.UseForeColor = true;
+                button.Appearance.Font = new Font("Tahoma", 10F, FontStyle.Bold);
+                button.Appearance.Options.UseFont = true;
+            }
+        }
+
+        private void LoadComboBoxData()
+        {
+            try
+            {
+                // Load companies
+                var companies = dbContext.Companies
+                    .Where(c => !c.IsDeleted)
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+                
+                cmbCompany.Properties.DataSource = companies;
+                cmbCompany.Properties.DisplayMember = "Name";
+                cmbCompany.Properties.ValueMember = "Id";
+                cmbCompany.Properties.NullText = "اختر الشركة...";
+                
+                // Load categories
+                var categories = dbContext.Categories
+                    .Where(c => !c.IsDeleted)
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+                
+                cmbCategory.Properties.DataSource = categories;
+                cmbCategory.Properties.DisplayMember = "Name";
+                cmbCategory.Properties.ValueMember = "Id";
+                cmbCategory.Properties.NullText = "اختر الصنف...";
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل البيانات: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadProductForEdit(int productId)
+        {
+            try
+            {
+                currentProduct = dbContext.Products.FirstOrDefault(p => p.Id == productId);
+
+                if (currentProduct != null)
+                {
+                    groupControl1.Text = "تعديل منتج";
+                    BtnCreate.Text = "حفظ التغييرات";
+
+                    // Load product data
+                    txtProductName.Text = currentProduct.Name;
+                    cmbCompany.EditValue = currentProduct.CompanyId;
+                    cmbCategory.EditValue = currentProduct.CategoryId;
+                    txtDescription.Text = currentProduct.Description;
+
+                    // Load latest price
+                    var latestPrice = dbContext.Prices
+                        .Where(p => p.ProductId == productId)
+                        .OrderByDescending(p => p.CreatedDate)
+                        .FirstOrDefault();
+
+                    if (latestPrice != null)
+                    {
+                        txtSellingPrice.EditValue = latestPrice.SellingPrice;
+                        txtPurchasingPrice.EditValue = latestPrice.PurchasingPrice;
+                        txtGomlaPrice.EditValue = latestPrice.GomlaPrice;
+                        txtNosGomlaPrice.EditValue = latestPrice.NosGomlaPrice;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل بيانات المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ValidateForm()
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(txtProductName.Text))
+                errors.Add("يرجى إدخال اسم المنتج");
+
+            if (cmbCompany.EditValue == null)
+                errors.Add("يرجى اختيار الشركة");
+
+            if (cmbCategory.EditValue == null)
+                errors.Add("يرجى اختيار الصنف");
+
+            if (txtSellingPrice.Value <= 0)
+                errors.Add("يرجى إدخال سعر بيع صحيح");
+
+            if (txtPurchasingPrice.Value <= 0)
+                errors.Add("يرجى إدخال سعر شراء صحيح");
+
+            if (errors.Any())
+            {
+                XtraMessageBox.Show(string.Join("\n", errors), 
+                    "بيانات مطلوبة", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            if (!ValidateForm()) return;
+
+            try
+            {
+                if (currentProduct == null)
+                {
+                    // Create new product
+                    var newProduct = new Product
+                    {
+                        Name = txtProductName.Text.Trim(),
+                        CompanyId = Convert.ToInt32(cmbCompany.EditValue),
+                        CategoryId = Convert.ToInt32(cmbCategory.EditValue),
+                        Description = txtDescription.Text?.Trim(),
+                        CreatedDate = DateTime.Now
+                    };
+
+                    dbContext.Products.Add(newProduct);
+                    dbContext.SaveChanges();
+
+                    // Add price record
+                    var price = new Price
+                    {
+                        ProductId = newProduct.Id,
+                        SellingPrice = txtSellingPrice.Value,
+                        PurchasingPrice = txtPurchasingPrice.Value,
+                        GomlaPrice = txtGomlaPrice.Value,
+                        NosGomlaPrice = txtNosGomlaPrice.Value,
+                        CreatedDate = DateTime.Now,
+                        IsActive = true
+                    };
+
+                    dbContext.Prices.Add(price);
+                    dbContext.SaveChanges();
+
+                    XtraMessageBox.Show("تم إضافة المنتج بنجاح", 
+                        "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    // Update existing product
+                    currentProduct.Name = txtProductName.Text.Trim();
+                    currentProduct.CompanyId = Convert.ToInt32(cmbCompany.EditValue);
+                    currentProduct.CategoryId = Convert.ToInt32(cmbCategory.EditValue);
+                    currentProduct.Description = txtDescription.Text?.Trim();
+
+                    // Deactivate old prices
+                    var oldPrices = dbContext.Prices.Where(p => p.ProductId == currentProduct.Id);
+                    foreach (var oldPrice in oldPrices)
+                    {
+                        oldPrice.IsActive = false;
+                    }
+
+                    // Add new price record
+                    var newPrice = new Price
+                    {
+                        ProductId = currentProduct.Id,
+                        SellingPrice = txtSellingPrice.Value,
+                        PurchasingPrice = txtPurchasingPrice.Value,
+                        GomlaPrice = txtGomlaPrice.Value,
+                        NosGomlaPrice = txtNosGomlaPrice.Value,
+                        CreatedDate = DateTime.Now,
+                        IsActive = true
+                    };
+
+                    dbContext.Prices.Add(newPrice);
+                    dbContext.SaveChanges();
+
+                    XtraMessageBox.Show("تم تحديث المنتج بنجاح", 
+                        "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                ProductSaved = true;
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حفظ المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            // This method is now unused since we only have one save button
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void cmbCategory_EditValueChanged(object sender, EventArgs e)
+        {
+            // Empty - removing unnecessary code
+        }
+
+        private void chkOptional_CheckedChanged(object sender, EventArgs e)
+        {
+            // Empty - removing unnecessary code
+        }
+
+        private void ProductCUForm_Load(object sender, EventArgs e)
+        {
+            // Empty - removing unnecessary code
+        }
+    }
+}

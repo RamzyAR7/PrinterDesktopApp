@@ -234,14 +234,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesktopApp.exe" size="1345536">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesktopApp.exe" size="1343488">
       <assemblyIdentity name="DesktopApp" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>RfDfwwgPbtUPLAwHN2OAKVtC0S1GWGl9cZCkqrW9Npw=</dsig:DigestValue>
+        <dsig:DigestValue>ELT2McDXBAJFviJ0u1qNKc2SRgp8By5BwdEg7FtaoAg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -521,6 +521,24 @@
       </hash>
     </dependentAssembly>
   </dependency>
+  <file name="CrystalReports\Barcode.rpt" size="16384">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ehj1fNsU8PS8PLL0oRAz24E9bMUNkp6wIya/jRbPK+s=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="CrystalReports\Invoice.rpt" size="983040">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>qcS9kZCrFQZzK369F8nRAWt9j6lXBU1pwnVRbiGIRrw=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="DesktopApp.exe.config" size="2746">
     <hash>
       <dsig:Transforms>

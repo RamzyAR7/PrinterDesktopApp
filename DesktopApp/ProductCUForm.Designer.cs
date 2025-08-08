@@ -44,6 +44,8 @@
             this.BtnCreate = new DevExpress.XtraEditors.SimpleButton();
             this.EditBtn = new DevExpress.XtraEditors.SimpleButton();
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
+            this.btnPreview = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSaveAndPrint = new DevExpress.XtraEditors.SimpleButton();
             this.txtProductName = new DevExpress.XtraEditors.TextEdit();
             this.cmbCompany = new DevExpress.XtraEditors.LookUpEdit();
             this.cmbCategory = new DevExpress.XtraEditors.LookUpEdit();
@@ -109,18 +111,22 @@
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(768, 600);
+            this.panelControl1.Size = new System.Drawing.Size(768, 650);
             this.panelControl1.TabIndex = 0;
             // 
             // groupControl1
             // 
             this.groupControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold);
+            this.groupControl1.Appearance.Options.UseFont = true;
+            this.groupControl1.AppearanceCaption.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold);
+            this.groupControl1.AppearanceCaption.Options.UseFont = true;
             this.groupControl1.Controls.Add(this.layoutControl1);
             this.groupControl1.Location = new System.Drawing.Point(23, 12);
             this.groupControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(721, 575);
+            this.groupControl1.Size = new System.Drawing.Size(721, 625);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "بيانات المنتج";
             // 
@@ -136,12 +142,12 @@
             this.layoutControl1.Controls.Add(this.txtNosGomlaPrice);
             this.layoutControl1.Controls.Add(this.chkOptional);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.layoutControl1.Location = new System.Drawing.Point(2, 28);
+            this.layoutControl1.Location = new System.Drawing.Point(2, 33);
             this.layoutControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsView.RightToLeftMirroringApplied = true;
             this.layoutControl1.Root = this.Root;
-            this.layoutControl1.Size = new System.Drawing.Size(717, 545);
+            this.layoutControl1.Size = new System.Drawing.Size(717, 590);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -160,7 +166,7 @@
             this.layoutControlItem9,
             this.layoutControlItem10});
             this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(717, 545);
+            this.Root.Size = new System.Drawing.Size(717, 590);
             this.Root.TextVisible = false;
             // 
             // panelControl2
@@ -168,35 +174,37 @@
             this.panelControl2.Controls.Add(this.BtnCreate);
             this.panelControl2.Controls.Add(this.EditBtn);
             this.panelControl2.Controls.Add(this.btnCancel);
+            this.panelControl2.Controls.Add(this.btnPreview);
+            this.panelControl2.Controls.Add(this.btnSaveAndPrint);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelControl2.Location = new System.Drawing.Point(0, 541);
             this.panelControl2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(789, 62);
+            this.panelControl2.Size = new System.Drawing.Size(789, 80);
             this.panelControl2.TabIndex = 1;
             // 
             // BtnCreate
             // 
             this.BtnCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnCreate.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.BtnCreate.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.BtnCreate.Appearance.Options.UseFont = true;
-            this.BtnCreate.Location = new System.Drawing.Point(649, 12);
+            this.BtnCreate.Location = new System.Drawing.Point(649, 15);
             this.BtnCreate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BtnCreate.Name = "BtnCreate";
-            this.BtnCreate.Size = new System.Drawing.Size(117, 37);
+            this.BtnCreate.Size = new System.Drawing.Size(117, 50);
             this.BtnCreate.TabIndex = 0;
-            this.BtnCreate.Text = "إنشاء";
+            this.BtnCreate.Text = "حفظ";
             this.BtnCreate.Click += new System.EventHandler(this.BtnCreate_Click);
             // 
             // EditBtn
             // 
             this.EditBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.EditBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.EditBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.EditBtn.Appearance.Options.UseFont = true;
-            this.EditBtn.Location = new System.Drawing.Point(521, 12);
+            this.EditBtn.Location = new System.Drawing.Point(521, 15);
             this.EditBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.EditBtn.Name = "EditBtn";
-            this.EditBtn.Size = new System.Drawing.Size(117, 37);
+            this.EditBtn.Size = new System.Drawing.Size(117, 50);
             this.EditBtn.TabIndex = 1;
             this.EditBtn.Text = "تعديل";
             this.EditBtn.Visible = false;
@@ -204,56 +212,96 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Appearance.Font = new System.Drawing.Font("Tahoma", 9F);
+            this.btnCancel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
             this.btnCancel.Appearance.Options.UseFont = true;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(23, 12);
+            this.btnCancel.Location = new System.Drawing.Point(23, 15);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(117, 37);
+            this.btnCancel.Size = new System.Drawing.Size(117, 50);
             this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "إلغاء";
             // 
+            // btnPreview
+            // 
+            this.btnPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPreview.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.btnPreview.Appearance.Options.UseFont = true;
+            this.btnPreview.Location = new System.Drawing.Point(521, 15);
+            this.btnPreview.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPreview.Name = "btnPreview";
+            this.btnPreview.Size = new System.Drawing.Size(117, 50);
+            this.btnPreview.TabIndex = 3;
+            this.btnPreview.Text =  "حفظ ومعاينة";
+            this.btnPreview.Visible = false;
+            this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
+            // 
+            // btnSaveAndPrint
+            // 
+            this.btnSaveAndPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveAndPrint.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.btnSaveAndPrint.Appearance.Options.UseFont = true;
+            this.btnSaveAndPrint.Location = new System.Drawing.Point(393, 15);
+            this.btnSaveAndPrint.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSaveAndPrint.Name = "btnSaveAndPrint";
+            this.btnSaveAndPrint.Size = new System.Drawing.Size(117, 50);
+            this.btnSaveAndPrint.TabIndex = 4;
+            this.btnSaveAndPrint.Text = "حفظ وطباعة";
+            this.btnSaveAndPrint.Visible = false;
+            this.btnSaveAndPrint.Click += new System.EventHandler(this.btnSaveAndPrint_Click);
+            // 
             // txtProductName
             // 
-            this.txtProductName.Location = new System.Drawing.Point(14, 34);
-            this.txtProductName.Margin = new System.Windows.Forms.Padding(4);
+            this.txtProductName.Location = new System.Drawing.Point(14, 39);
+            this.txtProductName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtProductName.Name = "txtProductName";
-            this.txtProductName.Size = new System.Drawing.Size(689, 22);
+            this.txtProductName.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.txtProductName.Properties.Appearance.Options.UseFont = true;
+            this.txtProductName.Size = new System.Drawing.Size(689, 30);
             this.txtProductName.StyleController = this.layoutControl1;
             this.txtProductName.TabIndex = 0;
             // 
             // cmbCompany
             // 
-            this.cmbCompany.Location = new System.Drawing.Point(14, 80);
-            this.cmbCompany.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbCompany.Location = new System.Drawing.Point(14, 98);
+            this.cmbCompany.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbCompany.Name = "cmbCompany";
+            this.cmbCompany.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.cmbCompany.Properties.Appearance.Options.UseFont = true;
+            this.cmbCompany.Properties.AppearanceDropDown.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.cmbCompany.Properties.AppearanceDropDown.Options.UseFont = true;
             this.cmbCompany.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.cmbCompany.Properties.NullText = "اختر الشركة...";
-            this.cmbCompany.Size = new System.Drawing.Size(689, 22);
+            this.cmbCompany.Size = new System.Drawing.Size(689, 30);
             this.cmbCompany.StyleController = this.layoutControl1;
             this.cmbCompany.TabIndex = 2;
             // 
             // cmbCategory
             // 
-            this.cmbCategory.Location = new System.Drawing.Point(14, 126);
-            this.cmbCategory.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbCategory.Location = new System.Drawing.Point(14, 157);
+            this.cmbCategory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbCategory.Name = "cmbCategory";
+            this.cmbCategory.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.cmbCategory.Properties.Appearance.Options.UseFont = true;
+            this.cmbCategory.Properties.AppearanceDropDown.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.cmbCategory.Properties.AppearanceDropDown.Options.UseFont = true;
             this.cmbCategory.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.cmbCategory.Properties.NullText = "اختر الصنف...";
-            this.cmbCategory.Size = new System.Drawing.Size(689, 22);
+            this.cmbCategory.Size = new System.Drawing.Size(689, 30);
             this.cmbCategory.StyleController = this.layoutControl1;
             this.cmbCategory.TabIndex = 3;
             this.cmbCategory.EditValueChanged += new System.EventHandler(this.cmbCategory_EditValueChanged);
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(14, 172);
-            this.txtDescription.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDescription.Location = new System.Drawing.Point(14, 216);
+            this.txtDescription.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(689, 99);
+            this.txtDescription.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 11F);
+            this.txtDescription.Properties.Appearance.Options.UseFont = true;
+            this.txtDescription.Size = new System.Drawing.Size(689, 120);
             this.txtDescription.StyleController = this.layoutControl1;
             this.txtDescription.TabIndex = 4;
             // 
@@ -264,9 +312,11 @@
             0,
             0,
             0});
-            this.txtSellingPrice.Location = new System.Drawing.Point(14, 295);
-            this.txtSellingPrice.Margin = new System.Windows.Forms.Padding(4);
+            this.txtSellingPrice.Location = new System.Drawing.Point(14, 365);
+            this.txtSellingPrice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtSellingPrice.Name = "txtSellingPrice";
+            this.txtSellingPrice.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.txtSellingPrice.Properties.Appearance.Options.UseFont = true;
             this.txtSellingPrice.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtSellingPrice.Properties.MaxValue = new decimal(new int[] {
@@ -274,7 +324,7 @@
             0,
             0,
             0});
-            this.txtSellingPrice.Size = new System.Drawing.Size(689, 24);
+            this.txtSellingPrice.Size = new System.Drawing.Size(689, 30);
             this.txtSellingPrice.StyleController = this.layoutControl1;
             this.txtSellingPrice.TabIndex = 5;
             // 
@@ -285,9 +335,11 @@
             0,
             0,
             0});
-            this.txtPurchasingPrice.Location = new System.Drawing.Point(14, 343);
-            this.txtPurchasingPrice.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPurchasingPrice.Location = new System.Drawing.Point(14, 424);
+            this.txtPurchasingPrice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtPurchasingPrice.Name = "txtPurchasingPrice";
+            this.txtPurchasingPrice.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.txtPurchasingPrice.Properties.Appearance.Options.UseFont = true;
             this.txtPurchasingPrice.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtPurchasingPrice.Properties.MaxValue = new decimal(new int[] {
@@ -295,7 +347,7 @@
             0,
             0,
             0});
-            this.txtPurchasingPrice.Size = new System.Drawing.Size(689, 24);
+            this.txtPurchasingPrice.Size = new System.Drawing.Size(689, 30);
             this.txtPurchasingPrice.StyleController = this.layoutControl1;
             this.txtPurchasingPrice.TabIndex = 6;
             // 
@@ -306,9 +358,11 @@
             0,
             0,
             0});
-            this.txtGomlaPrice.Location = new System.Drawing.Point(14, 391);
-            this.txtGomlaPrice.Margin = new System.Windows.Forms.Padding(4);
+            this.txtGomlaPrice.Location = new System.Drawing.Point(14, 483);
+            this.txtGomlaPrice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtGomlaPrice.Name = "txtGomlaPrice";
+            this.txtGomlaPrice.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.txtGomlaPrice.Properties.Appearance.Options.UseFont = true;
             this.txtGomlaPrice.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtGomlaPrice.Properties.MaxValue = new decimal(new int[] {
@@ -316,7 +370,7 @@
             0,
             0,
             0});
-            this.txtGomlaPrice.Size = new System.Drawing.Size(689, 24);
+            this.txtGomlaPrice.Size = new System.Drawing.Size(689, 30);
             this.txtGomlaPrice.StyleController = this.layoutControl1;
             this.txtGomlaPrice.TabIndex = 7;
             // 
@@ -327,9 +381,11 @@
             0,
             0,
             0});
-            this.txtNosGomlaPrice.Location = new System.Drawing.Point(14, 439);
-            this.txtNosGomlaPrice.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNosGomlaPrice.Location = new System.Drawing.Point(14, 542);
+            this.txtNosGomlaPrice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtNosGomlaPrice.Name = "txtNosGomlaPrice";
+            this.txtNosGomlaPrice.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.txtNosGomlaPrice.Properties.Appearance.Options.UseFont = true;
             this.txtNosGomlaPrice.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.txtNosGomlaPrice.Properties.MaxValue = new decimal(new int[] {
@@ -337,107 +393,143 @@
             0,
             0,
             0});
-            this.txtNosGomlaPrice.Size = new System.Drawing.Size(689, 24);
+            this.txtNosGomlaPrice.Size = new System.Drawing.Size(689, 30);
             this.txtNosGomlaPrice.StyleController = this.layoutControl1;
             this.txtNosGomlaPrice.TabIndex = 8;
             // 
             // chkOptional
             // 
-            this.chkOptional.Location = new System.Drawing.Point(14, 467);
-            this.chkOptional.Margin = new System.Windows.Forms.Padding(4);
+            this.chkOptional.Location = new System.Drawing.Point(14, 576);
+            this.chkOptional.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkOptional.Name = "chkOptional";
+            this.chkOptional.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 11F);
+            this.chkOptional.Properties.Appearance.Options.UseFont = true;
             this.chkOptional.Properties.Caption = "منتج اختياري";
-            this.chkOptional.Size = new System.Drawing.Size(689, 24);
+            this.chkOptional.Size = new System.Drawing.Size(689, 25);
             this.chkOptional.StyleController = this.layoutControl1;
             this.chkOptional.TabIndex = 9;
             this.chkOptional.CheckedChanged += new System.EventHandler(this.chkOptional_CheckedChanged);
             // 
             // layoutControlItem1
             // 
+            this.layoutControlItem1.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.layoutControlItem1.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem1.Control = this.txtProductName;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
+            this.layoutControlItem1.MinSize = new System.Drawing.Size(54, 30);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(693, 46);
+            this.layoutControlItem1.Size = new System.Drawing.Size(693, 59);
+            this.layoutControlItem1.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem1.Text = "اسم المنتج";
             this.layoutControlItem1.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(87, 16);
+            this.layoutControlItem1.TextSize = new System.Drawing.Size(87, 24);
             // 
             // layoutControlItem3
             // 
+            this.layoutControlItem3.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.layoutControlItem3.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem3.Control = this.cmbCompany;
-            this.layoutControlItem3.Location = new System.Drawing.Point(0, 46);
+            this.layoutControlItem3.Location = new System.Drawing.Point(0, 59);
+            this.layoutControlItem3.MinSize = new System.Drawing.Size(54, 30);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(693, 46);
+            this.layoutControlItem3.Size = new System.Drawing.Size(693, 59);
+            this.layoutControlItem3.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem3.Text = "الشركة";
             this.layoutControlItem3.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem3.TextSize = new System.Drawing.Size(87, 16);
+            this.layoutControlItem3.TextSize = new System.Drawing.Size(87, 24);
             // 
             // layoutControlItem4
             // 
+            this.layoutControlItem4.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.layoutControlItem4.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem4.Control = this.cmbCategory;
-            this.layoutControlItem4.Location = new System.Drawing.Point(0, 92);
+            this.layoutControlItem4.Location = new System.Drawing.Point(0, 118);
+            this.layoutControlItem4.MinSize = new System.Drawing.Size(54, 30);
             this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(693, 46);
+            this.layoutControlItem4.Size = new System.Drawing.Size(693, 59);
+            this.layoutControlItem4.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem4.Text = "الصنف";
             this.layoutControlItem4.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem4.TextSize = new System.Drawing.Size(87, 16);
+            this.layoutControlItem4.TextSize = new System.Drawing.Size(87, 24);
             // 
             // layoutControlItem5
             // 
+            this.layoutControlItem5.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.layoutControlItem5.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem5.Control = this.txtDescription;
-            this.layoutControlItem5.Location = new System.Drawing.Point(0, 138);
+            this.layoutControlItem5.Location = new System.Drawing.Point(0, 177);
+            this.layoutControlItem5.MinSize = new System.Drawing.Size(54, 60);
             this.layoutControlItem5.Name = "layoutControlItem5";
-            this.layoutControlItem5.Size = new System.Drawing.Size(693, 123);
+            this.layoutControlItem5.Size = new System.Drawing.Size(693, 149);
+            this.layoutControlItem5.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem5.Text = "الوصف";
             this.layoutControlItem5.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem5.TextSize = new System.Drawing.Size(87, 16);
+            this.layoutControlItem5.TextSize = new System.Drawing.Size(87, 24);
             // 
             // layoutControlItem6
             // 
+            this.layoutControlItem6.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.layoutControlItem6.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem6.Control = this.txtSellingPrice;
-            this.layoutControlItem6.Location = new System.Drawing.Point(0, 261);
+            this.layoutControlItem6.Location = new System.Drawing.Point(0, 326);
+            this.layoutControlItem6.MinSize = new System.Drawing.Size(54, 30);
             this.layoutControlItem6.Name = "layoutControlItem6";
-            this.layoutControlItem6.Size = new System.Drawing.Size(693, 48);
+            this.layoutControlItem6.Size = new System.Drawing.Size(693, 59);
+            this.layoutControlItem6.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem6.Text = "سعر البيع";
             this.layoutControlItem6.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem6.TextSize = new System.Drawing.Size(87, 16);
+            this.layoutControlItem6.TextSize = new System.Drawing.Size(87, 24);
             // 
             // layoutControlItem7
             // 
+            this.layoutControlItem7.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.layoutControlItem7.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem7.Control = this.txtPurchasingPrice;
-            this.layoutControlItem7.Location = new System.Drawing.Point(0, 309);
+            this.layoutControlItem7.Location = new System.Drawing.Point(0, 385);
+            this.layoutControlItem7.MinSize = new System.Drawing.Size(54, 30);
             this.layoutControlItem7.Name = "layoutControlItem7";
-            this.layoutControlItem7.Size = new System.Drawing.Size(693, 48);
+            this.layoutControlItem7.Size = new System.Drawing.Size(693, 59);
+            this.layoutControlItem7.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem7.Text = "سعر الشراء";
             this.layoutControlItem7.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem7.TextSize = new System.Drawing.Size(87, 16);
+            this.layoutControlItem7.TextSize = new System.Drawing.Size(87, 24);
             // 
             // layoutControlItem8
             // 
+            this.layoutControlItem8.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.layoutControlItem8.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem8.Control = this.txtGomlaPrice;
-            this.layoutControlItem8.Location = new System.Drawing.Point(0, 357);
+            this.layoutControlItem8.Location = new System.Drawing.Point(0, 444);
+            this.layoutControlItem8.MinSize = new System.Drawing.Size(54, 30);
             this.layoutControlItem8.Name = "layoutControlItem8";
-            this.layoutControlItem8.Size = new System.Drawing.Size(693, 48);
+            this.layoutControlItem8.Size = new System.Drawing.Size(693, 59);
+            this.layoutControlItem8.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem8.Text = "سعر الجملة";
             this.layoutControlItem8.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem8.TextSize = new System.Drawing.Size(87, 16);
+            this.layoutControlItem8.TextSize = new System.Drawing.Size(87, 24);
             // 
             // layoutControlItem9
             // 
+            this.layoutControlItem9.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.layoutControlItem9.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem9.Control = this.txtNosGomlaPrice;
-            this.layoutControlItem9.Location = new System.Drawing.Point(0, 405);
+            this.layoutControlItem9.Location = new System.Drawing.Point(0, 503);
+            this.layoutControlItem9.MinSize = new System.Drawing.Size(54, 30);
             this.layoutControlItem9.Name = "layoutControlItem9";
-            this.layoutControlItem9.Size = new System.Drawing.Size(693, 48);
+            this.layoutControlItem9.Size = new System.Drawing.Size(693, 59);
+            this.layoutControlItem9.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem9.Text = "سعر نص الجملة";
             this.layoutControlItem9.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem9.TextSize = new System.Drawing.Size(87, 16);
+            this.layoutControlItem9.TextSize = new System.Drawing.Size(87, 24);
             // 
             // layoutControlItem10
             // 
             this.layoutControlItem10.Control = this.chkOptional;
-            this.layoutControlItem10.Location = new System.Drawing.Point(0, 453);
+            this.layoutControlItem10.Location = new System.Drawing.Point(0, 562);
+            this.layoutControlItem10.MinSize = new System.Drawing.Size(78, 28);
             this.layoutControlItem10.Name = "layoutControlItem10";
-            this.layoutControlItem10.Size = new System.Drawing.Size(693, 72);
+            this.layoutControlItem10.Size = new System.Drawing.Size(693, 28);
+            this.layoutControlItem10.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem10.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem10.TextVisible = false;
             // 
@@ -445,7 +537,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(789, 603);
+            this.ClientSize = new System.Drawing.Size(789, 621);
             this.Controls.Add(this.scrollableControl1);
             this.Controls.Add(this.panelControl2);
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -516,5 +608,7 @@
         public DevExpress.XtraEditors.SimpleButton BtnCreate;
         public DevExpress.XtraEditors.SimpleButton EditBtn;
         private DevExpress.XtraEditors.SimpleButton btnCancel;
+        private DevExpress.XtraEditors.SimpleButton btnPreview;
+        private DevExpress.XtraEditors.SimpleButton btnSaveAndPrint;
     }
 }
