@@ -141,7 +141,7 @@
             this.Controls.Add(this.panelMainContainer);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "معرض الطنطاوى للأجهزة الكهربائية والأدوات المنزلية";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.panelMainContainer)).EndInit();
             this.panelMainContainer.ResumeLayout(false);

@@ -85,3 +85,4 @@ C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\bin\Debu
 C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\bin\Debug\DevExpress.XtraGrid.v24.1.dll
 C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\bin\Debug\DevExpress.XtraLayout.v24.1.dll
 C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Debug\DesktopApp.ActionForm.resources
+C:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Debug\DesktopApp.InvoiceActionForm.resources

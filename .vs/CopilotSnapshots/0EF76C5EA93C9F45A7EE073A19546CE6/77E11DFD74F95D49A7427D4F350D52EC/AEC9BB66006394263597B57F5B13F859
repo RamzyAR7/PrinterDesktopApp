@@ -1,0 +1,270 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class InvoiceActionForm : DevExpress.XtraEditors.XtraForm
+    {
+        private Invoice currentInvoice;
+        private ShoppingDBEntities dbContext;
+        public bool InvoiceModified { get; private set; } = false;
+
+        public InvoiceActionForm(Invoice invoice)
+        {
+            InitializeComponent();
+            currentInvoice = invoice;
+            dbContext = new ShoppingDBEntities();
+            
+            SetupForm();
+            LoadInvoiceInfo();
+        }
+
+        private void SetupForm()
+        {
+            // Configure form for RTL
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            
+            // Set form properties
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "إجراءات الفاتورة";
+            
+            // Set improved form size to accommodate all buttons properly
+            this.Size = new System.Drawing.Size(580, 220);
+            this.MinimumSize = new System.Drawing.Size(580, 220);
+            
+            // Apply enhanced styling
+            ApplyEnhancedStyling();
+        }
+
+        private void ApplyEnhancedStyling()
+        {
+            // Set form background color
+            this.BackColor = Color.FromArgb(248, 249, 250);
+            
+            // Style the panel
+            if (panelControl1 != null)
+            {
+                panelControl1.BackColor = Color.White;
+                panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                panelControl1.LookAndFeel.SkinName = "Office 2019 Colorful";
+            }
+            
+            // Style the label
+            if (lblInvoiceInfo != null)
+            {
+                lblInvoiceInfo.Appearance.ForeColor = Color.FromArgb(52, 58, 64);
+                lblInvoiceInfo.Appearance.BackColor = Color.Transparent;
+                lblInvoiceInfo.BackColor = Color.Transparent;
+            }
+            
+            // Apply button styling
+            StyleButton(EditBtn, Color.FromArgb(255, 193, 7), Color.FromArgb(33, 37, 41)); // Warning yellow
+            StyleButton(DeleteBtn, Color.FromArgb(220, 53, 69), Color.White); // Danger red
+            StyleButton(PreviewBtn, Color.FromArgb(23, 162, 184), Color.White); // Info teal
+            StyleButton(PrintBtn, Color.FromArgb(0, 123, 255), Color.White); // Primary blue
+        }
+        
+        private void StyleButton(DevExpress.XtraEditors.SimpleButton button, Color backColor, Color foreColor)
+        {
+            if (button != null)
+            {
+                button.Appearance.BackColor = backColor;
+                button.Appearance.ForeColor = foreColor;
+                button.Appearance.Options.UseBackColor = true;
+                button.Appearance.Options.UseForeColor = true;
+                button.Appearance.BorderColor = backColor;
+                button.Appearance.Options.UseBorderColor = true;
+                button.LookAndFeel.SkinName = "Office 2019 Colorful";
+                button.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                button.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+
+                // Add hover effects
+                button.AppearanceHovered.BackColor = Color.FromArgb(Math.Max(0, backColor.R - 20),
+                                                                   Math.Max(0, backColor.G - 20),
+                                                                   Math.Max(0, backColor.B - 20));
+                button.AppearanceHovered.Options.UseBackColor = true;
+                button.AppearancePressed.BackColor = Color.FromArgb(Math.Max(0, backColor.R - 40),
+                                                                   Math.Max(0, backColor.G - 40),
+                                                                   Math.Max(0, backColor.B - 40));
+                button.AppearancePressed.Options.UseBackColor = true;
+            }
+        }
+
+        private void LoadInvoiceInfo()
+        {
+            if (currentInvoice != null && lblInvoiceInfo != null)
+            {
+                lblInvoiceInfo.Text = $"الفاتورة: {currentInvoice.InvoiceNumber} - العميل: {currentInvoice.CustomerName}";
+            }
+        }
+
+        private void InvoiceActionForm_Load(object sender, EventArgs e)
+        {
+            LoadInvoiceInfo();
+        }
+
+        private void panelControl1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        #region Button Event Handlers
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open InvoiceCUForm in Edit mode
+                using (var editForm = new InvoiceCUForm(currentInvoice.Id))
+                {
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        InvoiceModified = true;
+                        // Refresh invoice info in case data changed
+                        RefreshInvoiceInfo();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تعديل الفاتورة: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DeleteBtn_Click(object sender, EventArgs e)
+        {
+            if (currentInvoice == null) return;
+
+            var result = XtraMessageBox.Show($"هل أنت متأكد من حذف الفاتورة رقم '{currentInvoice.InvoiceNumber}'؟\n\nهذا الإجراء لا يمكن التراجع عنه.", 
+                "تأكيد الحذف", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    // Remove the invoice from database
+                    var invoiceToDelete = dbContext.Invoices.Find(currentInvoice.Id);
+                    if (invoiceToDelete != null)
+                    {
+                        // Remove invoice items first
+                        var invoiceItems = dbContext.InvoiceItems.Where(i => i.InvoiceId == invoiceToDelete.Id);
+                        dbContext.InvoiceItems.RemoveRange(invoiceItems);
+                        
+                        // Remove the invoice
+                        dbContext.Invoices.Remove(invoiceToDelete);
+                        dbContext.SaveChanges();
+
+                        XtraMessageBox.Show("تم حذف الفاتورة بنجاح", 
+                            "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        
+                        InvoiceModified = true;
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    XtraMessageBox.Show($"خطأ في حذف الفاتورة: {ex.Message}", 
+                        "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void PrintBtn_Click(object sender, EventArgs e)
+        {
+            if (currentInvoice == null) return;
+
+            try
+            {
+                // Open copy selection form to get number of copies
+                using (var copyForm = new BarcodeCopyForm())
+                {
+                    if (copyForm.ShowDialog() == DialogResult.OK)
+                    {
+                        int numberOfCopies = copyForm.NumberOfCopies;
+                        
+                        // Show loading cursor
+                        this.Cursor = Cursors.WaitCursor;
+                        
+                        // Perform silent printing
+                        SilentPrintUtility.PrintInvoiceSilent(currentInvoice.Id, numberOfCopies);
+                        
+                        XtraMessageBox.Show($"تم طباعة {numberOfCopies} نسخة من الفاتورة رقم '{currentInvoice.InvoiceNumber}' بنجاح", 
+                            "طباعة مكتملة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في الطباعة: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void PreviewBtn_Click(object sender, EventArgs e)
+        {
+            if (currentInvoice == null) return;
+
+            try
+            {
+                // Open invoice preview form
+                using (var previewForm = new InvoicePreviewForm(currentInvoice.Id))
+                {
+                    previewForm.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في معاينة الفاتورة: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
+        private void RefreshInvoiceInfo()
+        {
+            try
+            {
+                // Refresh invoice data from database
+                var refreshedInvoice = dbContext.Invoices.Find(currentInvoice.Id);
+                if (refreshedInvoice != null)
+                {
+                    currentInvoice = refreshedInvoice;
+                    LoadInvoiceInfo();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error refreshing invoice info: {ex.Message}");
+            }
+        }
+
+        private void lblProductName_Click(object sender, EventArgs e)
+        {
+            // Legacy event handler - keeping for compatibility
+        }
+
+        ~InvoiceActionForm()
+        {
+            dbContext?.Dispose();
+        }
+    }
+}

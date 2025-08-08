@@ -1,0 +1,158 @@
+﻿namespace DesktopApp
+{
+    partial class InvoiceActionForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lblProductName = new DevExpress.XtraEditors.LabelControl();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.PrintBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.PreviewBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.DeleteBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.EditBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+            this.panelControl1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // lblProductName
+            // 
+            this.lblProductName.Appearance.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Bold);
+            this.lblProductName.Appearance.Options.UseFont = true;
+            this.lblProductName.Location = new System.Drawing.Point(466, 23);
+            this.lblProductName.Name = "lblProductName";
+            this.lblProductName.Size = new System.Drawing.Size(139, 33);
+            this.lblProductName.TabIndex = 3;
+            this.lblProductName.Text = "رقم الفتورة";
+            this.lblProductName.Click += new System.EventHandler(this.lblProductName_Click);
+            // 
+            // panelControl1
+            // 
+            this.panelControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelControl1.Controls.Add(this.PrintBtn);
+            this.panelControl1.Controls.Add(this.PreviewBtn);
+            this.panelControl1.Controls.Add(this.DeleteBtn);
+            this.panelControl1.Controls.Add(this.EditBtn);
+            this.panelControl1.Location = new System.Drawing.Point(81, 72);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(510, 90);
+            this.panelControl1.TabIndex = 2;
+            // 
+            // PrintBtn
+            // 
+            this.PrintBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.PrintBtn.Appearance.BackColor = System.Drawing.Color.Blue;
+            this.PrintBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PrintBtn.Appearance.Options.UseBackColor = true;
+            this.PrintBtn.Appearance.Options.UseFont = true;
+            this.PrintBtn.Location = new System.Drawing.Point(385, 15);
+            this.PrintBtn.Name = "PrintBtn";
+            this.PrintBtn.Size = new System.Drawing.Size(110, 60);
+            this.PrintBtn.TabIndex = 3;
+            this.PrintBtn.Text = "طباعة";
+            // 
+            // PreviewBtn
+            // 
+            this.PreviewBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.PreviewBtn.Appearance.BackColor = System.Drawing.Color.Teal;
+            this.PreviewBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PreviewBtn.Appearance.Options.UseBackColor = true;
+            this.PreviewBtn.Appearance.Options.UseFont = true;
+            this.PreviewBtn.Location = new System.Drawing.Point(260, 15);
+            this.PreviewBtn.Name = "PreviewBtn";
+            this.PreviewBtn.Size = new System.Drawing.Size(110, 60);
+            this.PreviewBtn.TabIndex = 2;
+            this.PreviewBtn.Text = "معاينة";
+            // 
+            // DeleteBtn
+            // 
+            this.DeleteBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.DeleteBtn.Appearance.BackColor = System.Drawing.Color.Red;
+            this.DeleteBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DeleteBtn.Appearance.Options.UseBackColor = true;
+            this.DeleteBtn.Appearance.Options.UseFont = true;
+            this.DeleteBtn.Location = new System.Drawing.Point(135, 15);
+            this.DeleteBtn.Name = "DeleteBtn";
+            this.DeleteBtn.Size = new System.Drawing.Size(110, 60);
+            this.DeleteBtn.TabIndex = 1;
+            this.DeleteBtn.Text = "حذف";
+            // 
+            // EditBtn
+            // 
+            this.EditBtn.Appearance.BackColor = System.Drawing.Color.Orange;
+            this.EditBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EditBtn.Appearance.ForeColor = System.Drawing.Color.White;
+            this.EditBtn.Appearance.Options.UseBackColor = true;
+            this.EditBtn.Appearance.Options.UseFont = true;
+            this.EditBtn.Appearance.Options.UseForeColor = true;
+            this.EditBtn.Location = new System.Drawing.Point(10, 15);
+            this.EditBtn.Name = "EditBtn";
+            this.EditBtn.Size = new System.Drawing.Size(110, 60);
+            this.EditBtn.TabIndex = 0;
+            this.EditBtn.Text = "تعديل";
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl1.Appearance.Options.UseFont = true;
+            this.labelControl1.Location = new System.Drawing.Point(205, 32);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(111, 24);
+            this.labelControl1.TabIndex = 4;
+            this.labelControl1.Text = "اسم العميل";
+            // 
+            // InvoiceActionForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(672, 188);
+            this.Controls.Add(this.labelControl1);
+            this.Controls.Add(this.lblProductName);
+            this.Controls.Add(this.panelControl1);
+            this.Name = "InvoiceActionForm";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Text = "InvoiceActionForm";
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+            this.panelControl1.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private DevExpress.XtraEditors.LabelControl lblProductName;
+        private DevExpress.XtraEditors.PanelControl panelControl1;
+        private DevExpress.XtraEditors.SimpleButton PrintBtn;
+        private DevExpress.XtraEditors.SimpleButton PreviewBtn;
+        private DevExpress.XtraEditors.SimpleButton DeleteBtn;
+        private DevExpress.XtraEditors.SimpleButton EditBtn;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
+    }
+}

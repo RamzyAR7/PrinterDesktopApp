@@ -1,0 +1,675 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class InvoiceCUForm : DevExpress.XtraEditors.XtraForm
+    {
+        public ShoppingDBEntities dbContext;
+        private Invoice currentInvoice;
+        private List<InvoiceItem> invoiceItems;
+        public bool InvoiceSaved { get; private set; } = false;
+
+        public InvoiceCUForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+            invoiceItems = new List<InvoiceItem>();
+            SetupForm();
+            LoadComboBoxData();
+            ConfigureGridView();
+            GenerateInvoiceNumber();
+        }
+
+        public InvoiceCUForm(int invoiceId) : this()
+        {
+            LoadInvoiceForEdit(invoiceId);
+        }
+
+        private void SetupForm()
+        {
+            // Basic form configuration
+            this.RightToLeft = RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            
+            // Change to window mode instead of maximized
+            this.WindowState = FormWindowState.Normal;
+            this.Size = new Size(1000, 700); // Smaller window size
+            this.MinimumSize = new Size(900, 600); // Minimum size to prevent too small windows
+
+            // Set default date
+            if (dtInvoiceDate != null)
+                dtInvoiceDate.EditValue = DateTime.Now;
+
+            // Configure button visibility for new invoice
+            if (BtnCreate != null)
+            {
+                BtnCreate.Visible = true;
+                BtnCreate.Enabled = true;
+            }
+            if (EditBtn != null)
+            {
+                EditBtn.Visible = false;
+            }
+            
+            if (groupControl1 != null)
+                groupControl1.Text = "إنشاء فاتورة جديدة";
+        }
+
+        private void LoadComboBoxData()
+        {
+            try
+            {
+                // Load companies
+                var companies = dbContext.Companies
+                    .Where(c => !c.IsDeleted)
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+
+                cmbCompany.Properties.DataSource = companies;
+                cmbCompany.Properties.DisplayMember = "Name";
+                cmbCompany.Properties.ValueMember = "Id";
+                cmbCompany.Properties.NullText = "اختر الشركة...";
+
+                LoadCategories();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل البيانات: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadCategories()
+        {
+            try
+            {
+                var categories = dbContext.Categories
+                    .Where(c => !c.IsDeleted)
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+
+                cmbCategory.Properties.DataSource = categories;
+                cmbCategory.Properties.DisplayMember = "Name";
+                cmbCategory.Properties.ValueMember = "Id";
+                cmbCategory.Properties.NullText = "اختر الصنف...";
+
+                // Clear product selection when categories change
+                cmbProduct.EditValue = null;
+                cmbProduct.Properties.DataSource = null;
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل الأصناف: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadProducts(int companyId, int categoryId)
+        {
+            try
+            {
+                var products = dbContext.Products
+                    .Where(p => p.CompanyId == companyId && p.CategoryId == categoryId)
+                    .ToList()
+                    .Select(p => new 
+                    { 
+                        p.Id, 
+                        p.Name,
+                        SellingPrice = GetProductPrice(p)
+                    })
+                    .OrderBy(p => p.Name)
+                    .ToList();
+                
+                cmbProduct.Properties.DataSource = products;
+                cmbProduct.Properties.DisplayMember = "Name";
+                cmbProduct.Properties.ValueMember = "Id";
+                cmbProduct.Properties.NullText = "اختر المنتج...";
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل المنتجات: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private decimal GetProductPrice(Product p)
+        {
+            var activePrice = p.Prices
+                .Where(pr => pr.IsActive == true)
+                .OrderByDescending(pr => pr.CreatedDate)
+                .FirstOrDefault();
+                
+            if (activePrice != null)
+                return activePrice.SellingPrice;
+                
+            var latestPrice = p.Prices
+                .OrderByDescending(pr => pr.CreatedDate)
+                .FirstOrDefault();
+                
+            return latestPrice?.SellingPrice ?? 0;
+        }
+        
+        private void ConfigureGridView()
+        {
+            gridViewItems.Columns.Clear();
+
+            // Configure basic grid options
+            gridViewItems.OptionsBehavior.Editable = false;
+            gridViewItems.OptionsBehavior.ReadOnly = true;
+
+            var colProductName = gridViewItems.Columns.Add();
+            colProductName.FieldName = "ProductName";
+            colProductName.Caption = "اسم المنتج";
+            colProductName.Visible = true;
+            colProductName.Width = 250;
+
+            var colQuantity = gridViewItems.Columns.Add();
+            colQuantity.FieldName = "Quantity";
+            colQuantity.Caption = "الكمية";
+            colQuantity.Visible = true;
+            colQuantity.Width = 100;
+            colQuantity.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            colQuantity.DisplayFormat.FormatString = "n0";
+
+            var colUnitPrice = gridViewItems.Columns.Add();
+            colUnitPrice.FieldName = "UnitPrice";
+            colUnitPrice.Caption = "سعر الوحدة";
+            colUnitPrice.Visible = true;
+            colUnitPrice.Width = 120;
+            colUnitPrice.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            colUnitPrice.DisplayFormat.FormatString = "n2";
+
+            var colTotalPrice = gridViewItems.Columns.Add();
+            colTotalPrice.FieldName = "TotalPrice";
+            colTotalPrice.Caption = "المجموع";
+            colTotalPrice.Visible = true;
+            colTotalPrice.Width = 120;
+            colTotalPrice.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            colTotalPrice.DisplayFormat.FormatString = "n2";
+            colTotalPrice.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
+            colTotalPrice.UnboundExpression = "[UnitPrice] * [Quantity]";
+
+            // Always add Remove button column in both create and edit modes
+            var colRemove = gridViewItems.Columns.Add();
+            colRemove.FieldName = "Remove";
+            colRemove.Caption = "حذف";
+            colRemove.Visible = true;
+            colRemove.Width = 80;
+            colRemove.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            colRemove.OptionsColumn.AllowEdit = false;
+            colRemove.OptionsColumn.AllowFocus = false;
+            
+            // Set red color for remove column
+            colRemove.AppearanceCell.ForeColor = Color.FromArgb(220, 53, 69);
+            colRemove.AppearanceCell.Font = new Font("Tahoma", 11F, FontStyle.Bold);
+            colRemove.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            
+            // Always wire up the click handler
+            gridViewItems.Click += GridViewItems_Click;
+
+            // Add handlers
+            gridViewItems.KeyDown += GridViewItems_KeyDown;
+            gridViewItems.CustomUnboundColumnData += GridViewItems_CustomUnboundColumnData;
+
+            // Configure footers
+            colTotalPrice.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
+            colTotalPrice.SummaryItem.DisplayFormat = "{0:n2}";
+            gridViewItems.OptionsView.ShowFooter = true;
+
+            // Increase row height for better visibility
+            gridViewItems.RowHeight = 35;
+
+            // Data binding
+            gridControlItems.DataSource = invoiceItems;
+        }
+
+        private void GridViewItems_CustomUnboundColumnData(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDataEventArgs e)
+        {
+            if (e.Column.FieldName == "TotalPrice" && e.IsGetData)
+            {
+                if (e.ListSourceRowIndex >= 0 && e.ListSourceRowIndex < invoiceItems.Count)
+                {
+                    var item = invoiceItems[e.ListSourceRowIndex];
+                    decimal total = item.UnitPrice * item.Quantity;
+                    e.Value = total;
+                }
+            }
+            else if (e.Column.FieldName == "Remove" && e.IsGetData)
+            {
+                // Always show remove button for all items (both create and edit modes)
+                e.Value = "✕";
+            }
+        }
+
+        private void GridViewItems_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                RemoveSelectedItem();
+            }
+        }
+
+        private void GridViewItems_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var view = sender as DevExpress.XtraGrid.Views.Grid.GridView;
+                if (view == null) return;
+
+                var hitInfo = view.CalcHitInfo(view.GridControl.PointToClient(Control.MousePosition));
+                
+                // Check if clicked on the Remove column (works in both create and edit modes)
+                if (hitInfo.InRowCell && hitInfo.Column != null && hitInfo.Column.FieldName == "Remove")
+                {
+                    int rowHandle = hitInfo.RowHandle;
+                    if (rowHandle >= 0 && rowHandle < invoiceItems.Count)
+                    {
+                        var productName = invoiceItems[rowHandle].ProductName;
+                        var result = XtraMessageBox.Show($"هل تريد حذف المنتج '{productName}' من الفاتورة؟",
+                            "تأكيد الحذف", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            
+                        if (result == DialogResult.Yes)
+                        {
+                            invoiceItems.RemoveAt(rowHandle);
+                            RefreshGrid();
+                            CalculateTotals();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حذف المنتج: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GenerateInvoiceNumber()
+        {
+            try
+            {
+                string datePrefix = DateTime.Now.ToString("yyMMdd");
+                var todayInvoices = dbContext.Invoices
+                    .Where(i => i.InvoiceNumber.StartsWith(datePrefix))
+                    .Count();
+
+                int sequenceNumber = todayInvoices + 1;
+                txtInvoiceNumber.Text = $"{datePrefix}0{sequenceNumber:D0}";
+            }
+            catch (Exception)
+            {
+                txtInvoiceNumber.Text = DateTime.Now.ToString("yyMMddHHmmss");
+            }
+        }
+
+        private void LoadInvoiceForEdit(int invoiceId)
+        {
+            try
+            {
+                currentInvoice = dbContext.Invoices
+                    .Include("InvoiceItems")
+                    .FirstOrDefault(i => i.Id == invoiceId);
+
+                if (currentInvoice != null)
+                {
+                    // Update form for edit mode
+                    groupControl1.Text = "تعديل فاتورة";
+                    BtnCreate.Visible = false;
+                    BtnCreate.Enabled = false;
+                    EditBtn.Visible = true;
+                    EditBtn.Enabled = true;
+
+                    // Load invoice data
+                    txtInvoiceNumber.Text = currentInvoice.InvoiceNumber;
+                    dtInvoiceDate.EditValue = currentInvoice.InvoiceDate;
+                    txtCustomerName.Text = currentInvoice.CustomerName;
+                    txtCustomerPhone.Text = currentInvoice.CustomerPhone;
+                    txtDiscount.EditValue = currentInvoice.Discount;
+
+                    // Load invoice items
+                    invoiceItems.Clear();
+                    foreach (var item in currentInvoice.InvoiceItems)
+                    {
+                        invoiceItems.Add(new InvoiceItem
+                        {
+                            Id = item.Id,
+                            ProductName = item.ProductName,
+                            UnitPrice = item.UnitPrice,
+                            Quantity = item.Quantity,
+                            InvoiceId = item.InvoiceId
+                        });
+                    }
+
+                    RefreshGrid();
+                    CalculateTotals();
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل بيانات الفاتورة: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void cmbCompany_EditValueChanged(object sender, EventArgs e)
+        {
+            if (cmbCompany.EditValue != null)
+            {
+                LoadCategories();
+            }
+        }
+
+        private void cmbCategory_EditValueChanged(object sender, EventArgs e)
+        {
+            if (cmbCompany.EditValue != null && cmbCategory.EditValue != null)
+            {
+                LoadProducts(Convert.ToInt32(cmbCompany.EditValue), Convert.ToInt32(cmbCategory.EditValue));
+            }
+        }
+
+        private void cmbProduct_EditValueChanged(object sender, EventArgs e)
+        {
+            // Price is automatically handled by the product selection
+        }
+
+        private void btnAddItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ValidateItemInput())
+                {
+                    var productName = cmbProduct.Text;
+                    var quantity = Convert.ToInt32(spinQuantity.Value);
+                    
+                    // Get unit price from the selected product
+                    decimal unitPrice = 0;
+                    var selectedItem = cmbProduct.GetSelectedDataRow();
+                    if (selectedItem != null)
+                    {
+                        var priceProperty = selectedItem.GetType().GetProperty("SellingPrice");
+                        if (priceProperty != null)
+                        {
+                            unitPrice = Convert.ToDecimal(priceProperty.GetValue(selectedItem) ?? 0);
+                        }
+                    }
+
+                    // Check if product already exists
+                    var existingItem = invoiceItems.FirstOrDefault(i => i.ProductName == productName);
+                    if (existingItem != null)
+                    {
+                        existingItem.Quantity += quantity;
+                    }
+                    else
+                    {
+                        invoiceItems.Add(new InvoiceItem
+                        {
+                            ProductName = productName,
+                            UnitPrice = unitPrice,
+                            Quantity = quantity
+                        });
+                    }
+
+                    RefreshGrid();
+                    CalculateTotals();
+                    ClearItemInputs();
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في إضافة المنتج: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ValidateItemInput()
+        {
+            if (cmbProduct.EditValue == null)
+            {
+                XtraMessageBox.Show("يرجى اختيار منتج", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbProduct.Focus();
+                return false;
+            }
+
+            if (spinQuantity.Value <= 0)
+            {
+                XtraMessageBox.Show("يرجى إدخال كمية صحيحة", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                spinQuantity.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private void ClearItemInputs()
+        {
+            cmbCompany.EditValue = null;
+            cmbCategory.EditValue = null;
+            cmbProduct.EditValue = null;
+            spinQuantity.Value = 1;
+        }
+
+        private void RemoveSelectedItem()
+        {
+            try
+            {
+                int selectedRowHandle = gridViewItems.FocusedRowHandle;
+                if (selectedRowHandle >= 0 && selectedRowHandle < invoiceItems.Count)
+                {
+                    invoiceItems.RemoveAt(selectedRowHandle);
+                    RefreshGrid();
+                    CalculateTotals();
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حذف المنتج: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void RefreshGrid()
+        {
+            gridControlItems.DataSource = null;
+            gridControlItems.DataSource = invoiceItems;
+            gridControlItems.RefreshDataSource();
+        }
+
+        private void CalculateTotals()
+        {
+            try
+            {
+                decimal totalAmount = invoiceItems.Sum(i => i.UnitPrice * i.Quantity);
+                decimal discount = Convert.ToDecimal(txtDiscount.Value);
+                decimal netAmount = totalAmount - discount;
+
+                txtTotalAmount.Text = totalAmount.ToString("N2");
+                txtNetAmount.Text = netAmount.ToString("N2");
+            }
+            catch (Exception)
+            {
+                txtTotalAmount.Text = "0.00";
+                txtNetAmount.Text = "0.00";
+            }
+        }
+
+        private void txtDiscount_EditValueChanged(object sender, EventArgs e)
+        {
+            CalculateTotals();
+        }
+
+        private bool ValidateForm()
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(txtInvoiceNumber.Text))
+                errors.Add("يرجى إدخال رقم الفاتورة");
+
+            if (dtInvoiceDate.EditValue == null)
+                errors.Add("يرجى اختيار تاريخ الفاتورة");
+
+            if (string.IsNullOrWhiteSpace(txtCustomerName.Text))
+                errors.Add("يرجى إدخال اسم العميل");
+
+            if (!invoiceItems.Any())
+                errors.Add("يجب إضافة منتج واحد على الأقل للفاتورة");
+
+            if (errors.Any())
+            {
+                XtraMessageBox.Show(string.Join("\n", errors),
+                    "بيانات مطلوبة", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            if (!ValidateForm()) return;
+
+            try
+            {
+                var newInvoice = new Invoice
+                {
+                    InvoiceNumber = txtInvoiceNumber.Text.Trim(),
+                    InvoiceDate = Convert.ToDateTime(dtInvoiceDate.EditValue),
+                    CustomerName = txtCustomerName.Text.Trim(),
+                    CustomerPhone = txtCustomerPhone.Text?.Trim(),
+                    Discount = Convert.ToDecimal(txtDiscount.Value),
+                    TotalAmount = invoiceItems.Sum(i => i.UnitPrice * i.Quantity)
+                };
+
+                newInvoice.NetAmount = newInvoice.TotalAmount - newInvoice.Discount;
+
+                dbContext.Invoices.Add(newInvoice);
+                dbContext.SaveChanges();
+
+                // Add invoice items
+                foreach (var item in invoiceItems)
+                {
+                    var newItem = new InvoiceItem
+                    {
+                        InvoiceId = newInvoice.Id,
+                        ProductName = item.ProductName,
+                        UnitPrice = item.UnitPrice,
+                        Quantity = item.Quantity
+                    };
+                    dbContext.InvoiceItems.Add(newItem);
+                }
+
+                dbContext.SaveChanges();
+
+                InvoiceSaved = true;
+                XtraMessageBox.Show("تم إنشاء الفاتورة بنجاح",
+                    "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في إنشاء الفاتورة: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            if (!ValidateForm() || currentInvoice == null) return;
+
+            try
+            {
+                // Update invoice
+                currentInvoice.InvoiceNumber = txtInvoiceNumber.Text.Trim();
+                currentInvoice.InvoiceDate = Convert.ToDateTime(dtInvoiceDate.EditValue);
+                currentInvoice.CustomerName = txtCustomerName.Text.Trim();
+                currentInvoice.CustomerPhone = txtCustomerPhone.Text?.Trim();
+                currentInvoice.Discount = Convert.ToDecimal(txtDiscount.Value);
+                currentInvoice.TotalAmount = invoiceItems.Sum(i => i.UnitPrice * i.Quantity);
+                currentInvoice.NetAmount = currentInvoice.TotalAmount - currentInvoice.Discount;
+
+                // Remove existing items
+                var existingItems = dbContext.InvoiceItems.Where(i => i.InvoiceId == currentInvoice.Id);
+                dbContext.InvoiceItems.RemoveRange(existingItems);
+
+                // Add new items
+                foreach (var item in invoiceItems)
+                {
+                    var newItem = new InvoiceItem
+                    {
+                        InvoiceId = currentInvoice.Id,
+                        ProductName = item.ProductName,
+                        UnitPrice = item.UnitPrice,
+                        Quantity = item.Quantity
+                    };
+                    dbContext.InvoiceItems.Add(newItem);
+                }
+
+                dbContext.SaveChanges();
+
+                InvoiceSaved = true;
+                XtraMessageBox.Show("تم تحديث الفاتورة بنجاح",
+                    "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحديث الفاتورة: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnPrintPreview_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!invoiceItems.Any())
+                {
+                    XtraMessageBox.Show("يجب إضافة منتجات للفاتورة أولاً",
+                        "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (currentInvoice == null)
+                {
+                    XtraMessageBox.Show("يجب حفظ الفاتورة أولاً قبل المعاينة",
+                        "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                using (var previewForm = new InvoicePreviewForm(currentInvoice.Id))
+                {
+                    previewForm.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في معاينة الفاتورة: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void InvoiceCUForm_Load(object sender, EventArgs e)
+        {
+            // Empty - initialization handled in constructor
+        }
+
+        private void panelControl2_Paint(object sender, PaintEventArgs e)
+        {
+            // Empty - legacy event handler for designer compatibility
+        }
+    }
+}

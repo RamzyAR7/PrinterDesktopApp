@@ -1,0 +1,119 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class InvoiceCUForm : DevExpress.XtraEditors.XtraForm
+    {
+        public ShoppingDBEntities dbContext;
+        private Invoice currentInvoice;
+        private List<InvoiceItem> invoiceItems;
+        public bool InvoiceSaved { get; private set; } = false;
+
+        public InvoiceCUForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+            invoiceItems = new List<InvoiceItem>();
+            SetupForm();
+            LoadComboBoxData();
+            ConfigureGridView();
+            GenerateInvoiceNumber();
+        }
+
+        public InvoiceCUForm(int invoiceId) : this()
+        {
+            LoadInvoiceForEdit(invoiceId);
+        }
+
+        private void SetupForm()
+        {
+            // Basic form configuration
+            this.RightToLeft = RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.WindowState = FormWindowState.Maximized;
+
+            // Set default date
+            if (dtInvoiceDate != null)
+                dtInvoiceDate.EditValue = DateTime.Now;
+
+            // Configure button visibility for new invoice
+            if (BtnCreate != null)
+            {
+                BtnCreate.Visible = true;
+                BtnCreate.Enabled = true;
+            }
+            if (EditBtn != null)
+            {
+                EditBtn.Visible = false;
+            }
+            
+            if (groupControl1 != null)
+                groupControl1.Text = "إنشاء فاتورة جديدة";
+        }
+
+        private void LoadComboBoxData()
+        {
+            try
+            {
+                // Load companies
+                var companies = dbContext.Companies
+                    .Where(c => !c.IsDeleted)
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+
+                cmbCompany.Properties.DataSource = companies;
+                cmbCompany.Properties.DisplayMember = "Name";
+                cmbCompany.Properties.ValueMember = "Id";
+                cmbCompany.Properties.NullText = "اختر الشركة...";
+
+                LoadCategories();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل البيانات: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadCategories()
+        {
+            try
+            {
+                var categories = dbContext.Categories
+                    .Where(c => !c.IsDeleted)
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+
+                cmbCategory.Properties.DataSource = categories;
+                cmbCategory.Properties.DisplayMember = "Name";
+                cmbCategory.Properties.ValueMember = "Id";
+                cmbCategory.Properties.NullText = "اختر الصنف...";
+
+                // Clear product selection when categories change
+                cmbProduct.EditValue = null;
+                cmbProduct.Properties.DataSource = null;
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل الأصناف: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadProducts(int companyId, int categoryId)
+        {
+            try
+            {
+                var products = dbContext.Products
+                    .Where(p => p.CompanyId == companyId && p.CategoryId == category

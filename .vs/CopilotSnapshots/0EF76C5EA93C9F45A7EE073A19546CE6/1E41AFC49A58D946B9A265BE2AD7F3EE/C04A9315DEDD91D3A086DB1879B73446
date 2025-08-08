@@ -1,0 +1,161 @@
+﻿namespace DesktopApp
+{
+    partial class InvoiceActionForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lblProductName = new DevExpress.XtraEditors.LabelControl();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.PrintBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.PreviewBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.DeleteBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.EditBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+            this.panelControl1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // lblProductName
+            // 
+            this.lblProductName.Appearance.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold);
+            this.lblProductName.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(58)))), ((int)(((byte)(64)))));
+            this.lblProductName.Appearance.Options.UseFont = true;
+            this.lblProductName.Appearance.Options.UseForeColor = true;
+            this.lblProductName.Location = new System.Drawing.Point(420, 20);
+            this.lblProductName.Name = "lblProductName";
+            this.lblProductName.Size = new System.Drawing.Size(139, 29);
+            this.lblProductName.TabIndex = 3;
+            this.lblProductName.Text = "رقم الفاتورة";
+            this.lblProductName.Click += new System.EventHandler(this.lblProductName_Click);
+            // 
+            // panelControl1
+            // 
+            this.panelControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+            this.panelControl1.Controls.Add(this.EditBtn);
+            this.panelControl1.Controls.Add(this.DeleteBtn);
+            this.panelControl1.Controls.Add(this.PreviewBtn);
+            this.panelControl1.Controls.Add(this.PrintBtn);
+            this.panelControl1.Location = new System.Drawing.Point(20, 80);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(640, 100);
+            this.panelControl1.TabIndex = 2;
+            this.panelControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.panelControl1_Paint);
+            // 
+            // PrintBtn
+            // 
+            this.PrintBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.PrintBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.PrintBtn.Appearance.ForeColor = System.Drawing.Color.White;
+            this.PrintBtn.Appearance.Options.UseBackColor = true;
+            this.PrintBtn.Appearance.Options.UseFont = true;
+            this.PrintBtn.Appearance.Options.UseForeColor = true;
+            this.PrintBtn.Location = new System.Drawing.Point(490, 15);
+            this.PrintBtn.Name = "PrintBtn";
+            this.PrintBtn.Size = new System.Drawing.Size(140, 70);
+            this.PrintBtn.TabIndex = 3;
+            this.PrintBtn.Text = "طباعة";
+            // 
+            // PreviewBtn
+            // 
+            this.PreviewBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(162)))), ((int)(((byte)(184)))));
+            this.PreviewBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.PreviewBtn.Appearance.ForeColor = System.Drawing.Color.White;
+            this.PreviewBtn.Appearance.Options.UseBackColor = true;
+            this.PreviewBtn.Appearance.Options.UseFont = true;
+            this.PreviewBtn.Appearance.Options.UseForeColor = true;
+            this.PreviewBtn.Location = new System.Drawing.Point(340, 15);
+            this.PreviewBtn.Name = "PreviewBtn";
+            this.PreviewBtn.Size = new System.Drawing.Size(140, 70);
+            this.PreviewBtn.TabIndex = 2;
+            this.PreviewBtn.Text = "معاينة";
+            // 
+            // DeleteBtn
+            // 
+            this.DeleteBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
+            this.DeleteBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.DeleteBtn.Appearance.ForeColor = System.Drawing.Color.White;
+            this.DeleteBtn.Appearance.Options.UseBackColor = true;
+            this.DeleteBtn.Appearance.Options.UseFont = true;
+            this.DeleteBtn.Appearance.Options.UseForeColor = true;
+            this.DeleteBtn.Location = new System.Drawing.Point(190, 15);
+            this.DeleteBtn.Name = "DeleteBtn";
+            this.DeleteBtn.Size = new System.Drawing.Size(140, 70);
+            this.DeleteBtn.TabIndex = 1;
+            this.DeleteBtn.Text = "حذف";
+            // 
+            // EditBtn
+            // 
+            this.EditBtn.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(7)))));
+            this.EditBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.EditBtn.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(37)))), ((int)(((byte)(41)))));
+            this.EditBtn.Appearance.Options.UseBackColor = true;
+            this.EditBtn.Appearance.Options.UseFont = true;
+            this.EditBtn.Appearance.Options.UseForeColor = true;
+            this.EditBtn.Location = new System.Drawing.Point(40, 15);
+            this.EditBtn.Name = "EditBtn";
+            this.EditBtn.Size = new System.Drawing.Size(140, 70);
+            this.EditBtn.TabIndex = 0;
+            this.EditBtn.Text = "تعديل";
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold);
+            this.labelControl1.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(58)))), ((int)(((byte)(64)))));
+            this.labelControl1.Appearance.Options.UseFont = true;
+            this.labelControl1.Appearance.Options.UseForeColor = true;
+            this.labelControl1.Location = new System.Drawing.Point(150, 20);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(111, 29);
+            this.labelControl1.TabIndex = 4;
+            this.labelControl1.Text = "اسم العميل";
+            // 
+            // InvoiceActionForm
+            // 
+            this.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
+            this.Appearance.Options.UseBackColor = true;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(680, 200);
+            this.Controls.Add(this.labelControl1);
+            this.Controls.Add(this.lblProductName);
+            this.Controls.Add(this.panelControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "InvoiceActionForm";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "إجراءات الفاتورة";
+            this.Load += new System.EventHandler(this.InvoiceActionForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+            this.panelControl1.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private DevExpress.XtraEditors.LabelControl lblProductName;
+        private DevExpress.XtraEditors.PanelControl panelControl1;
+        private DevExpress.XtraEditors.SimpleButton PrintBtn;
+        private DevExpress.XtraEditors.SimpleButton PreviewBtn;
+        private DevExpress.XtraEditors.SimpleButton DeleteBtn;
+        private DevExpress.XtraEditors.SimpleButton EditBtn;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
+    }
+}
