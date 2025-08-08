@@ -713,5 +713,61 @@ namespace DesktopApp
         {
             EditBtn_Click(sender, e);
         }
+
+        private void BtnPrint_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the focused row handle
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0)
+                {
+                    XtraMessageBox.Show("الرجاء اختيار منتج", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Get product data from the focused row
+                var productName = gridView1.GetRowCellValue(focusedRowHandle, "ProductName").ToString();
+                var priceStr = gridView1.GetRowCellValue(focusedRowHandle, "SellingPrice").ToString();
+
+                if (!decimal.TryParse(priceStr, out decimal sellingPrice))
+                {
+                    XtraMessageBox.Show("خطأ في قراءة سعر المنتج", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Show the copy selection form
+                using (var copyForm = new BarcodeCopyForm())
+                {
+                    if (copyForm.ShowDialog() == DialogResult.OK)
+                    {
+                        int numberOfCopies = copyForm.NumberOfCopies;
+
+                        // Show loading cursor
+                        this.Cursor = Cursors.WaitCursor;
+
+                        // Print silently using utility
+                        SilentPrintUtility.PrintBarcodeSilent(productName, sellingPrice, numberOfCopies);
+
+                        // Show success message
+                        XtraMessageBox.Show($"تم طباعة {numberOfCopies} نسخة بنجاح", "نجحت العملية",
+                                          MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"حدث خطأ في الطباعة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void EditBtn_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace DesktopApp
     {
         private XtraForm activeForm = null;
         private ToolTip toolTip;
-        private string currentActiveSection = ""; // Track which section is active
+        private string currentActiveSection = ""; // Track which section is active - Updated for portable deployment test
         
         public MainForm()
         {

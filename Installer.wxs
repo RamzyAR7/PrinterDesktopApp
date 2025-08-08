@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" 
+           Name="Printer Desktop App" 
+           Language="1033" 
+           Version="1.0.0.0" 
+           Manufacturer="Your Company Name" 
+           UpgradeCode="12345678-1234-1234-1234-123456789012">
+    
+    <Package InstallerVersion="200" 
+             Compressed="yes" 
+             InstallScope="perMachine" 
+             Description="Printer Desktop Application Installer" 
+             Comments="Professional installer for Printer Desktop App" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="Printer Desktop App" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="DesktopShortcut" />
+    </Feature>
+
+    <!-- Installation directory structure -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="Printer Desktop App" />
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Printer Desktop App"/>
+      </Directory>
+      <Directory Id="DesktopFolder" Name="Desktop" />
+    </Directory>
+
+    <!-- Application files component group -->
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="MainExecutable" Guid="*">
+        <File Id="DesktopAppExe" Source="DesktopApp\bin\Release\DesktopApp.exe" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="ConfigFile" Guid="*">
+        <File Id="AppConfig" Source="DesktopApp\bin\Release\App.config" />
+      </Component>
+      
+      <!-- DevExpress assemblies -->
+      <Component Id="DevExpressData" Guid="*">
+        <File Id="DevExpressDataDll" Source="DesktopApp\bin\Release\DevExpress.Data.v24.1.dll" />
+      </Component>
+      
+      <Component Id="DevExpressUtils" Guid="*">
+        <File Id="DevExpressUtilsDll" Source="DesktopApp\bin\Release\DevExpress.Utils.v24.1.dll" />
+      </Component>
+      
+      <Component Id="DevExpressXtraEditors" Guid="*">
+        <File Id="DevExpressXtraEditorsDll" Source="DesktopApp\bin\Release\DevExpress.XtraEditors.v24.1.dll" />
+      </Component>
+      
+      <Component Id="DevExpressXtraGrid" Guid="*">
+        <File Id="DevExpressXtraGridDll" Source="DesktopApp\bin\Release\DevExpress.XtraGrid.v24.1.dll" />
+      </Component>
+
+      <!-- Entity Framework -->
+      <Component Id="EntityFramework" Guid="*">
+        <File Id="EntityFrameworkDll" Source="DesktopApp\bin\Release\EntityFramework.dll" />
+      </Component>
+      
+      <Component Id="EntityFrameworkSqlServer" Guid="*">
+        <File Id="EntityFrameworkSqlServerDll" Source="DesktopApp\bin\Release\EntityFramework.SqlServer.dll" />
+      </Component>
+
+      <!-- ZXing.Net -->
+      <Component Id="ZXingNet" Guid="*">
+        <File Id="ZXingDll" Source="DesktopApp\bin\Release\zxing.dll" />
+      </Component>
+
+      <!-- Add more components for other required DLLs as needed -->
+    </ComponentGroup>
+
+    <!-- Start Menu shortcut -->
+    <Component Id="ApplicationShortcut" Directory="ApplicationProgramsFolder" Guid="*">
+      <Shortcut Id="ApplicationStartMenuShortcut" 
+                Name="Printer Desktop App" 
+                Description="Printer Desktop Application"
+                Target="[#DesktopAppExe]" 
+                WorkingDirectory="INSTALLFOLDER"/>
+      <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+      <RegistryValue Root="HKCU" 
+                     Key="Software\[Manufacturer]\[ProductName]" 
+                     Name="installed" 
+                     Type="integer" 
+                     Value="1" 
+                     KeyPath="yes"/>
+    </Component>
+
+    <!-- Desktop shortcut -->
+    <Component Id="DesktopShortcut" Directory="DesktopFolder" Guid="*">
+      <Shortcut Id="ApplicationDesktopShortcut" 
+                Name="Printer Desktop App" 
+                Description="Printer Desktop Application"
+                Target="[#DesktopAppExe]" 
+                WorkingDirectory="INSTALLFOLDER"/>
+      <RegistryValue Root="HKCU" 
+                     Key="Software\[Manufacturer]\[ProductName]" 
+                     Name="desktopShortcut" 
+                     Type="integer" 
+                     Value="1" 
+                     KeyPath="yes"/>
+    </Component>
+
+    <!-- UI definition -->
+    <UI Id="WixUI_InstallDir">
+      <UIRef Id="WixUI_InstallDir" />
+    </UI>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    
+    <!-- License agreement (optional) -->
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+    
+  </Product>
+</Wix>

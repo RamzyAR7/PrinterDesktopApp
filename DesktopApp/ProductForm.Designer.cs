@@ -78,6 +78,7 @@
             this.EditBtn.Size = new System.Drawing.Size(70, 30);
             this.EditBtn.TabIndex = 1;
             this.EditBtn.Text = "تعديل";
+            this.EditBtn.Click += new System.EventHandler(this.EditBtn_Click_1);
             // 
             // DeleteBtn
             // 
@@ -102,6 +103,7 @@
             this.BtnPrint.Size = new System.Drawing.Size(70, 30);
             this.BtnPrint.TabIndex = 3;
             this.BtnPrint.Text = "طباعة";
+            this.BtnPrint.Click += new System.EventHandler(this.BtnPrint_Click);
             // 
             // btnBarcode
             // 
