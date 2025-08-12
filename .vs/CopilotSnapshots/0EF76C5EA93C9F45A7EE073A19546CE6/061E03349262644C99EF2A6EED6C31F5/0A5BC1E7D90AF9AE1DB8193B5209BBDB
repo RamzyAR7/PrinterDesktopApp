@@ -1,0 +1,599 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class ProductCUForm : DevExpress.XtraEditors.XtraForm
+    {
+        public ShoppingDBEntities dbContext;
+        private Product currentProduct;
+        public bool ProductSaved { get; private set; } = false;
+        private bool isEditMode = false;
+
+        public ProductCUForm()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+            
+            SetupForm();
+            LoadComboBoxData();
+        }
+
+        public ProductCUForm(int productId) : this()
+        {
+            isEditMode = true;
+            LoadProductForEdit(productId);
+        }
+
+        private void SetupForm()
+        {
+            // Configure form for RTL
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            
+            // Set form properties
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "إدارة المنتجات";
+            
+            // Configure buttons based on mode
+            if (isEditMode)
+            {
+                // Edit mode - show only save and cancel
+                BtnCreate.Text = "حفظ التغييرات";
+                BtnCreate.Visible = true;
+                EditBtn.Visible = false;
+                btnPreview.Visible = false;
+                btnSaveAndPrint.Visible = false;
+                btnCancel.Text = "إلغاء";
+                
+                groupControl1.Text = "تعديل منتج";
+            }
+            else
+            {
+                // Create mode - show all three buttons
+                BtnCreate.Text = "حفظ";
+                BtnCreate.Visible = true;
+                EditBtn.Visible = false;
+                btnPreview.Visible = true;
+                btnSaveAndPrint.Visible = true;
+                btnCancel.Text = "إلغاء";
+                
+                groupControl1.Text = "إضافة منتج جديد";
+            }
+            
+            // Apply styling
+            StyleButton(BtnCreate, Color.FromArgb(0, 123, 255), Color.White);
+            StyleButton(btnPreview, Color.FromArgb(23, 162, 184), Color.White);
+            StyleButton(btnSaveAndPrint, Color.FromArgb(40, 167, 69), Color.White);
+            StyleButton(btnCancel, Color.FromArgb(108, 117, 125), Color.White);
+            
+            // Style dropdown controls for better search experience
+            StyleDropdownControls();
+        }
+        
+        private void StyleButton(DevExpress.XtraEditors.SimpleButton button, Color backColor, Color foreColor)
+        {
+            if (button != null)
+            {
+                button.Appearance.BackColor = backColor;
+                button.Appearance.ForeColor = foreColor;
+                button.Appearance.Options.UseBackColor = true;
+                button.Appearance.Options.UseForeColor = true;
+                button.Appearance.Font = new Font("Tahoma", 10F, FontStyle.Bold);
+                button.Appearance.Options.UseFont = true;
+            }
+        }
+
+        private void StyleDropdownControls()
+        {
+            // Style company dropdown
+            if (cmbCompany != null)
+            {
+                cmbCompany.Properties.Appearance.Font = new Font("Tahoma", 12F);
+                cmbCompany.Properties.AppearanceDropDown.Font = new Font("Tahoma", 11F);
+                cmbCompany.Properties.AppearanceDropDownHeader.Font = new Font("Tahoma", 10F, FontStyle.Bold);
+                
+                // Add event handlers for enhanced search experience
+                cmbCompany.KeyDown += CmbCompany_KeyDown;
+            }
+            
+            // Style category dropdown
+            if (cmbCategory != null)
+            {
+                cmbCategory.Properties.Appearance.Font = new Font("Tahoma", 12F);
+                cmbCategory.Properties.AppearanceDropDown.Font = new Font("Tahoma", 11F);
+                cmbCategory.Properties.AppearanceDropDownHeader.Font = new Font("Tahoma", 10F, FontStyle.Bold);
+                
+                // Add event handlers for enhanced search experience
+                cmbCategory.KeyDown += CmbCategory_KeyDown;
+            }
+        }
+
+        private void CmbCompany_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Enable F3 to open popup for quick search
+            if (e.KeyCode == Keys.F3)
+            {
+                var lookup = sender as DevExpress.XtraEditors.LookUpEdit;
+                if (lookup != null)
+                {
+                    lookup.ShowPopup();
+                }
+            }
+        }
+
+        private void CmbCategory_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Enable F3 to open popup for quick search
+            if (e.KeyCode == Keys.F3)
+            {
+                var lookup = sender as DevExpress.XtraEditors.LookUpEdit;
+                if (lookup != null)
+                {
+                    lookup.ShowPopup();
+                }
+            }
+        }
+
+        private void LoadComboBoxData()
+        {
+            try
+            {
+                // Load companies - show only names for cleaner interface
+                var companies = dbContext.Companies
+                    .Where(c => !c.IsDeleted)
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+                
+                cmbCompany.Properties.DataSource = companies;
+                cmbCompany.Properties.DisplayMember = "Name";
+                cmbCompany.Properties.ValueMember = "Id";
+                cmbCompany.Properties.NullText = "ابحث أو اختر الشركة...";
+                
+                // Configure company dropdown for search/filter
+                ConfigureSearchableDropdown(cmbCompany, "شركة");
+                
+                // Load categories - show only names for cleaner interface
+                var categories = dbContext.Categories
+                    .Where(c => !c.IsDeleted)
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+                
+                cmbCategory.Properties.DataSource = categories;
+                cmbCategory.Properties.DisplayMember = "Name";
+                cmbCategory.Properties.ValueMember = "Id";
+                cmbCategory.Properties.NullText = "ابحث أو اختر الصنف...";
+                
+                // Configure category dropdown for search/filter
+                ConfigureSearchableDropdown(cmbCategory, "صنف");
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل البيانات: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ConfigureSearchableDropdown(DevExpress.XtraEditors.LookUpEdit lookupEdit, string itemType)
+        {
+            // Configure popup columns to show only Name (remove ID column for cleaner interface)
+            lookupEdit.Properties.Columns.Clear();
+            
+            // Add only Name column using proper DevExpress syntax
+            var nameColumn = new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", $"اسم ال{itemType}");
+            nameColumn.Visible = true;
+            nameColumn.Width = 250;
+            lookupEdit.Properties.Columns.Add(nameColumn);
+            
+            // Configure search behavior for large datasets
+            lookupEdit.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
+            lookupEdit.Properties.AutoSearchColumnIndex = 0; // Search in Name column
+            lookupEdit.Properties.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFitResizePopup;
+            
+            // Configure popup size and behavior for better user experience with large datasets
+            lookupEdit.Properties.PopupFormSize = new Size(350, 250);
+            lookupEdit.Properties.DropDownRows = 15;
+            lookupEdit.Properties.ShowHeader = true;
+            lookupEdit.Properties.ShowFooter = false;
+            lookupEdit.Properties.PopupSizeable = true; // Allow user to resize popup
+            
+            // Configure appearance for RTL and Arabic text
+            lookupEdit.Properties.AppearanceDropDown.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            lookupEdit.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            lookupEdit.Properties.AppearanceDropDownHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            
+            // Enable advanced search features for filtering - KEY FIXES HERE
+            lookupEdit.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
+            lookupEdit.Properties.ImmediatePopup = false; // Don't show popup immediately
+            lookupEdit.Properties.FindDelay = 300; // Add small delay for search
+            
+            // Configure text formatting and behavior - IMPORTANT FOR TYPING
+            lookupEdit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+            lookupEdit.Properties.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.False; // Changed to False
+            
+            // Improve performance for large datasets with filtering
+            lookupEdit.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
+            
+            // Enable incremental search - THIS IS KEY
+            lookupEdit.Properties.ValidateOnEnterKey = true;
+            lookupEdit.Properties.ForceInitialize = true;
+            
+            // Add visual enhancements for better user experience
+            lookupEdit.Properties.AppearanceDropDown.BackColor = Color.White;
+            lookupEdit.Properties.AppearanceDropDown.ForeColor = Color.Black;
+            lookupEdit.Properties.AppearanceDropDownHeader.BackColor = Color.FromArgb(240, 240, 240);
+            lookupEdit.Properties.AppearanceDropDownHeader.ForeColor = Color.Black;
+        }
+
+        private void LoadProductForEdit(int productId)
+        {
+            try
+            {
+                currentProduct = dbContext.Products.FirstOrDefault(p => p.Id == productId);
+
+                if (currentProduct != null)
+                {
+                    // Load product data
+                    txtProductName.Text = currentProduct.Name;
+                    cmbCompany.EditValue = currentProduct.CompanyId;
+                    cmbCategory.EditValue = currentProduct.CategoryId;
+                    txtDescription.Text = currentProduct.Description;
+
+                    // Load latest price
+                    var latestPrice = dbContext.Prices
+                        .Where(p => p.ProductId == productId)
+                        .OrderByDescending(p => p.CreatedDate)
+                        .FirstOrDefault();
+
+                    if (latestPrice != null)
+                    {
+                        txtSellingPrice.Text = latestPrice.SellingPrice.ToString("0.00");
+                        txtPurchasingPrice.Text = latestPrice.PurchasingPrice.ToString("0.00");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل بيانات المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ValidateForm()
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(txtProductName.Text))
+                errors.Add("يرجى إدخال اسم المنتج");
+
+            if (cmbCompany.EditValue == null)
+                errors.Add("يرجى اختيار الشركة");
+
+            if (cmbCategory.EditValue == null)
+                errors.Add("يرجى اختيار الصنف");
+
+            // Validate selling price
+            if (string.IsNullOrWhiteSpace(txtSellingPrice.Text))
+            {
+                errors.Add("يرجى إدخال سعر البيع");
+            }
+            else if (!decimal.TryParse(txtSellingPrice.Text, out decimal sellingPrice) || sellingPrice <= 0)
+            {
+                errors.Add("يرجى إدخال سعر بيع صحيح (أرقام فقط)");
+            }
+
+            // Validate purchasing price
+            if (string.IsNullOrWhiteSpace(txtPurchasingPrice.Text))
+            {
+                errors.Add("يرجى إدخال سعر الشراء");
+            }
+            else if (!decimal.TryParse(txtPurchasingPrice.Text, out decimal purchasingPrice) || purchasingPrice <= 0)
+            {
+                errors.Add("يرجى إدخال سعر شراء صحيح (أرقام فقط)");
+            }
+
+            if (errors.Any())
+            {
+                XtraMessageBox.Show(string.Join("\n", errors), 
+                    "بيانات مطلوبة", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
+        private Product SaveProduct()
+        {
+            if (currentProduct == null)
+            {
+                // Create new product
+                var newProduct = new Product
+                {
+                    Name = txtProductName.Text.Trim(),
+                    CompanyId = Convert.ToInt32(cmbCompany.EditValue),
+                    CategoryId = Convert.ToInt32(cmbCategory.EditValue),
+                    Description = txtDescription.Text?.Trim(),
+                    CreatedDate = DateTime.Now
+                };
+
+                dbContext.Products.Add(newProduct);
+                dbContext.SaveChanges();
+
+                // Add price record
+                var price = new Price
+                {
+                    ProductId = newProduct.Id,
+                    SellingPrice = decimal.Parse(txtSellingPrice.Text),
+                    PurchasingPrice = decimal.Parse(txtPurchasingPrice.Text),
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                };
+
+                dbContext.Prices.Add(price);
+                dbContext.SaveChanges();
+
+                currentProduct = newProduct;
+                return newProduct;
+            }
+            else
+            {
+                // Update existing product
+                currentProduct.Name = txtProductName.Text.Trim();
+                currentProduct.CompanyId = Convert.ToInt32(cmbCompany.EditValue);
+                currentProduct.CategoryId = Convert.ToInt32(cmbCategory.EditValue);
+                currentProduct.Description = txtDescription.Text?.Trim();
+
+                // Deactivate old prices
+                var oldPrices = dbContext.Prices.Where(p => p.ProductId == currentProduct.Id);
+                foreach (var oldPrice in oldPrices)
+                {
+                    oldPrice.IsActive = false;
+                }
+
+                // Add new price record
+                var newPrice = new Price
+                {
+                    ProductId = currentProduct.Id,
+                    SellingPrice = decimal.Parse(txtSellingPrice.Text),
+                    PurchasingPrice = decimal.Parse(txtPurchasingPrice.Text),
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                };
+
+                dbContext.Prices.Add(newPrice);
+                dbContext.SaveChanges();
+
+                return currentProduct;
+            }
+        }
+
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            if (!ValidateForm()) return;
+
+            try
+            {
+                SaveProduct();
+
+                if (isEditMode)
+                {
+                    XtraMessageBox.Show("تم تحديث المنتج بنجاح", 
+                        "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    XtraMessageBox.Show("تم إضافة المنتج بنجاح", 
+                        "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                ProductSaved = true;
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حفظ المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnPreview_Click(object sender, EventArgs e)
+        {
+            if (!ValidateForm()) return;
+
+            try
+            {
+                // Step 1: Save to DB first
+                var product = SaveProduct();
+                
+                XtraMessageBox.Show("تم حفظ المنتج بنجاح", 
+                    "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                // Step 2: Open barcode preview form with barcode of product that saved in DB
+                var currentPrice = dbContext.Prices
+                    .Where(p => p.ProductId == product.Id && p.IsActive == true)
+                    .OrderByDescending(p => p.CreatedDate)
+                    .FirstOrDefault();
+
+                decimal sellingPrice = currentPrice?.SellingPrice ?? 0;
+
+                // Open barcode preview form with product details
+                using (var barcodeForm = new ParcodePreviewForm(product.Name, sellingPrice))
+                {
+                    barcodeForm.ShowDialog();
+                }
+
+                ProductSaved = true;
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حفظ ومعاينة المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSaveAndPrint_Click(object sender, EventArgs e)
+        {
+            if (!ValidateForm()) return;
+
+            try
+            {
+                // Step 1: Save to DB first
+                var product = SaveProduct();
+
+                XtraMessageBox.Show("تم حفظ المنتج بنجاح", 
+                    "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Step 2: Open BarcodeCopyForm and make silent barcode print
+                var currentPrice = dbContext.Prices
+                    .Where(p => p.ProductId == product.Id && p.IsActive == true)
+                    .OrderByDescending(p => p.CreatedDate)
+                    .FirstOrDefault();
+
+                decimal sellingPrice = currentPrice?.SellingPrice ?? 0;
+
+                // Open barcode copy form to get number of copies
+                using (var copyForm = new BarcodeCopyForm())
+                {
+                    if (copyForm.ShowDialog() == DialogResult.OK)
+                    {
+                        int numberOfCopies = copyForm.NumberOfCopies;
+
+                        // Perform silent printing
+                        SilentPrintUtility.PrintBarcodeSilent(product.Name, sellingPrice, numberOfCopies);
+                        
+                        XtraMessageBox.Show($"تم طباعة {numberOfCopies} نسخة من الباركود بنجاح", 
+                            "طباعة مكتملة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        XtraMessageBox.Show("تم حفظ المنتج بنجاح بدون طباعة", 
+                            "معلومات", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
+                ProductSaved = true;
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في حفظ وطباعة المنتج: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            // This method is now unused since we only have one save button
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void cmbCategory_EditValueChanged(object sender, EventArgs e)
+        {
+            // Empty - removing unnecessary code
+        }
+
+        private void chkOptional_CheckedChanged(object sender, EventArgs e)
+        {
+            // Empty - removing unnecessary code
+        }
+
+        private void ProductCUForm_Load(object sender, EventArgs e)
+        {
+            // Empty - removing unnecessary code
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            // Validate numeric input for selling price
+            ValidateNumericInput(sender as TextBox);
+        }
+
+        private void txtPurchasingPrice_TextChanged(object sender, EventArgs e)
+        {
+            // Validate numeric input for purchasing price
+            ValidateNumericInput(sender as TextBox);
+        }
+
+        private void ValidateNumericInput(TextBox textBox)
+        {
+            if (textBox == null) return;
+
+            string text = textBox.Text;
+            if (string.IsNullOrEmpty(text)) return;
+
+            // Allow only numbers and decimal point
+            if (!System.Text.RegularExpressions.Regex.IsMatch(text, @"^\d*\.?\d*$"))
+            {
+                // Remove the last character if it's not valid
+                int selectionStart = textBox.SelectionStart;
+                textBox.Text = text.Substring(0, text.Length - 1);
+                textBox.SelectionStart = Math.Max(0, selectionStart - 1);
+            }
+        }
+
+        private void cmbCompany_EditValueChanged(object sender, EventArgs e)
+        {
+            // Clear category selection when company changes
+            cmbCategory.EditValue = null;
+        }
+
+        private void cmbCompany_ProcessNewValue(object sender, DevExpress.XtraEditors.Controls.ProcessNewValueEventArgs e)
+        {
+            // Allow users to type and filter companies
+            if (e.DisplayValue != null && !string.IsNullOrEmpty(e.DisplayValue.ToString()))
+            {
+                var searchText = e.DisplayValue.ToString().ToLower();
+                var companies = dbContext.Companies
+                    .Where(c => !c.IsDeleted && c.Name.ToLower().Contains(searchText))
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+                
+                if (companies.Any())
+                {
+                    cmbCompany.Properties.DataSource = companies;
+                    cmbCompany.Refresh();
+                }
+            }
+        }
+
+        private void cmbCategory_ProcessNewValue(object sender, DevExpress.XtraEditors.Controls.ProcessNewValueEventArgs e)
+        {
+            // Allow users to type and filter categories
+            if (e.DisplayValue != null && !string.IsNullOrEmpty(e.DisplayValue.ToString()))
+            {
+                var searchText = e.DisplayValue.ToString().ToLower();
+                var categories = dbContext.Categories
+                    .Where(c => !c.IsDeleted && c.Name.ToLower().Contains(searchText))
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+                
+                if (categories.Any())
+                {
+                    cmbCategory.Properties.DataSource = categories;
+                    cmbCategory.Refresh();
+                }
+            }
+        }
+    }
+}

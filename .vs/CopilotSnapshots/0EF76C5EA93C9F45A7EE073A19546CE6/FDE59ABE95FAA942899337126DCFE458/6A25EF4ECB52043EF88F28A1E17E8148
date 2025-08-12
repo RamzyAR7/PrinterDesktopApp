@@ -1,0 +1,431 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class InvoiceCUForm : DevExpress.XtraEditors.XtraForm
+    {
+        public ShoppingDBEntities dbContext;
+        private Invoice currentInvoice;
+        private List<InvoiceItem> invoiceItems;
+        public bool InvoiceSaved { get; private set; } = false;
+
+        public InvoiceCUForm()
+        {
+            InitializeComponent();
+            
+            // Initialize database context first
+            try
+            {
+                dbContext = new ShoppingDBEntities();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في الاتصال بقاعدة البيانات: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Exit constructor if database connection fails
+            }
+            
+            // Initialize collections
+            invoiceItems = new List<InvoiceItem>();
+            
+            // Load data after all controls are initialized
+            LoadComboBoxData();
+            ConfigureGridView();
+            GenerateInvoiceNumber();
+            SetupForm(); // This will now calculate optimal size
+            
+            // Adjust layout after form is fully initialized
+            this.Load += (s, e) => AdjustLayoutForScreenSize();
+        }
+
+        public InvoiceCUForm(int invoiceId) : this()
+        {
+            LoadInvoiceForEdit(invoiceId);
+            
+            // Keep compact size even after loading data
+            var optimalSize = CalculateOptimalFormSize();
+            this.Size = optimalSize;
+            AdjustLayoutForScreenSize();
+        }
+
+        private void SetupForm()
+        {
+            // Basic form configuration
+            this.RightToLeft = RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            
+            // Calculate optimal size based on screen resolution
+            var optimalSize = CalculateOptimalFormSize();
+            this.Size = optimalSize;
+            this.MinimumSize = new Size(900, 650); // Reduced minimum size
+            this.MaximumSize = new Size(1400, 900); // Set maximum size
+
+            // Add resize handler for dynamic layout adjustment
+            this.Resize += InvoiceCUForm_Resize;
+
+            // Set default date if not set
+            if (dtInvoiceDate?.EditValue == null)
+            {
+                if (dtInvoiceDate != null)
+                {
+                    dtInvoiceDate.EditValue = DateTime.Now;
+                }
+            }
+
+            // Configure button visibility based on mode (improved for both create and edit)
+            if (currentInvoice != null) // Edit mode
+            {
+                // Edit mode - show save changes as primary button + additional buttons
+                if (BtnCreate != null)
+                {
+                    BtnCreate.Visible = false;
+                    BtnCreate.Enabled = false;
+                }
+                if (EditBtn != null)
+                {
+                    EditBtn.Visible = true;
+                    EditBtn.Enabled = true;
+                    EditBtn.Text = "حفظ التغييرات";
+                }
+                
+                // Show additional buttons in edit mode as well (NEW: different from ProductCUForm)
+                if (btnSaveAndPreview != null)
+                {
+                    btnSaveAndPreview.Visible = true;
+                    btnSaveAndPreview.Enabled = true;
+                    btnSaveAndPreview.Text = "حفظ ومعاينة";
+                }
+                if (btnSaveAndPrint != null)
+                {
+                    btnSaveAndPrint.Visible = true;
+                    btnSaveAndPrint.Enabled = true;
+                    btnSaveAndPrint.Text = "حفظ وطباعة";
+                }
+                
+                if (groupControl1 != null)
+                {
+                    groupControl1.Text = "تعديل فاتورة";
+                }
+            }
+            else // Create mode
+            {
+                // Create mode - show all buttons
+                if (BtnCreate != null)
+                {
+                    BtnCreate.Visible = true;
+                    BtnCreate.Enabled = true;
+                    BtnCreate.Text = "حفظ";
+                }
+                if (EditBtn != null)
+                {
+                    EditBtn.Visible = false;
+                }
+                
+                // Show additional buttons in create mode
+                if (btnSaveAndPreview != null)
+                {
+                    btnSaveAndPreview.Visible = true;
+                    btnSaveAndPreview.Enabled = true;
+                    btnSaveAndPreview.Text = "حفظ ومعاينة";
+                }
+                if (btnSaveAndPrint != null)
+                {
+                    btnSaveAndPrint.Visible = true;
+                    btnSaveAndPrint.Enabled = true;
+                    btnSaveAndPrint.Text = "حفظ وطباعة";
+                }
+                
+                if (groupControl1 != null)
+                {
+                    groupControl1.Text = "إنشاء فاتورة جديدة";
+                }
+            }
+            
+            // Apply button styling
+            StyleButtons();
+        }
+
+        private Size CalculateOptimalFormSize()
+        {
+            // Get screen working area
+            var screen = Screen.FromControl(this);
+            var workingArea = screen.WorkingArea;
+            
+            int optimalWidth;
+            int optimalHeight;
+
+            // Calculate responsive width
+            if (workingArea.Width <= 1024) // Small screens
+            {
+                optimalWidth = Math.Min(950, workingArea.Width - 50);
+            }
+            else if (workingArea.Width <= 1366) // Medium screens
+            {
+                optimalWidth = Math.Min(1100, workingArea.Width - 100);
+            }
+            else if (workingArea.Width <= 1920) // Large screens
+            {
+                optimalWidth = Math.Min(1200, workingArea.Width - 150);
+            }
+            else // Ultra-wide screens
+            {
+                optimalWidth = 1250; // Fixed maximum for very large screens
+            }
+
+            // Calculate responsive height
+            if (workingArea.Height <= 768) // Small screens
+            {
+                optimalHeight = Math.Min(700, workingArea.Height - 50);
+            }
+            else if (workingArea.Height <= 1080) // Medium screens
+            {
+                optimalHeight = Math.Min(800, workingArea.Height - 100);
+            }
+            else // Large screens
+            {
+                optimalHeight = Math.Min(850, workingArea.Height - 150);
+            }
+            
+            return new Size(optimalWidth, optimalHeight);
+        }
+
+        private void AdjustLayoutForScreenSize()
+        {
+            var screen = Screen.FromControl(this);
+            var workingArea = screen.WorkingArea;
+            
+            // Adjust grid height for EXPANDED view
+            if (layoutControl1 != null && groupControl1 != null)
+            {
+                // Calculate available space for EXPANDED grid
+                int availableHeight = this.ClientSize.Height;
+                int usedHeight = groupControlClientData.Height + groupControlAddProduct.Height + 
+                               panelControl2.Height + 140; // Margins
+                
+                // Use EXPANDED grid height for better visibility
+                int gridAreaHeight = Math.Max(300, availableHeight - usedHeight);
+                
+                // Remove the maximum limit to allow larger grid
+                // gridAreaHeight = Math.Min(gridAreaHeight, 300); // REMOVED this limit
+                
+                // Allow grid to expand up to a reasonable maximum
+                gridAreaHeight = Math.Min(gridAreaHeight, 500);
+                
+                // Adjust layout control size
+                layoutControl1.Height = gridAreaHeight;
+                
+                // Position layout control properly
+                layoutControl1.Location = new Point(5, 
+                    groupControlClientData.Bottom + groupControlAddProduct.Height + 5);
+                
+                // Adjust group control to fit
+                groupControl1.Height = layoutControl1.Bottom + 10;
+            }
+        }
+
+        private void StyleButtons()
+        {
+            StyleButton(BtnCreate, Color.FromArgb(0, 123, 255), Color.White);
+            StyleButton(EditBtn, Color.FromArgb(0, 123, 255), Color.White);
+            StyleButton(btnSaveAndPreview, Color.FromArgb(23, 162, 184), Color.White);
+            StyleButton(btnSaveAndPrint, Color.FromArgb(40, 167, 69), Color.White);
+            StyleButton(btnCancel, Color.FromArgb(108, 117, 125), Color.White);
+        }
+
+        private void StyleButton(DevExpress.XtraEditors.SimpleButton button, Color backColor, Color foreColor)
+        {
+            if (button != null)
+            {
+                button.Appearance.BackColor = backColor;
+                button.Appearance.ForeColor = foreColor;
+                button.Appearance.Options.UseBackColor = true;
+                button.Appearance.Options.UseForeColor = true;
+                button.Appearance.Font = new Font("Tahoma", 11F, FontStyle.Bold);
+                button.Appearance.Options.UseFont = true;
+                button.Appearance.BorderColor = backColor;
+                button.Appearance.Options.UseBorderColor = true;
+            }
+        }
+
+        private void LoadComboBoxData()
+        {
+            try
+            {
+                // Ensure controls are initialized before accessing them
+                if (cmbCompany == null || dbContext == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("Controls or DbContext not initialized yet");
+                    return;
+                }
+
+                // Load companies - Show only names, store IDs internally
+                var companies = dbContext.Companies
+                    .Where(c => !c.IsDeleted)
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+
+                // Ensure the combo box properties are not null
+                if (cmbCompany.Properties != null)
+                {
+                    cmbCompany.Properties.DataSource = companies;
+                    cmbCompany.Properties.DisplayMember = "Name";
+                    cmbCompany.Properties.ValueMember = "Id";
+                    cmbCompany.Properties.NullText = "اختر الشركة...";
+                    
+                    // Enable search functionality
+                    cmbCompany.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
+                    cmbCompany.Properties.ImmediatePopup = true;
+                    cmbCompany.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
+
+                    // Hide ID column if it exists
+                    if (cmbCompany.Properties.Columns.Count > 0 && cmbCompany.Properties.Columns["Id"] != null)
+                    {
+                        cmbCompany.Properties.Columns["Id"].Visible = false;
+                    }
+                }
+
+                LoadCategories();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل البيانات: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadCategories()
+        {
+            try
+            {
+                // Ensure controls are initialized before accessing them
+                if (cmbCategory == null || cmbProduct == null || dbContext == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("Controls or DbContext not initialized yet");
+                    return;
+                }
+
+                var categories = dbContext.Categories
+                    .Where(c => !c.IsDeleted)
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+
+                // Ensure the combo box properties are not null
+                if (cmbCategory.Properties != null)
+                {
+                    cmbCategory.Properties.DataSource = categories;
+                    cmbCategory.Properties.DisplayMember = "Name";
+                    cmbCategory.Properties.ValueMember = "Id";
+                    cmbCategory.Properties.NullText = "اختر الصنف...";
+                    
+                    // Enable search functionality
+                    cmbCategory.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
+                    cmbCategory.Properties.ImmediatePopup = true;
+                    cmbCategory.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
+
+                    // Hide ID column if it exists
+                    if (cmbCategory.Properties.Columns.Count > 0 && cmbCategory.Properties.Columns["Id"] != null)
+                    {
+                        cmbCategory.Properties.Columns["Id"].Visible = false;
+                    }
+                }
+
+                // Clear product selection when categories change
+                if (cmbProduct.Properties != null)
+                {
+                    cmbProduct.EditValue = null;
+                    cmbProduct.Properties.DataSource = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل الأصناف: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadProducts(int companyId, int categoryId)
+        {
+            try
+            {
+                // Ensure controls are initialized before accessing them
+                if (cmbProduct == null || dbContext == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("Controls or DbContext not initialized yet");
+                    return;
+                }
+
+                var products = dbContext.Products
+                    .Where(p => p.CompanyId == companyId && p.CategoryId == categoryId)
+                    .Select(p => new { p.Id, p.Name })
+                    .OrderBy(p => p.Name)
+                    .ToList();
+
+                // Ensure the combo box properties are not null
+                if (cmbProduct.Properties != null)
+                {
+                    cmbProduct.Properties.DataSource = products;
+                    cmbProduct.Properties.DisplayMember = "Name";
+                    cmbProduct.Properties.ValueMember = "Id";
+                    cmbProduct.Properties.NullText = "اختر المنتج...";
+                    
+                    // Enable search functionality
+                    cmbProduct.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
+                    cmbProduct.Properties.ImmediatePopup = true;
+                    cmbProduct.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
+
+                    // Hide ID column if it exists
+                    if (cmbProduct.Properties.Columns.Count > 0 && cmbProduct.Properties.Columns["Id"] != null)
+                    {
+                        cmbProduct.Properties.Columns["Id"].Visible = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل المنتجات: {ex.Message}",
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GenerateInvoiceNumber()
+        {
+            try
+            {
+                // Ensure database context is available
+                if (dbContext == null || txtInvoiceNumber == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("DbContext or txtInvoiceNumber not initialized yet");
+                    return;
+                }
+
+                string datePrefix = DateTime.Now.ToString("yyMMdd");
+                var todayInvoices = dbContext.Invoices
+                    .Where(i => i.InvoiceNumber.StartsWith(datePrefix))
+                    .Count();
+
+                int sequenceNumber = todayInvoices + 1;
+                txtInvoiceNumber.Text = $"{datePrefix}0{sequenceNumber:D0}";
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error generating invoice number: {ex.Message}");
+                // Fall back to timestamp-based invoice number
+                if (txtInvoiceNumber != null)
+                {
+                    txtInvoiceNumber.Text = DateTime.Now.ToString("yyMMddHHmmss");
+                }
+            }
+        }
+    }
+}
