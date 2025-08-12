@@ -18,167 +18,101 @@ namespace DesktopApp
         {
             InitializeComponent();
             
+            LoadAvailablePrinters();
             LoadCurrentSettings();
             SetupEventHandlers();
         }
 
-        private void LoadCurrentSettings()
-        {
-            // Load current printer settings
-            textBox1.Text = Properties.Settings.Default.InvoicePrinterName;
-            textBox2.Text = Properties.Settings.Default.BarcodePrinterName;
-        }
-
-        private void SetupEventHandlers()
-        {
-            // Invoice printer save button
-            simpleButton1.Click += (s, e) => SaveInvoicePrinter();
-            
-            // Barcode printer save button
-            simpleButton2.Click += (s, e) => SaveBarcodePrinter();
-            
-            // Add double-click to textboxes to show available printers
-            textBox1.DoubleClick += (s, e) => ShowAvailablePrinters(textBox1);
-            textBox2.DoubleClick += (s, e) => ShowAvailablePrinters(textBox2);
-        }
-
-        private void SaveInvoicePrinter()
-        {
-            try
-            {
-                string printerName = textBox1.Text.Trim();
-                
-                if (string.IsNullOrEmpty(printerName))
-                {
-                    XtraMessageBox.Show("يرجى إدخال اسم الطابعة", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (!IsPrinterValid(printerName))
-                {
-                    var result = XtraMessageBox.Show($"الطابعة '{printerName}' غير موجودة في النظام. هل تريد الحفظ على أي حال؟", 
-                        "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    
-                    if (result == DialogResult.No)
-                        return;
-                }
-
-                Properties.Settings.Default.InvoicePrinterName = printerName;
-                Properties.Settings.Default.Save();
-                XtraMessageBox.Show("تم حفظ إعدادات طابعة الفواتير بنجاح", "نجح الحفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show($"خطأ في حفظ إعدادات الطابعة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void SaveBarcodePrinter()
-        {
-            try
-            {
-                string printerName = textBox2.Text.Trim();
-                
-                if (string.IsNullOrEmpty(printerName))
-                {
-                    XtraMessageBox.Show("يرجى إدخال اسم الطابعة", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (!IsPrinterValid(printerName))
-                {
-                    var result = XtraMessageBox.Show($"الطابعة '{printerName}' غير موجودة في النظام. هل تريد الحفظ على أي حال؟", 
-                        "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    
-                    if (result == DialogResult.No)
-                        return;
-                }
-
-                Properties.Settings.Default.BarcodePrinterName = printerName;
-                Properties.Settings.Default.Save();
-                XtraMessageBox.Show("تم حفظ إعدادات طابعة الباركود بنجاح", "نجح الحفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show($"خطأ في حفظ إعدادات الطابعة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void ShowAvailablePrinters(TextBox targetTextBox)
+        private void LoadAvailablePrinters()
         {
             try
             {
                 string[] availablePrinters = GetAvailablePrinters();
                 
-                if (availablePrinters.Length == 0)
+                // Load printers into both combo boxes
+                comboBoxEdit1.Properties.Items.Clear();
+                comboBoxEdit2.Properties.Items.Clear();
+                
+                comboBoxEdit1.Properties.Items.AddRange(availablePrinters);
+                comboBoxEdit2.Properties.Items.AddRange(availablePrinters);
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل قائمة الطابعات: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadCurrentSettings()
+        {
+            // Load current printer settings
+            comboBoxEdit1.Text = Properties.Settings.Default.InvoicePrinterName;
+            comboBoxEdit2.Text = Properties.Settings.Default.BarcodePrinterName;
+        }
+
+        private void SetupEventHandlers()
+        {
+            // Save button (saves both printers at once)
+            simpleButton1.Click += (s, e) => SaveAllPrinterSettings();
+            
+            // Cancel button
+            simpleButton3.Click += (s, e) => this.Close();
+        }
+
+        private void SaveAllPrinterSettings()
+        {
+            try
+            {
+                bool hasChanges = false;
+                
+                // Save Invoice Printer
+                string invoicePrinterName = comboBoxEdit1.Text.Trim();
+                if (!string.IsNullOrEmpty(invoicePrinterName))
                 {
-                    XtraMessageBox.Show("لا توجد طابعات متاحة في النظام", "معلومات", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
+                    if (!IsPrinterValid(invoicePrinterName))
+                    {
+                        var result = XtraMessageBox.Show($"الطابعة '{invoicePrinterName}' غير موجودة في النظام. هل تريد الحفظ على أي حال؟", 
+                            "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        
+                        if (result == DialogResult.No)
+                            return;
+                    }
+                    
+                    Properties.Settings.Default.InvoicePrinterName = invoicePrinterName;
+                    hasChanges = true;
                 }
 
-                // Create a simple selection dialog
-                using (var form = new XtraForm())
+                // Save Barcode Printer
+                string barcodePrinterName = comboBoxEdit2.Text.Trim();
+                if (!string.IsNullOrEmpty(barcodePrinterName))
                 {
-                    form.Text = "اختر الطابعة";
-                    form.Size = new Size(400, 300);
-                    form.StartPosition = FormStartPosition.CenterParent;
-                    form.RightToLeft = RightToLeft.Yes;
-                    form.RightToLeftLayout = true;
-
-                    var listBox = new ListBox()
+                    if (!IsPrinterValid(barcodePrinterName))
                     {
-                        DataSource = availablePrinters,
-                        Dock = DockStyle.Fill,
-                        Font = new Font("Arial", 10)
-                    };
+                        var result = XtraMessageBox.Show($"الطابعة '{barcodePrinterName}' غير موجودة في النظام. هل تريد الحفظ على أي حال؟", 
+                            "تأكيد", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        
+                        if (result == DialogResult.No)
+                            return;
+                    }
+                    
+                    Properties.Settings.Default.BarcodePrinterName = barcodePrinterName;
+                    hasChanges = true;
+                }
 
-                    var buttonPanel = new Panel()
-                    {
-                        Height = 50,
-                        Dock = DockStyle.Bottom
-                    };
-
-                    var okButton = new SimpleButton()
-                    {
-                        Text = "موافق",
-                        Size = new Size(80, 30),
-                        Location = new Point(10, 10)
-                    };
-
-                    var cancelButton = new SimpleButton()
-                    {
-                        Text = "إلغاء",
-                        Size = new Size(80, 30),
-                        Location = new Point(100, 10)
-                    };
-
-                    okButton.Click += (s, e) =>
-                    {
-                        if (listBox.SelectedItem != null)
-                        {
-                            targetTextBox.Text = listBox.SelectedItem.ToString();
-                            form.DialogResult = DialogResult.OK;
-                            form.Close();
-                        }
-                    };
-
-                    cancelButton.Click += (s, e) =>
-                    {
-                        form.DialogResult = DialogResult.Cancel;
-                        form.Close();
-                    };
-
-                    buttonPanel.Controls.Add(okButton);
-                    buttonPanel.Controls.Add(cancelButton);
-                    form.Controls.Add(listBox);
-                    form.Controls.Add(buttonPanel);
-
-                    form.ShowDialog(this);
+                if (hasChanges)
+                {
+                    Properties.Settings.Default.Save();
+                    XtraMessageBox.Show("تم حفظ إعدادات الطابعات بنجاح", "نجح الحفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    XtraMessageBox.Show("يرجى اختيار طابعة واحدة على الأقل", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show($"خطأ في عرض الطابعات المتاحة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show($"خطأ في حفظ إعدادات الطابعات: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -10,7 +10,7 @@
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -57,21 +57,21 @@
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.gridControlItems = new DevExpress.XtraGrid.GridControl();
             this.gridViewItems = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.txtDiscount = new DevExpress.XtraEditors.TextEdit();
             this.txtTotalAmount = new DevExpress.XtraEditors.TextEdit();
             this.txtNetAmount = new DevExpress.XtraEditors.TextEdit();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem13 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem14 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem13 = new DevExpress.XtraLayout.LayoutControlItem();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.btnSaveAndPrint = new DevExpress.XtraEditors.SimpleButton();
             this.btnSaveAndPreview = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCreate = new DevExpress.XtraEditors.SimpleButton();
             this.EditBtn = new DevExpress.XtraEditors.SimpleButton();
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.scrollableControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -94,17 +94,17 @@
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlItems)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewItems)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDiscount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalAmount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNetAmount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // scrollableControl1
@@ -114,7 +114,7 @@
             this.scrollableControl1.Location = new System.Drawing.Point(0, 0);
             this.scrollableControl1.Margin = new System.Windows.Forms.Padding(4);
             this.scrollableControl1.Name = "scrollableControl1";
-            this.scrollableControl1.Size = new System.Drawing.Size(1081, 640);
+            this.scrollableControl1.Size = new System.Drawing.Size(1000, 700);
             this.scrollableControl1.TabIndex = 0;
             // 
             // panelControl1
@@ -124,9 +124,8 @@
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Margin = new System.Windows.Forms.Padding(4);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(1081, 640);
+            this.panelControl1.Size = new System.Drawing.Size(1000, 700);
             this.panelControl1.TabIndex = 0;
-            this.panelControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.panelControl1_Paint);
             // 
             // groupControl1
             // 
@@ -149,7 +148,7 @@
             this.groupControl1.Location = new System.Drawing.Point(10, 10);
             this.groupControl1.Margin = new System.Windows.Forms.Padding(4);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(1058, 555);
+            this.groupControl1.Size = new System.Drawing.Size(980, 675);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "بيانات الفاتورة";
             this.groupControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.groupControl1_Paint);
@@ -176,7 +175,7 @@
             this.groupControlClientData.Controls.Add(this.txtCustomerPhone);
             this.groupControlClientData.Location = new System.Drawing.Point(5, 30);
             this.groupControlClientData.Name = "groupControlClientData";
-            this.groupControlClientData.Size = new System.Drawing.Size(1040, 80);
+            this.groupControlClientData.Size = new System.Drawing.Size(970, 85);
             this.groupControlClientData.TabIndex = 0;
             this.groupControlClientData.Text = "بيانات العميل والفاتورة";
             // 
@@ -184,7 +183,7 @@
             // 
             this.labelControl4.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl4.Appearance.Options.UseFont = true;
-            this.labelControl4.Location = new System.Drawing.Point(225, 25);
+            this.labelControl4.Location = new System.Drawing.Point(170, 25);
             this.labelControl4.Name = "labelControl4";
             this.labelControl4.Size = new System.Drawing.Size(69, 18);
             this.labelControl4.TabIndex = 3;
@@ -194,7 +193,7 @@
             // 
             this.labelControl3.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl3.Appearance.Options.UseFont = true;
-            this.labelControl3.Location = new System.Drawing.Point(554, 25);
+            this.labelControl3.Location = new System.Drawing.Point(420, 25);
             this.labelControl3.Name = "labelControl3";
             this.labelControl3.Size = new System.Drawing.Size(79, 18);
             this.labelControl3.TabIndex = 2;
@@ -204,7 +203,7 @@
             // 
             this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl2.Appearance.Options.UseFont = true;
-            this.labelControl2.Location = new System.Drawing.Point(772, 25);
+            this.labelControl2.Location = new System.Drawing.Point(640, 25);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(76, 18);
             this.labelControl2.TabIndex = 1;
@@ -215,7 +214,7 @@
             // 
             this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl1.Appearance.Options.UseFont = true;
-            this.labelControl1.Location = new System.Drawing.Point(963, 25);
+            this.labelControl1.Location = new System.Drawing.Point(850, 25);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(69, 18);
             this.labelControl1.TabIndex = 0;
@@ -224,7 +223,7 @@
             // 
             // txtInvoiceNumber
             // 
-            this.txtInvoiceNumber.Location = new System.Drawing.Point(856, 46);
+            this.txtInvoiceNumber.Location = new System.Drawing.Point(745, 50);
             this.txtInvoiceNumber.Margin = new System.Windows.Forms.Padding(4);
             this.txtInvoiceNumber.Name = "txtInvoiceNumber";
             this.txtInvoiceNumber.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
@@ -234,14 +233,14 @@
             this.txtInvoiceNumber.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.LightGray;
             this.txtInvoiceNumber.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtInvoiceNumber.Properties.ReadOnly = true;
-            this.txtInvoiceNumber.Size = new System.Drawing.Size(176, 28);
+            this.txtInvoiceNumber.Size = new System.Drawing.Size(180, 28);
             this.txtInvoiceNumber.TabIndex = 0;
             this.txtInvoiceNumber.EditValueChanged += new System.EventHandler(this.txtInvoiceNumber_EditValueChanged);
             // 
             // dtInvoiceDate
             // 
             this.dtInvoiceDate.EditValue = null;
-            this.dtInvoiceDate.Location = new System.Drawing.Point(641, 46);
+            this.dtInvoiceDate.Location = new System.Drawing.Point(520, 50);
             this.dtInvoiceDate.Margin = new System.Windows.Forms.Padding(4);
             this.dtInvoiceDate.Name = "dtInvoiceDate";
             this.dtInvoiceDate.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
@@ -254,12 +253,12 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.dtInvoiceDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dtInvoiceDate.Size = new System.Drawing.Size(207, 28);
+            this.dtInvoiceDate.Size = new System.Drawing.Size(200, 28);
             this.dtInvoiceDate.TabIndex = 1;
             // 
             // txtCustomerName
             // 
-            this.txtCustomerName.Location = new System.Drawing.Point(302, 46);
+            this.txtCustomerName.Location = new System.Drawing.Point(260, 50);
             this.txtCustomerName.Margin = new System.Windows.Forms.Padding(4);
             this.txtCustomerName.Name = "txtCustomerName";
             this.txtCustomerName.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
@@ -268,12 +267,12 @@
             this.txtCustomerName.Properties.Appearance.Options.UseForeColor = true;
             this.txtCustomerName.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.Blue;
             this.txtCustomerName.Properties.AppearanceFocused.Options.UseBorderColor = true;
-            this.txtCustomerName.Size = new System.Drawing.Size(331, 28);
+            this.txtCustomerName.Size = new System.Drawing.Size(250, 28);
             this.txtCustomerName.TabIndex = 2;
             // 
             // txtCustomerPhone
             // 
-            this.txtCustomerPhone.Location = new System.Drawing.Point(6, 46);
+            this.txtCustomerPhone.Location = new System.Drawing.Point(15, 50);
             this.txtCustomerPhone.Margin = new System.Windows.Forms.Padding(4);
             this.txtCustomerPhone.Name = "txtCustomerPhone";
             this.txtCustomerPhone.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
@@ -282,7 +281,7 @@
             this.txtCustomerPhone.Properties.Appearance.Options.UseForeColor = true;
             this.txtCustomerPhone.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.Blue;
             this.txtCustomerPhone.Properties.AppearanceFocused.Options.UseBorderColor = true;
-            this.txtCustomerPhone.Size = new System.Drawing.Size(288, 28);
+            this.txtCustomerPhone.Size = new System.Drawing.Size(235, 28);
             this.txtCustomerPhone.TabIndex = 3;
             this.txtCustomerPhone.EditValueChanged += new System.EventHandler(this.txtCustomerPhone_EditValueChanged);
             // 
@@ -304,9 +303,9 @@
             this.groupControlAddProduct.Controls.Add(this.cmbProduct);
             this.groupControlAddProduct.Controls.Add(this.spinQuantity);
             this.groupControlAddProduct.Controls.Add(this.btnAddItem);
-            this.groupControlAddProduct.Location = new System.Drawing.Point(5, 115);
+            this.groupControlAddProduct.Location = new System.Drawing.Point(5, 120);
             this.groupControlAddProduct.Name = "groupControlAddProduct";
-            this.groupControlAddProduct.Size = new System.Drawing.Size(1040, 97);
+            this.groupControlAddProduct.Size = new System.Drawing.Size(970, 100);
             this.groupControlAddProduct.TabIndex = 1;
             this.groupControlAddProduct.Text = "إضافة منتج للفاتورة";
             // 
@@ -314,7 +313,7 @@
             // 
             this.labelControl5.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl5.Appearance.Options.UseFont = true;
-            this.labelControl5.Location = new System.Drawing.Point(701, 73);
+            this.labelControl5.Location = new System.Drawing.Point(720, 70);
             this.labelControl5.Name = "labelControl5";
             this.labelControl5.Size = new System.Drawing.Size(50, 21);
             this.labelControl5.TabIndex = 7;
@@ -322,7 +321,7 @@
             // 
             // cmbCompany
             // 
-            this.cmbCompany.Location = new System.Drawing.Point(774, 30);
+            this.cmbCompany.Location = new System.Drawing.Point(730, 30);
             this.cmbCompany.Margin = new System.Windows.Forms.Padding(4);
             this.cmbCompany.Name = "cmbCompany";
             this.cmbCompany.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
@@ -333,17 +332,14 @@
             this.cmbCompany.Properties.AppearanceFocused.Options.UseBorderColor = true;
             this.cmbCompany.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbCompany.Properties.ImmediatePopup = true;
             this.cmbCompany.Properties.NullText = "اختر الشركة...";
-            this.cmbCompany.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoComplete;
-            this.cmbCompany.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-            this.cmbCompany.Size = new System.Drawing.Size(258, 28);
+            this.cmbCompany.Size = new System.Drawing.Size(200, 28);
             this.cmbCompany.TabIndex = 4;
             this.cmbCompany.EditValueChanged += new System.EventHandler(this.cmbCompany_EditValueChanged);
             // 
             // cmbCategory
             // 
-            this.cmbCategory.Location = new System.Drawing.Point(490, 30);
+            this.cmbCategory.Location = new System.Drawing.Point(450, 30);
             this.cmbCategory.Margin = new System.Windows.Forms.Padding(4);
             this.cmbCategory.Name = "cmbCategory";
             this.cmbCategory.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
@@ -354,11 +350,8 @@
             this.cmbCategory.Properties.AppearanceFocused.Options.UseBorderColor = true;
             this.cmbCategory.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbCategory.Properties.ImmediatePopup = true;
             this.cmbCategory.Properties.NullText = "اختر الصنف...";
-            this.cmbCategory.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoComplete;
-            this.cmbCategory.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-            this.cmbCategory.Size = new System.Drawing.Size(276, 28);
+            this.cmbCategory.Size = new System.Drawing.Size(270, 28);
             this.cmbCategory.TabIndex = 5;
             this.cmbCategory.EditValueChanged += new System.EventHandler(this.cmbCategory_EditValueChanged);
             // 
@@ -375,11 +368,8 @@
             this.cmbProduct.Properties.AppearanceFocused.Options.UseBorderColor = true;
             this.cmbProduct.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbProduct.Properties.ImmediatePopup = true;
             this.cmbProduct.Properties.NullText = "اختر المنتج...";
-            this.cmbProduct.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoComplete;
-            this.cmbProduct.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-            this.cmbProduct.Size = new System.Drawing.Size(467, 28);
+            this.cmbProduct.Size = new System.Drawing.Size(425, 28);
             this.cmbProduct.TabIndex = 6;
             this.cmbProduct.EditValueChanged += new System.EventHandler(this.cmbProduct_EditValueChanged);
             // 
@@ -390,7 +380,7 @@
             0,
             0,
             0});
-            this.spinQuantity.Location = new System.Drawing.Point(574, 69);
+            this.spinQuantity.Location = new System.Drawing.Point(620, 67);
             this.spinQuantity.Margin = new System.Windows.Forms.Padding(4);
             this.spinQuantity.Name = "spinQuantity";
             this.spinQuantity.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
@@ -413,7 +403,7 @@
             0,
             0,
             0});
-            this.spinQuantity.Size = new System.Drawing.Size(120, 28);
+            this.spinQuantity.Size = new System.Drawing.Size(90, 28);
             this.spinQuantity.TabIndex = 7;
             this.spinQuantity.EditValueChanged += new System.EventHandler(this.spinQuantity_EditValueChanged);
             // 
@@ -429,10 +419,10 @@
             this.btnAddItem.AppearanceHovered.Options.UseBackColor = true;
             this.btnAddItem.AppearancePressed.BackColor = System.Drawing.Color.DarkGreen;
             this.btnAddItem.AppearancePressed.Options.UseBackColor = true;
-            this.btnAddItem.Location = new System.Drawing.Point(346, 67);
+            this.btnAddItem.Location = new System.Drawing.Point(300, 65);
             this.btnAddItem.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddItem.Name = "btnAddItem";
-            this.btnAddItem.Size = new System.Drawing.Size(220, 30);
+            this.btnAddItem.Size = new System.Drawing.Size(200, 30);
             this.btnAddItem.TabIndex = 8;
             this.btnAddItem.Text = "إضافة منتج للفاتورة";
             this.btnAddItem.Click += new System.EventHandler(this.btnAddItem_Click);
@@ -443,12 +433,12 @@
             this.layoutControl1.Controls.Add(this.txtDiscount);
             this.layoutControl1.Controls.Add(this.txtTotalAmount);
             this.layoutControl1.Controls.Add(this.txtNetAmount);
-            this.layoutControl1.Location = new System.Drawing.Point(5, 205);
+            this.layoutControl1.Location = new System.Drawing.Point(5, 225);
             this.layoutControl1.Margin = new System.Windows.Forms.Padding(4);
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsView.RightToLeftMirroringApplied = true;
             this.layoutControl1.Root = this.Root;
-            this.layoutControl1.Size = new System.Drawing.Size(1052, 400);
+            this.layoutControl1.Size = new System.Drawing.Size(970, 445);
             this.layoutControl1.TabIndex = 2;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -458,7 +448,7 @@
             this.gridControlItems.MainView = this.gridViewItems;
             this.gridControlItems.Margin = new System.Windows.Forms.Padding(4);
             this.gridControlItems.Name = "gridControlItems";
-            this.gridControlItems.Size = new System.Drawing.Size(1028, 302);
+            this.gridControlItems.Size = new System.Drawing.Size(946, 347);
             this.gridControlItems.TabIndex = 10;
             this.gridControlItems.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewItems,
@@ -480,14 +470,9 @@
             this.gridViewItems.Name = "gridViewItems";
             this.gridViewItems.OptionsView.ShowGroupPanel = false;
             // 
-            // gridView1
-            // 
-            this.gridView1.GridControl = this.gridControlItems;
-            this.gridView1.Name = "gridView1";
-            // 
             // txtDiscount
             // 
-            this.txtDiscount.Location = new System.Drawing.Point(415, 358);
+            this.txtDiscount.Location = new System.Drawing.Point(355, 403);
             this.txtDiscount.Margin = new System.Windows.Forms.Padding(4);
             this.txtDiscount.Name = "txtDiscount";
             this.txtDiscount.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
@@ -496,14 +481,17 @@
             this.txtDiscount.Properties.Appearance.Options.UseForeColor = true;
             this.txtDiscount.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.Red;
             this.txtDiscount.Properties.AppearanceFocused.Options.UseBorderColor = true;
-            this.txtDiscount.Size = new System.Drawing.Size(301, 28);
+            this.txtDiscount.Properties.NullText = "أدخل قيمة الخصم";
+            this.txtDiscount.Properties.NullValuePrompt = "أدخل قيمة الخصم";
+            this.txtDiscount.Properties.NullValuePromptShowForEmptyValue = true;
+            this.txtDiscount.Size = new System.Drawing.Size(283, 28);
             this.txtDiscount.StyleController = this.layoutControl1;
             this.txtDiscount.TabIndex = 11;
             this.txtDiscount.EditValueChanged += new System.EventHandler(this.txtDiscount_EditValueChanged);
             // 
             // txtTotalAmount
             // 
-            this.txtTotalAmount.Location = new System.Drawing.Point(720, 358);
+            this.txtTotalAmount.Location = new System.Drawing.Point(642, 403);
             this.txtTotalAmount.Margin = new System.Windows.Forms.Padding(4);
             this.txtTotalAmount.Name = "txtTotalAmount";
             this.txtTotalAmount.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
@@ -513,13 +501,13 @@
             this.txtTotalAmount.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.LightCyan;
             this.txtTotalAmount.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtTotalAmount.Properties.ReadOnly = true;
-            this.txtTotalAmount.Size = new System.Drawing.Size(320, 28);
+            this.txtTotalAmount.Size = new System.Drawing.Size(316, 28);
             this.txtTotalAmount.StyleController = this.layoutControl1;
             this.txtTotalAmount.TabIndex = 12;
             // 
             // txtNetAmount
             // 
-            this.txtNetAmount.Location = new System.Drawing.Point(12, 358);
+            this.txtNetAmount.Location = new System.Drawing.Point(12, 403);
             this.txtNetAmount.Margin = new System.Windows.Forms.Padding(4);
             this.txtNetAmount.Name = "txtNetAmount";
             this.txtNetAmount.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
@@ -529,7 +517,7 @@
             this.txtNetAmount.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.LightGreen;
             this.txtNetAmount.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtNetAmount.Properties.ReadOnly = true;
-            this.txtNetAmount.Size = new System.Drawing.Size(399, 30);
+            this.txtNetAmount.Size = new System.Drawing.Size(339, 30);
             this.txtNetAmount.StyleController = this.layoutControl1;
             this.txtNetAmount.TabIndex = 13;
             // 
@@ -539,11 +527,11 @@
             this.Root.GroupBordersVisible = false;
             this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem11,
-            this.layoutControlItem14,
             this.layoutControlItem13,
-            this.layoutControlItem12});
+            this.layoutControlItem12,
+            this.layoutControlItem14});
             this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(1052, 400);
+            this.Root.Size = new System.Drawing.Size(970, 445);
             this.Root.TextVisible = false;
             // 
             // layoutControlItem11
@@ -551,19 +539,31 @@
             this.layoutControlItem11.Control = this.gridControlItems;
             this.layoutControlItem11.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem11.Name = "layoutControlItem11";
-            this.layoutControlItem11.Size = new System.Drawing.Size(1032, 325);
+            this.layoutControlItem11.Size = new System.Drawing.Size(950, 370);
             this.layoutControlItem11.Text = "المنتجات";
             this.layoutControlItem11.TextLocation = DevExpress.Utils.Locations.Top;
             this.layoutControlItem11.TextSize = new System.Drawing.Size(52, 16);
+            // 
+            // layoutControlItem13
+            // 
+            this.layoutControlItem13.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.layoutControlItem13.AppearanceItemCaption.Options.UseFont = true;
+            this.layoutControlItem13.Control = this.txtTotalAmount;
+            this.layoutControlItem13.Location = new System.Drawing.Point(630, 370);
+            this.layoutControlItem13.Name = "layoutControlItem13";
+            this.layoutControlItem13.Size = new System.Drawing.Size(320, 55);
+            this.layoutControlItem13.Text = "المجموع";
+            this.layoutControlItem13.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem13.TextSize = new System.Drawing.Size(52, 18);
             // 
             // layoutControlItem14
             // 
             this.layoutControlItem14.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.layoutControlItem14.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem14.Control = this.txtNetAmount;
-            this.layoutControlItem14.Location = new System.Drawing.Point(0, 325);
+            this.layoutControlItem14.Location = new System.Drawing.Point(0, 370);
             this.layoutControlItem14.Name = "layoutControlItem14";
-            this.layoutControlItem14.Size = new System.Drawing.Size(403, 55);
+            this.layoutControlItem14.Size = new System.Drawing.Size(343, 55);
             this.layoutControlItem14.Text = "الصافي";
             this.layoutControlItem14.TextLocation = DevExpress.Utils.Locations.Top;
             this.layoutControlItem14.TextSize = new System.Drawing.Size(52, 18);
@@ -573,24 +573,12 @@
             this.layoutControlItem12.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.layoutControlItem12.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem12.Control = this.txtDiscount;
-            this.layoutControlItem12.Location = new System.Drawing.Point(403, 325);
+            this.layoutControlItem12.Location = new System.Drawing.Point(343, 370);
             this.layoutControlItem12.Name = "layoutControlItem12";
-            this.layoutControlItem12.Size = new System.Drawing.Size(305, 55);
+            this.layoutControlItem12.Size = new System.Drawing.Size(287, 55);
             this.layoutControlItem12.Text = "الخصم";
             this.layoutControlItem12.TextLocation = DevExpress.Utils.Locations.Top;
             this.layoutControlItem12.TextSize = new System.Drawing.Size(52, 18);
-            // 
-            // layoutControlItem13
-            // 
-            this.layoutControlItem13.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.layoutControlItem13.AppearanceItemCaption.Options.UseFont = true;
-            this.layoutControlItem13.Control = this.txtTotalAmount;
-            this.layoutControlItem13.Location = new System.Drawing.Point(708, 325);
-            this.layoutControlItem13.Name = "layoutControlItem13";
-            this.layoutControlItem13.Size = new System.Drawing.Size(324, 55);
-            this.layoutControlItem13.Text = "المجموع";
-            this.layoutControlItem13.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem13.TextSize = new System.Drawing.Size(52, 18);
             // 
             // panelControl2
             // 
@@ -600,10 +588,10 @@
             this.panelControl2.Controls.Add(this.EditBtn);
             this.panelControl2.Controls.Add(this.btnCancel);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelControl2.Location = new System.Drawing.Point(0, 640);
+            this.panelControl2.Location = new System.Drawing.Point(0, 700);
             this.panelControl2.Margin = new System.Windows.Forms.Padding(4);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(1081, 60);
+            this.panelControl2.Size = new System.Drawing.Size(1000, 60);
             this.panelControl2.TabIndex = 1;
             this.panelControl2.Paint += new System.Windows.Forms.PaintEventHandler(this.panelControl2_Paint);
             // 
@@ -611,12 +599,12 @@
             // 
             this.btnSaveAndPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveAndPrint.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
-            this.btnSaveAndPrint.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.btnSaveAndPrint.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
             this.btnSaveAndPrint.Appearance.ForeColor = System.Drawing.Color.White;
             this.btnSaveAndPrint.Appearance.Options.UseBackColor = true;
             this.btnSaveAndPrint.Appearance.Options.UseFont = true;
             this.btnSaveAndPrint.Appearance.Options.UseForeColor = true;
-            this.btnSaveAndPrint.Location = new System.Drawing.Point(626, 12);
+            this.btnSaveAndPrint.Location = new System.Drawing.Point(570, 12);
             this.btnSaveAndPrint.Margin = new System.Windows.Forms.Padding(4);
             this.btnSaveAndPrint.Name = "btnSaveAndPrint";
             this.btnSaveAndPrint.Size = new System.Drawing.Size(120, 36);
@@ -628,12 +616,12 @@
             // 
             this.btnSaveAndPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveAndPreview.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(162)))), ((int)(((byte)(184)))));
-            this.btnSaveAndPreview.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.btnSaveAndPreview.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
             this.btnSaveAndPreview.Appearance.ForeColor = System.Drawing.Color.White;
             this.btnSaveAndPreview.Appearance.Options.UseBackColor = true;
             this.btnSaveAndPreview.Appearance.Options.UseFont = true;
             this.btnSaveAndPreview.Appearance.Options.UseForeColor = true;
-            this.btnSaveAndPreview.Location = new System.Drawing.Point(756, 12);
+            this.btnSaveAndPreview.Location = new System.Drawing.Point(700, 12);
             this.btnSaveAndPreview.Margin = new System.Windows.Forms.Padding(4);
             this.btnSaveAndPreview.Name = "btnSaveAndPreview";
             this.btnSaveAndPreview.Size = new System.Drawing.Size(120, 36);
@@ -644,9 +632,9 @@
             // BtnCreate
             // 
             this.BtnCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnCreate.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.BtnCreate.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
             this.BtnCreate.Appearance.Options.UseFont = true;
-            this.BtnCreate.Location = new System.Drawing.Point(886, 12);
+            this.BtnCreate.Location = new System.Drawing.Point(830, 12);
             this.BtnCreate.Margin = new System.Windows.Forms.Padding(4);
             this.BtnCreate.Name = "BtnCreate";
             this.BtnCreate.Size = new System.Drawing.Size(120, 36);
@@ -657,9 +645,9 @@
             // EditBtn
             // 
             this.EditBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.EditBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.EditBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
             this.EditBtn.Appearance.Options.UseFont = true;
-            this.EditBtn.Location = new System.Drawing.Point(886, 12);
+            this.EditBtn.Location = new System.Drawing.Point(830, 12);
             this.EditBtn.Margin = new System.Windows.Forms.Padding(4);
             this.EditBtn.Name = "EditBtn";
             this.EditBtn.Size = new System.Drawing.Size(120, 36);
@@ -682,16 +670,20 @@
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "إلغاء";
             // 
+            // gridView1
+            // 
+            this.gridView1.GridControl = this.gridControlItems;
+            this.gridView1.Name = "gridView1";
+            // 
             // InvoiceCUForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1081, 700);
+            this.ClientSize = new System.Drawing.Size(1000, 760);
             this.Controls.Add(this.scrollableControl1);
             this.Controls.Add(this.panelControl2);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximumSize = new System.Drawing.Size(1400, 900);
-            this.MinimumSize = new System.Drawing.Size(900, 650);
+            this.MinimumSize = new System.Drawing.Size(950, 700);
             this.Name = "InvoiceCUForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RightToLeftLayout = true;
@@ -722,17 +714,17 @@
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlItems)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewItems)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDiscount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalAmount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNetAmount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.ResumeLayout(false);
 
         }

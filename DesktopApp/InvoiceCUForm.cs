@@ -43,8 +43,8 @@ namespace DesktopApp
             // Initialize discount field to be empty for new invoices
             if (txtDiscount != null)
             {
-                txtDiscount.EditValue = "";
-                txtDiscount.Text = ""; // ADDITIONAL: Ensure Text property is also empty
+                txtDiscount.Text = ""; // Set as empty text
+                txtDiscount.EditValue = null; // Clear edit value
             }
             
             // ADDITIONAL: Initialize total fields to be empty for new invoices
@@ -1205,19 +1205,19 @@ namespace DesktopApp
             // Add validation for numeric input
             if (sender is DevExpress.XtraEditors.TextEdit textEdit)
             {
-                ValidateNumericInput(textEdit);
+                ValidateDiscountInput(textEdit);
             }
             CalculateTotals();
         }
 
-        private void ValidateNumericInput(DevExpress.XtraEditors.TextEdit textEdit)
+        private void ValidateDiscountInput(DevExpress.XtraEditors.TextEdit textEdit)
         {
             if (textEdit == null) return;
 
             string text = textEdit.Text;
             if (string.IsNullOrEmpty(text))
             {
-                // CHANGE: Don't set to "0" - leave empty
+                // Allow empty values
                 return;
             }
 
@@ -1244,29 +1244,49 @@ namespace DesktopApp
                 // Ensure value is not negative
                 if (value < 0)
                 {
-                    value = 0;
+                    XtraMessageBox.Show("قيمة الخصم لا يمكن أن تكون سالبة", "خطأ في الإدخال", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textEdit.Text = "";
+                    textEdit.Focus();
+                    return;
                 }
 
-                // Update the text if it was modified
+                // Check if discount exceeds total amount
+                if (GetTotalAmountBeforeDiscount() > 0 && value > GetTotalAmountBeforeDiscount())
+                {
+                    XtraMessageBox.Show("قيمة الخصم لا يمكن أن تتجاوز إجمالي المبلغ", "خطأ في الإدخال", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textEdit.Text = "";
+                    textEdit.Focus();
+                    return;
+                }
+
+                // Update the text if it was modified to remove invalid characters
                 if (numericText != text)
                 {
-                    // Keep it simple - just use the numeric value without formatting
-                    if (value == 0)
-                    {
-                        textEdit.EditValue = "";
-                    }
-                    else
-                    {
-                        textEdit.EditValue = value.ToString("0"); // Simple integer format
-                    }
-                    textEdit.SelectionStart = textEdit.Text.Length;
+                    int cursorPosition = textEdit.SelectionStart;
+                    textEdit.Text = numericText;
+                    textEdit.SelectionStart = Math.Min(cursorPosition, textEdit.Text.Length);
                 }
             }
             else
             {
-                // CHANGE: If parsing fails, reset to empty instead of "0.00"
-                textEdit.EditValue = "";
+                // If parsing fails, show error and clear field
+                XtraMessageBox.Show("يرجى إدخال رقم صحيح للخصم", "خطأ في الإدخال", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textEdit.Text = "";
+                textEdit.Focus();
             }
+        }
+
+        private decimal GetTotalAmountBeforeDiscount()
+        {
+            decimal total = 0;
+            foreach (var item in invoiceItems)
+            {
+                total += item.Quantity * item.UnitPrice;
+            }
+            return total;
         }
 
         // Empty event handlers (from original file)
