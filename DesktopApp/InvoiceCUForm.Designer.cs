@@ -332,7 +332,12 @@
             this.cmbCompany.Properties.AppearanceFocused.Options.UseBorderColor = true;
             this.cmbCompany.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbCompany.Properties.NullText = "اختر الشركة...";
+            this.cmbCompany.Properties.NullText = "ابحث واختر الشركة...";
+            this.cmbCompany.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
+            this.cmbCompany.Properties.AutoSearchColumnIndex = 0;
+            this.cmbCompany.Properties.ImmediatePopup = true;
+            this.cmbCompany.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
+            this.cmbCompany.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.cmbCompany.Size = new System.Drawing.Size(200, 28);
             this.cmbCompany.TabIndex = 4;
             this.cmbCompany.EditValueChanged += new System.EventHandler(this.cmbCompany_EditValueChanged);
@@ -350,7 +355,12 @@
             this.cmbCategory.Properties.AppearanceFocused.Options.UseBorderColor = true;
             this.cmbCategory.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbCategory.Properties.NullText = "اختر الصنف...";
+            this.cmbCategory.Properties.NullText = "ابحث واختر الصنف...";
+            this.cmbCategory.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
+            this.cmbCategory.Properties.AutoSearchColumnIndex = 0;
+            this.cmbCategory.Properties.ImmediatePopup = true;
+            this.cmbCategory.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
+            this.cmbCategory.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.cmbCategory.Size = new System.Drawing.Size(270, 28);
             this.cmbCategory.TabIndex = 5;
             this.cmbCategory.EditValueChanged += new System.EventHandler(this.cmbCategory_EditValueChanged);
@@ -368,7 +378,12 @@
             this.cmbProduct.Properties.AppearanceFocused.Options.UseBorderColor = true;
             this.cmbProduct.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbProduct.Properties.NullText = "اختر المنتج...";
+            this.cmbProduct.Properties.NullText = "ابحث واختر المنتج...";
+            this.cmbProduct.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
+            this.cmbProduct.Properties.AutoSearchColumnIndex = 0;
+            this.cmbProduct.Properties.ImmediatePopup = true;
+            this.cmbProduct.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
+            this.cmbProduct.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.cmbProduct.Size = new System.Drawing.Size(425, 28);
             this.cmbProduct.TabIndex = 6;
             this.cmbProduct.EditValueChanged += new System.EventHandler(this.cmbProduct_EditValueChanged);

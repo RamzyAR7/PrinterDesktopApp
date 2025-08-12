@@ -15,6 +15,7 @@ namespace DesktopApp
         private Invoice currentInvoice;
         private List<InvoiceItem> invoiceItems;
         public bool InvoiceSaved { get; private set; } = false;
+        private bool isInitializing = true; // Flag to prevent validation during initialization
 
         public InvoiceCUForm()
         {
@@ -61,6 +62,9 @@ namespace DesktopApp
             
             // Adjust layout after form is fully initialized
             this.Load += (s, e) => AdjustLayoutForScreenSize();
+            
+            // Set initialization flag to false after everything is set up
+            isInitializing = false;
         }
 
         public InvoiceCUForm(int invoiceId) : this()
@@ -1202,6 +1206,9 @@ namespace DesktopApp
 
         private void txtDiscount_EditValueChanged(object sender, EventArgs e)
         {
+            // Skip validation during form initialization
+            if (isInitializing) return;
+            
             // Add validation for numeric input
             if (sender is DevExpress.XtraEditors.TextEdit textEdit)
             {
@@ -1215,9 +1222,9 @@ namespace DesktopApp
             if (textEdit == null) return;
 
             string text = textEdit.Text;
-            if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrWhiteSpace(text))
             {
-                // Allow empty values
+                // Discount is optional, empty is allowed
                 return;
             }
 
@@ -1271,7 +1278,9 @@ namespace DesktopApp
             }
             else
             {
-                // If parsing fails, show error and clear field
+                // If parsing fails, but field is empty, allow it
+                if (string.IsNullOrWhiteSpace(text)) return;
+                // Otherwise, show error and clear field
                 XtraMessageBox.Show("يرجى إدخال رقم صحيح للخصم", "خطأ في الإدخال", 
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textEdit.Text = "";
