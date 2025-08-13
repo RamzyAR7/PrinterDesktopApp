@@ -327,7 +327,7 @@ namespace DesktopApp
                 cmbCompany.Properties.DataSource = companies;
                 cmbCompany.Properties.DisplayMember = "Name";
                 cmbCompany.Properties.ValueMember = "Id";
-                cmbCompany.Properties.NullText = "اختر الشركة...";
+                cmbCompany.Properties.NullText = "🔍 ابحث أو اختر الشركة...";
                 
                 ConfigureSearchableDropdown(cmbCompany, "شركة");
                 
@@ -341,7 +341,7 @@ namespace DesktopApp
                 cmbCategory.Properties.DataSource = categories;
                 cmbCategory.Properties.DisplayMember = "Name";
                 cmbCategory.Properties.ValueMember = "Id";
-                cmbCategory.Properties.NullText = "اختر الصنف...";
+                cmbCategory.Properties.NullText = "🔍 ابحث أو اختر الصنف...";
                 
                 ConfigureSearchableDropdown(cmbCategory, "صنف");
             }
@@ -361,28 +361,12 @@ namespace DesktopApp
             nameColumn.Width = 350;
             lookupEdit.Properties.Columns.Add(nameColumn);
             
-            // Search/filter behavior (match InvoiceCUForm)
-            lookupEdit.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
-            lookupEdit.Properties.ImmediatePopup = true;
-            lookupEdit.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
-            lookupEdit.Properties.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFitResizePopup;
-            lookupEdit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-            lookupEdit.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
-            lookupEdit.Properties.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.False;
-
             // Modern column styling
             lookupEdit.Properties.AppearanceDropDown.BackColor = Color.White;
             lookupEdit.Properties.AppearanceDropDown.ForeColor = Color.FromArgb(52, 58, 64);
             lookupEdit.Properties.AppearanceDropDownHeader.BackColor = Color.FromArgb(248, 249, 250);
             lookupEdit.Properties.AppearanceDropDownHeader.ForeColor = Color.FromArgb(52, 58, 64);
             lookupEdit.Properties.AppearanceDropDownHeader.Font = new Font("Tahoma", 11F, FontStyle.Bold);
-
-            // Popup sizing similar to invoice form (slightly wider for long names)
-            lookupEdit.Properties.PopupFormSize = new Size(350, 250);
-            lookupEdit.Properties.DropDownRows = 15;
-            lookupEdit.Properties.ShowHeader = true;
-            lookupEdit.Properties.ShowFooter = false;
-            lookupEdit.Properties.PopupSizeable = true;
         }
 
         private void LoadProductForEdit(int productId)

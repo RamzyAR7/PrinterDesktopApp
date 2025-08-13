@@ -71,7 +71,7 @@ namespace DesktopApp
             var searchLabel = new LabelControl
             {
                 Text = "بحث:",
-                Appearance = { Font = new Font("Arial", 10, FontStyle.Bold) },
+                Appearance = { Font = new Font("Arial", 13, FontStyle.Bold) },
                 AutoSizeMode = LabelAutoSizeMode.None,
                 Size = new Size(35, 20)
             };
@@ -83,7 +83,7 @@ namespace DesktopApp
                     NullText = "ابحث عن رقم الفاتورة، اسم العميل، أو رقم الهاتف...",
                     Appearance = { 
                         TextOptions = { HAlignment = DevExpress.Utils.HorzAlignment.Near },
-                        Font = new Font("Arial", 10)
+                        Font = new Font("Arial", 12)
                     }
                 },
                 Size = new Size(300, 25)
@@ -118,7 +118,7 @@ namespace DesktopApp
             {
                 NewBtn.Size = new Size(120, 30);
                 NewBtn.Location = new Point(10, 10);
-                NewBtn.Text = "جديد";
+                NewBtn.Text = "+ اضافة فتورة";
             }
         }
 
@@ -236,9 +236,12 @@ namespace DesktopApp
                     gridView1.Columns["InvoiceDate"].DisplayFormat.FormatString = "yyyy-MM-dd";
                 }
 
-                // Configure fonts
-                gridView1.Appearance.HeaderPanel.Font = new Font(gridView1.Appearance.HeaderPanel.Font.FontFamily, 12, FontStyle.Bold);
-                gridView1.Appearance.Row.Font = new Font(gridView1.Appearance.Row.Font.FontFamily, 11);
+                // Configure fonts: header 13 bold, rows 11 bold
+                gridView1.Appearance.HeaderPanel.Font = new Font(gridView1.Appearance.HeaderPanel.Font.FontFamily, 13, FontStyle.Bold);
+                gridView1.Appearance.Row.Font = new Font(gridView1.Appearance.Row.Font.FontFamily, 11, FontStyle.Bold);
+                gridView1.Appearance.Row.Options.UseFont = true;
+                gridView1.Appearance.EvenRow.Font = new Font(gridView1.Appearance.EvenRow.Font.FontFamily, 11, FontStyle.Bold);
+                gridView1.Appearance.EvenRow.Options.UseFont = true;
 
                 gridView1.OptionsView.ColumnAutoWidth = true;
                 gridView1.BestFitColumns();

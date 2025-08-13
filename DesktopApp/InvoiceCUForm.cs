@@ -499,8 +499,12 @@ namespace DesktopApp
             var colProductName = gridViewItems.Columns.Add();
             colProductName.FieldName = "ProductName";
             colProductName.Caption = "اسم المنتج";
+            colProductName.AppearanceCell.Font = new Font("Tahoma", 10F, FontStyle.Bold);
             colProductName.Visible = true;
             colProductName.Width = 180; // REDUCED from 200 for more compact layout
+            // Center-align product names for consistent look
+            colProductName.AppearanceCell.Options.UseTextOptions = true;
+            colProductName.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
 
             var colQuantity = gridViewItems.Columns.Add();
             colQuantity.FieldName = "Quantity";
@@ -509,6 +513,11 @@ namespace DesktopApp
             colQuantity.Width = 60; // REDUCED from 70 for more compact layout
             colQuantity.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             colQuantity.DisplayFormat.FormatString = "n0";
+            // Make numbers bold and center them
+            colQuantity.AppearanceCell.Options.UseFont = true;
+            colQuantity.AppearanceCell.Font = new Font("Tahoma", 10F, FontStyle.Bold);
+            colQuantity.AppearanceCell.Options.UseTextOptions = true;
+            colQuantity.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
 
             var colUnitPrice = gridViewItems.Columns.Add();
             colUnitPrice.FieldName = "UnitPrice";
@@ -517,6 +526,11 @@ namespace DesktopApp
             colUnitPrice.Width = 90; // REDUCED from 100 for more compact layout
             colUnitPrice.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             colUnitPrice.DisplayFormat.FormatString = "n0";
+            // Make numbers bold and center them
+            colUnitPrice.AppearanceCell.Options.UseFont = true;
+            colUnitPrice.AppearanceCell.Font = new Font("Tahoma", 10F, FontStyle.Bold);
+            colUnitPrice.AppearanceCell.Options.UseTextOptions = true;
+            colUnitPrice.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
 
             var colTotalPrice = gridViewItems.Columns.Add();
             colTotalPrice.FieldName = "TotalPrice";
@@ -527,6 +541,11 @@ namespace DesktopApp
             colTotalPrice.DisplayFormat.FormatString = "n0";
             colTotalPrice.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             colTotalPrice.UnboundExpression = "[UnitPrice] * [Quantity]";
+            // Make numbers bold and center them
+            colTotalPrice.AppearanceCell.Options.UseFont = true;
+            colTotalPrice.AppearanceCell.Font = new Font("Tahoma", 10F, FontStyle.Bold);
+            colTotalPrice.AppearanceCell.Options.UseTextOptions = true;
+            colTotalPrice.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
 
             // Always add Remove button column in both create and edit modes
             var colRemove = gridViewItems.Columns.Add();
@@ -554,7 +573,7 @@ namespace DesktopApp
             gridViewItems.Appearance.HeaderPanel.ForeColor = Color.Black;
             gridViewItems.Appearance.HeaderPanel.BackColor = Color.LightGray;
             gridViewItems.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            gridViewItems.Appearance.HeaderPanel.Font = new Font("Tahoma", 9F, FontStyle.Bold); // REDUCED font size for compact layout
+            gridViewItems.Appearance.HeaderPanel.Font = new Font("Tahoma", 13F, FontStyle.Bold); // Larger header font
             gridViewItems.Appearance.HeaderPanel.Options.UseForeColor = true;
             gridViewItems.Appearance.HeaderPanel.Options.UseBackColor = true;
             gridViewItems.Appearance.HeaderPanel.Options.UseFont = true;
@@ -563,7 +582,10 @@ namespace DesktopApp
             gridViewItems.OptionsView.ShowFooter = false;
 
             // REDUCED row height for more compact layout
-            gridViewItems.RowHeight = 28; // REDUCED from 32
+            // Increase row font and height for readability
+            gridViewItems.Appearance.Row.Font = new Font("Tahoma", 12F, FontStyle.Bold);
+            gridViewItems.Appearance.Row.Options.UseFont = true;
+            gridViewItems.RowHeight = 30;
 
             // FIX: Enable auto-width to fill empty space properly
             gridViewItems.OptionsView.ColumnAutoWidth = true;

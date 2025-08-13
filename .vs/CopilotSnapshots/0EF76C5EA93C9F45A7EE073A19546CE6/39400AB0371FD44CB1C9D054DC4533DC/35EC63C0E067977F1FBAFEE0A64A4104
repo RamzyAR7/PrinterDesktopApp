@@ -327,7 +327,7 @@ namespace DesktopApp
                 cmbCompany.Properties.DataSource = companies;
                 cmbCompany.Properties.DisplayMember = "Name";
                 cmbCompany.Properties.ValueMember = "Id";
-                cmbCompany.Properties.NullText = "اختر الشركة...";
+                cmbCompany.Properties.NullText = "🔍 ابحث أو اختر الشركة...";
                 
                 ConfigureSearchableDropdown(cmbCompany, "شركة");
                 
@@ -341,7 +341,7 @@ namespace DesktopApp
                 cmbCategory.Properties.DataSource = categories;
                 cmbCategory.Properties.DisplayMember = "Name";
                 cmbCategory.Properties.ValueMember = "Id";
-                cmbCategory.Properties.NullText = "اختر الصنف...";
+                cmbCategory.Properties.NullText = "🔍 ابحث أو اختر الصنف...";
                 
                 ConfigureSearchableDropdown(cmbCategory, "صنف");
             }
@@ -361,28 +361,12 @@ namespace DesktopApp
             nameColumn.Width = 350;
             lookupEdit.Properties.Columns.Add(nameColumn);
             
-            // Search/filter behavior (match InvoiceCUForm)
-            lookupEdit.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
-            lookupEdit.Properties.ImmediatePopup = true;
-            lookupEdit.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
-            lookupEdit.Properties.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFitResizePopup;
-            lookupEdit.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-            lookupEdit.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
-            lookupEdit.Properties.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.False;
-
             // Modern column styling
             lookupEdit.Properties.AppearanceDropDown.BackColor = Color.White;
             lookupEdit.Properties.AppearanceDropDown.ForeColor = Color.FromArgb(52, 58, 64);
             lookupEdit.Properties.AppearanceDropDownHeader.BackColor = Color.FromArgb(248, 249, 250);
             lookupEdit.Properties.AppearanceDropDownHeader.ForeColor = Color.FromArgb(52, 58, 64);
             lookupEdit.Properties.AppearanceDropDownHeader.Font = new Font("Tahoma", 11F, FontStyle.Bold);
-
-            // Popup sizing similar to invoice form (slightly wider for long names)
-            lookupEdit.Properties.PopupFormSize = new Size(350, 250);
-            lookupEdit.Properties.DropDownRows = 15;
-            lookupEdit.Properties.ShowHeader = true;
-            lookupEdit.Properties.ShowFooter = false;
-            lookupEdit.Properties.PopupSizeable = true;
         }
 
         private void LoadProductForEdit(int productId)
@@ -393,7 +377,7 @@ namespace DesktopApp
 
                 if (currentProduct != null)
                 {
-                    // Load product data with enhanced styling
+                    // Load product data
                     txtProductName.Text = currentProduct.Name;
                     cmbCompany.EditValue = currentProduct.CompanyId;
                     cmbCategory.EditValue = currentProduct.CategoryId;
@@ -410,24 +394,12 @@ namespace DesktopApp
                         txtSellingPrice.Text = latestPrice.SellingPrice.ToString("0.00");
                         txtPurchasingPrice.Text = latestPrice.PurchasingPrice.ToString("0.00");
                     }
-                    
-                    // Validate all fields after loading
-                    ValidateAllFields();
                 }
             }
             catch (Exception ex)
             {
                 ShowModernErrorMessage($"خطأ في تحميل بيانات المنتج: {ex.Message}");
             }
-        }
-
-        private void ValidateAllFields()
-        {
-            ValidateField(txtProductName, !string.IsNullOrWhiteSpace(txtProductName.Text));
-            ValidateField(cmbCompany, cmbCompany.EditValue != null);
-            ValidateField(cmbCategory, cmbCategory.EditValue != null);
-            ValidateNumericField(txtSellingPrice);
-            ValidateNumericField(txtPurchasingPrice);
         }
 
         private bool ValidateForm()
@@ -465,7 +437,7 @@ namespace DesktopApp
 
             if (errors.Any())
             {
-                ShowModernErrorMessage(string.Join("\n• ", errors.Prepend("يرجى تصحيح الأخطاء التالية:")));
+                ShowModernErrorMessage(string.Join("\n", errors));
                 return false;
             }
 
@@ -537,7 +509,6 @@ namespace DesktopApp
             }
         }
 
-        // Event Handlers
         private void BtnCreate_Click(object sender, EventArgs e)
         {
             if (!ValidateForm()) return;
@@ -548,11 +519,11 @@ namespace DesktopApp
 
                 if (isEditMode)
                 {
-                    ShowModernSuccessMessage("تم تحديث المنتج بنجاح ✅");
+                    ShowModernSuccessMessage("تم تحديث المنتج بنجاح");
                 }
                 else
                 {
-                    ShowModernSuccessMessage("تم إضافة المنتج بنجاح ✅");
+                    ShowModernSuccessMessage("تم إضافة المنتج بنجاح");
                 }
 
                 ProductSaved = true;
@@ -565,11 +536,6 @@ namespace DesktopApp
             }
         }
 
-        private void EditBtn_Click(object sender, EventArgs e)
-        {
-            BtnCreate_Click(sender, e); // Same logic as create for edit mode
-        }
-
         private void btnPreview_Click(object sender, EventArgs e)
         {
             if (!ValidateForm()) return;
@@ -579,9 +545,9 @@ namespace DesktopApp
                 // Step 1: Save to DB first
                 var product = SaveProduct();
                 
-                ShowModernSuccessMessage("تم حفظ المنتج بنجاح ✅");
+                ShowModernSuccessMessage("تم حفظ المنتج بنجاح");
                 
-                // Step 2: Open barcode preview form
+                // Step 2: Open barcode preview form with barcode of product that saved in DB
                 var currentPrice = dbContext.Prices
                     .Where(p => p.ProductId == product.Id && p.IsActive == true)
                     .OrderByDescending(p => p.CreatedDate)
@@ -589,6 +555,7 @@ namespace DesktopApp
 
                 decimal sellingPrice = currentPrice?.SellingPrice ?? 0;
 
+                // Open barcode preview form with product details
                 using (var barcodeForm = new ParcodePreviewForm(product.Name, sellingPrice))
                 {
                     barcodeForm.ShowDialog();
@@ -613,9 +580,9 @@ namespace DesktopApp
                 // Step 1: Save to DB first
                 var product = SaveProduct();
 
-                ShowModernSuccessMessage("تم حفظ المنتج بنجاح ✅");
+                ShowModernSuccessMessage("تم حفظ المنتج بنجاح");
 
-                // Step 2: Open barcode copy form and print
+                // Step 2: Open BarcodeCopyForm and make silent barcode print
                 var currentPrice = dbContext.Prices
                     .Where(p => p.ProductId == product.Id && p.IsActive == true)
                     .OrderByDescending(p => p.CreatedDate)
@@ -623,19 +590,21 @@ namespace DesktopApp
 
                 decimal sellingPrice = currentPrice?.SellingPrice ?? 0;
 
+                // Open barcode copy form to get number of copies
                 using (var copyForm = new BarcodeCopyForm())
                 {
                     if (copyForm.ShowDialog() == DialogResult.OK)
                     {
                         int numberOfCopies = copyForm.NumberOfCopies;
 
+                        // Perform silent printing
                         SilentPrintUtility.PrintBarcodeSilent(product.Name, sellingPrice, numberOfCopies);
                         
-                        ShowModernSuccessMessage($"تم طباعة {numberOfCopies} نسخة من الباركود بنجاح 🖨️");
+                        ShowModernSuccessMessage($"تم طباعة {numberOfCopies} نسخة من الباركود بنجاح");
                     }
                     else
                     {
-                        ShowModernSuccessMessage("تم حفظ المنتج بنجاح بدون طباعة ℹ️");
+                        ShowModernSuccessMessage("تم حفظ المنتج بنجاح بدون طباعة");
                     }
                 }
 
@@ -649,84 +618,88 @@ namespace DesktopApp
             }
         }
 
+        private void EditBtn_Click(object sender, EventArgs e)
+        {
+            // This method is now unused since we only have one save button
+        }
+
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        private void cmbCompany_EditValueChanged(object sender, EventArgs e)
-        {
-            // Clear category selection when company changes
-            cmbCategory.EditValue = null;
-            ValidateField(cmbCompany, cmbCompany.EditValue != null);
-        }
-
         private void cmbCategory_EditValueChanged(object sender, EventArgs e)
         {
-            ValidateField(cmbCategory, cmbCategory.EditValue != null);
+            // Empty - removing unnecessary code
+        }
+
+        private void chkOptional_CheckedChanged(object sender, EventArgs e)
+        {
+            // Empty - removing unnecessary code
+        }
+
+        private void ProductCUForm_Load(object sender, EventArgs e)
+        {
+            // Empty - removing unnecessary code
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             // Validate numeric input for selling price
-            ValidateNumericInput(txtSellingPrice);
-            ValidateNumericField(txtSellingPrice);
+            ValidateNumericInput(sender as TextBox);
         }
 
         private void txtPurchasingPrice_TextChanged(object sender, EventArgs e)
         {
             // Validate numeric input for purchasing price
-            ValidateNumericInput(txtPurchasingPrice);
-            ValidateNumericField(txtPurchasingPrice);
+            ValidateNumericInput(sender as TextBox);
         }
 
-        private void ValidateNumericInput(TextEdit textEdit)
+        private void ValidateNumericInput(TextBox textBox)
         {
-            if (textEdit == null) return;
+            if (textBox == null) return;
 
-            string text = textEdit.Text;
+            string text = textBox.Text;
             if (string.IsNullOrEmpty(text)) return;
 
             // Allow only numbers and decimal point
             if (!System.Text.RegularExpressions.Regex.IsMatch(text, @"^\d*\.?\d*$"))
             {
                 // Remove the last character if it's not valid
-                int selectionStart = textEdit.SelectionStart;
-                textEdit.Text = text.Substring(0, text.Length - 1);
-                textEdit.SelectionStart = Math.Max(0, selectionStart - 1);
-                
-                // Show brief validation feedback
-                textEdit.BackColor = Color.FromArgb(255, 243, 205);
-                textEdit.Properties.Appearance.BorderColor = Color.FromArgb(220, 53, 69);
+                int selectionStart = textBox.SelectionStart;
+                textBox.Text = text.Substring(0, text.Length - 1);
+                textBox.SelectionStart = Math.Max(0, selectionStart - 1);
             }
         }
 
+        private void cmbCompany_EditValueChanged(object sender, EventArgs e)
+        {
+            // Clear category selection when company changes
+            cmbCategory.EditValue = null;
+        }
+
+        // Simplified ProcessNewValue handlers that don't interfere with typing
         private void cmbCompany_ProcessNewValue(object sender, DevExpress.XtraEditors.Controls.ProcessNewValueEventArgs e)
         {
+            // Let the control handle new values naturally for search functionality
             e.Handled = false;
         }
 
         private void cmbCategory_ProcessNewValue(object sender, DevExpress.XtraEditors.Controls.ProcessNewValueEventArgs e)
         {
+            // Let the control handle new values naturally for search functionality  
             e.Handled = false;
-        }
-
-        private void txtProductName_EditValueChanged(object sender, EventArgs e)
-        {
-            ValidateField(txtProductName, !string.IsNullOrWhiteSpace(txtProductName.Text));
         }
 
         private void panelControl2_Paint(object sender, PaintEventArgs e)
         {
-            // Empty - keeping for compatibility
+
         }
 
-        private void ProductCUForm_Load(object sender, EventArgs e)
+        private void txtProductName_EditValueChanged(object sender, EventArgs e)
         {
-            // Apply final styling adjustments after form load
-            this.WindowState = FormWindowState.Normal;
-            ValidateAllFields();
+
         }
 
         private void ShowModernErrorMessage(string message)

@@ -100,7 +100,7 @@
             this.mainContainerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainContainerPanel.Location = new System.Drawing.Point(0, 0);
             this.mainContainerPanel.Name = "mainContainerPanel";
-            this.mainContainerPanel.Size = new System.Drawing.Size(850, 704);
+            this.mainContainerPanel.Size = new System.Drawing.Size(850, 580);
             this.mainContainerPanel.TabIndex = 0;
             // 
             // contentScrollable
@@ -109,7 +109,7 @@
             this.contentScrollable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contentScrollable.Location = new System.Drawing.Point(0, 65);
             this.contentScrollable.Name = "contentScrollable";
-            this.contentScrollable.Size = new System.Drawing.Size(850, 561);
+            this.contentScrollable.Size = new System.Drawing.Size(850, 437);
             this.contentScrollable.TabIndex = 1;
             // 
             // mainContentPanel
@@ -122,7 +122,7 @@
             this.mainContentPanel.Location = new System.Drawing.Point(0, 0);
             this.mainContentPanel.Name = "mainContentPanel";
             this.mainContentPanel.Padding = new System.Windows.Forms.Padding(25, 20, 25, 20);
-            this.mainContentPanel.Size = new System.Drawing.Size(850, 555);
+            this.mainContentPanel.Size = new System.Drawing.Size(850, 433);
             this.mainContentPanel.TabIndex = 0;
             // 
             // productInfoGroup
@@ -145,7 +145,7 @@
             this.productInfoGroup.Location = new System.Drawing.Point(25, 20);
             this.productInfoGroup.Name = "productInfoGroup";
             this.productInfoGroup.Padding = new System.Windows.Forms.Padding(20, 15, 20, 20);
-            this.productInfoGroup.Size = new System.Drawing.Size(800, 515);
+            this.productInfoGroup.Size = new System.Drawing.Size(800, 393);
             this.productInfoGroup.TabIndex = 0;
             this.productInfoGroup.Text = "معلومات المنتج";
             // 
@@ -162,26 +162,26 @@
             this.layoutControlMain.Name = "layoutControlMain";
             this.layoutControlMain.OptionsView.RightToLeftMirroringApplied = true;
             this.layoutControlMain.Root = this.layoutControlGroup;
-            this.layoutControlMain.Size = new System.Drawing.Size(756, 449);
+            this.layoutControlMain.Size = new System.Drawing.Size(756, 327);
             this.layoutControlMain.TabIndex = 0;
             this.layoutControlMain.Text = "layoutControl1";
             // 
             // txtProductName
             // 
-            this.txtProductName.Location = new System.Drawing.Point(14, 41);
+            this.txtProductName.Location = new System.Drawing.Point(35, 41);
             this.txtProductName.Name = "txtProductName";
             this.txtProductName.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.txtProductName.Properties.Appearance.Options.UseFont = true;
             this.txtProductName.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
             this.txtProductName.Properties.Padding = new System.Windows.Forms.Padding(8, 6, 8, 6);
-            this.txtProductName.Size = new System.Drawing.Size(728, 44);
+            this.txtProductName.Size = new System.Drawing.Size(707, 44);
             this.txtProductName.StyleController = this.layoutControlMain;
             this.txtProductName.TabIndex = 0;
             this.txtProductName.EditValueChanged += new System.EventHandler(this.txtProductName_EditValueChanged);
             // 
             // cmbCompany
             // 
-            this.cmbCompany.Location = new System.Drawing.Point(14, 126);
+            this.cmbCompany.Location = new System.Drawing.Point(35, 126);
             this.cmbCompany.Name = "cmbCompany";
             this.cmbCompany.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.cmbCompany.Properties.Appearance.Options.UseFont = true;
@@ -190,7 +190,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.cmbCompany.Properties.NullText = "ابحث أو اختر الشركة...";
             this.cmbCompany.Properties.Padding = new System.Windows.Forms.Padding(8, 6, 8, 6);
-            this.cmbCompany.Size = new System.Drawing.Size(728, 44);
+            this.cmbCompany.Size = new System.Drawing.Size(707, 44);
             this.cmbCompany.StyleController = this.layoutControlMain;
             this.cmbCompany.TabIndex = 1;
             this.cmbCompany.ProcessNewValue += new DevExpress.XtraEditors.Controls.ProcessNewValueEventHandler(this.cmbCompany_ProcessNewValue);
@@ -198,7 +198,7 @@
             // 
             // cmbCategory
             // 
-            this.cmbCategory.Location = new System.Drawing.Point(14, 211);
+            this.cmbCategory.Location = new System.Drawing.Point(35, 211);
             this.cmbCategory.Name = "cmbCategory";
             this.cmbCategory.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.cmbCategory.Properties.Appearance.Options.UseFont = true;
@@ -207,7 +207,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.cmbCategory.Properties.NullText = "ابحث أو اختر الصنف...";
             this.cmbCategory.Properties.Padding = new System.Windows.Forms.Padding(8, 6, 8, 6);
-            this.cmbCategory.Size = new System.Drawing.Size(728, 44);
+            this.cmbCategory.Size = new System.Drawing.Size(707, 44);
             this.cmbCategory.StyleController = this.layoutControlMain;
             this.cmbCategory.TabIndex = 2;
             this.cmbCategory.ProcessNewValue += new DevExpress.XtraEditors.Controls.ProcessNewValueEventHandler(this.cmbCategory_ProcessNewValue);
@@ -215,7 +215,7 @@
             // 
             // txtSellingPrice
             // 
-            this.txtSellingPrice.Location = new System.Drawing.Point(376, 296);
+            this.txtSellingPrice.Location = new System.Drawing.Point(387, 296);
             this.txtSellingPrice.Name = "txtSellingPrice";
             this.txtSellingPrice.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.txtSellingPrice.Properties.Appearance.Options.UseFont = true;
@@ -223,14 +223,14 @@
             this.txtSellingPrice.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtSellingPrice.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
             this.txtSellingPrice.Properties.Padding = new System.Windows.Forms.Padding(8, 6, 8, 6);
-            this.txtSellingPrice.Size = new System.Drawing.Size(366, 44);
+            this.txtSellingPrice.Size = new System.Drawing.Size(355, 44);
             this.txtSellingPrice.StyleController = this.layoutControlMain;
             this.txtSellingPrice.TabIndex = 3;
             this.txtSellingPrice.EditValueChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // txtPurchasingPrice
             // 
-            this.txtPurchasingPrice.Location = new System.Drawing.Point(14, 296);
+            this.txtPurchasingPrice.Location = new System.Drawing.Point(35, 296);
             this.txtPurchasingPrice.Name = "txtPurchasingPrice";
             this.txtPurchasingPrice.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.txtPurchasingPrice.Properties.Appearance.Options.UseFont = true;
@@ -238,19 +238,19 @@
             this.txtPurchasingPrice.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.txtPurchasingPrice.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
             this.txtPurchasingPrice.Properties.Padding = new System.Windows.Forms.Padding(8, 6, 8, 6);
-            this.txtPurchasingPrice.Size = new System.Drawing.Size(358, 44);
+            this.txtPurchasingPrice.Size = new System.Drawing.Size(348, 44);
             this.txtPurchasingPrice.StyleController = this.layoutControlMain;
             this.txtPurchasingPrice.TabIndex = 4;
             this.txtPurchasingPrice.EditValueChanged += new System.EventHandler(this.txtPurchasingPrice_TextChanged);
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(14, 381);
+            this.txtDescription.Location = new System.Drawing.Point(35, 381);
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 11F);
             this.txtDescription.Properties.Appearance.Options.UseFont = true;
             this.txtDescription.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
-            this.txtDescription.Size = new System.Drawing.Size(728, 54);
+            this.txtDescription.Size = new System.Drawing.Size(707, 0);
             this.txtDescription.StyleController = this.layoutControlMain;
             this.txtDescription.TabIndex = 5;
             // 
@@ -267,7 +267,7 @@
             this.layoutItemDescription});
             this.layoutControlGroup.Name = "layoutControlGroup";
             this.layoutControlGroup.Padding = new DevExpress.XtraLayout.Utils.Padding(12, 12, 12, 12);
-            this.layoutControlGroup.Size = new System.Drawing.Size(756, 449);
+            this.layoutControlGroup.Size = new System.Drawing.Size(735, 394);
             this.layoutControlGroup.TextVisible = false;
             // 
             // layoutItemProductName
@@ -279,7 +279,7 @@
             this.layoutItemProductName.Control = this.txtProductName;
             this.layoutItemProductName.Location = new System.Drawing.Point(0, 0);
             this.layoutItemProductName.Name = "layoutItemProductName";
-            this.layoutItemProductName.Size = new System.Drawing.Size(732, 85);
+            this.layoutItemProductName.Size = new System.Drawing.Size(711, 85);
             this.layoutItemProductName.Spacing = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 10);
             this.layoutItemProductName.Text = "اسم المنتج:";
             this.layoutItemProductName.TextLocation = DevExpress.Utils.Locations.Top;
@@ -294,7 +294,7 @@
             this.layoutItemCompany.Control = this.cmbCompany;
             this.layoutItemCompany.Location = new System.Drawing.Point(0, 85);
             this.layoutItemCompany.Name = "layoutItemCompany";
-            this.layoutItemCompany.Size = new System.Drawing.Size(732, 85);
+            this.layoutItemCompany.Size = new System.Drawing.Size(711, 85);
             this.layoutItemCompany.Spacing = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 10);
             this.layoutItemCompany.Text = "الشركة:";
             this.layoutItemCompany.TextLocation = DevExpress.Utils.Locations.Top;
@@ -309,7 +309,7 @@
             this.layoutItemCategory.Control = this.cmbCategory;
             this.layoutItemCategory.Location = new System.Drawing.Point(0, 170);
             this.layoutItemCategory.Name = "layoutItemCategory";
-            this.layoutItemCategory.Size = new System.Drawing.Size(732, 85);
+            this.layoutItemCategory.Size = new System.Drawing.Size(711, 85);
             this.layoutItemCategory.Spacing = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 10);
             this.layoutItemCategory.Text = "الصنف:";
             this.layoutItemCategory.TextLocation = DevExpress.Utils.Locations.Top;
@@ -322,9 +322,9 @@
             this.layoutItemSellingPrice.AppearanceItemCaption.Options.UseFont = true;
             this.layoutItemSellingPrice.AppearanceItemCaption.Options.UseForeColor = true;
             this.layoutItemSellingPrice.Control = this.txtSellingPrice;
-            this.layoutItemSellingPrice.Location = new System.Drawing.Point(362, 255);
+            this.layoutItemSellingPrice.Location = new System.Drawing.Point(352, 255);
             this.layoutItemSellingPrice.Name = "layoutItemSellingPrice";
-            this.layoutItemSellingPrice.Size = new System.Drawing.Size(370, 85);
+            this.layoutItemSellingPrice.Size = new System.Drawing.Size(359, 85);
             this.layoutItemSellingPrice.Spacing = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 10);
             this.layoutItemSellingPrice.Text = "سعر البيع:";
             this.layoutItemSellingPrice.TextLocation = DevExpress.Utils.Locations.Top;
@@ -339,7 +339,7 @@
             this.layoutItemPurchasingPrice.Control = this.txtPurchasingPrice;
             this.layoutItemPurchasingPrice.Location = new System.Drawing.Point(0, 255);
             this.layoutItemPurchasingPrice.Name = "layoutItemPurchasingPrice";
-            this.layoutItemPurchasingPrice.Size = new System.Drawing.Size(362, 85);
+            this.layoutItemPurchasingPrice.Size = new System.Drawing.Size(352, 85);
             this.layoutItemPurchasingPrice.Spacing = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 10);
             this.layoutItemPurchasingPrice.Text = "سعر الشراء:";
             this.layoutItemPurchasingPrice.TextLocation = DevExpress.Utils.Locations.Top;
@@ -355,7 +355,7 @@
             this.layoutItemDescription.Location = new System.Drawing.Point(0, 340);
             this.layoutItemDescription.MinSize = new System.Drawing.Size(54, 30);
             this.layoutItemDescription.Name = "layoutItemDescription";
-            this.layoutItemDescription.Size = new System.Drawing.Size(732, 85);
+            this.layoutItemDescription.Size = new System.Drawing.Size(711, 30);
             this.layoutItemDescription.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutItemDescription.Text = "الوصف (اختياري):";
             this.layoutItemDescription.TextLocation = DevExpress.Utils.Locations.Top;
@@ -405,7 +405,7 @@
             this.buttonPanel.Controls.Add(this.btnPreview);
             this.buttonPanel.Controls.Add(this.btnSaveAndPrint);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonPanel.Location = new System.Drawing.Point(0, 626);
+            this.buttonPanel.Location = new System.Drawing.Point(0, 502);
             this.buttonPanel.Name = "buttonPanel";
             this.buttonPanel.Padding = new System.Windows.Forms.Padding(25, 15, 25, 15);
             this.buttonPanel.Size = new System.Drawing.Size(850, 78);
@@ -443,9 +443,9 @@
             this.BtnCreate.Appearance.Options.UseFont = true;
             this.BtnCreate.Appearance.Options.UseForeColor = true;
             this.BtnCreate.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.BtnCreate.Location = new System.Drawing.Point(672, 17);
+            this.BtnCreate.Location = new System.Drawing.Point(702, 17);
             this.BtnCreate.Name = "BtnCreate";
-            this.BtnCreate.Size = new System.Drawing.Size(150, 44);
+            this.BtnCreate.Size = new System.Drawing.Size(120, 44);
             this.BtnCreate.TabIndex = 0;
             this.BtnCreate.Text = "حفظ";
             this.BtnCreate.Click += new System.EventHandler(this.BtnCreate_Click);
@@ -482,9 +482,9 @@
             this.btnPreview.Appearance.Options.UseFont = true;
             this.btnPreview.Appearance.Options.UseForeColor = true;
             this.btnPreview.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.btnPreview.Location = new System.Drawing.Point(368, 17);
+            this.btnPreview.Location = new System.Drawing.Point(444, 17);
             this.btnPreview.Name = "btnPreview";
-            this.btnPreview.Size = new System.Drawing.Size(148, 44);
+            this.btnPreview.Size = new System.Drawing.Size(120, 44);
             this.btnPreview.TabIndex = 2;
             this.btnPreview.Text = "حفظ ومعاينة";
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
@@ -501,9 +501,9 @@
             this.btnSaveAndPrint.Appearance.Options.UseFont = true;
             this.btnSaveAndPrint.Appearance.Options.UseForeColor = true;
             this.btnSaveAndPrint.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.RightCenter;
-            this.btnSaveAndPrint.Location = new System.Drawing.Point(522, 17);
+            this.btnSaveAndPrint.Location = new System.Drawing.Point(573, 17);
             this.btnSaveAndPrint.Name = "btnSaveAndPrint";
-            this.btnSaveAndPrint.Size = new System.Drawing.Size(144, 44);
+            this.btnSaveAndPrint.Size = new System.Drawing.Size(120, 44);
             this.btnSaveAndPrint.TabIndex = 3;
             this.btnSaveAndPrint.Text = "حفظ وطباعة";
             this.btnSaveAndPrint.Click += new System.EventHandler(this.btnSaveAndPrint_Click);
@@ -512,7 +512,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(850, 704);
+            this.ClientSize = new System.Drawing.Size(850, 580);
             this.Controls.Add(this.mainContainerPanel);
             this.MinimumSize = new System.Drawing.Size(700, 500);
             this.Name = "ProductCUForm";

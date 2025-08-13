@@ -57,21 +57,21 @@
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.gridControlItems = new DevExpress.XtraGrid.GridControl();
             this.gridViewItems = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.txtDiscount = new DevExpress.XtraEditors.TextEdit();
             this.txtTotalAmount = new DevExpress.XtraEditors.TextEdit();
             this.txtNetAmount = new DevExpress.XtraEditors.TextEdit();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem13 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem14 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem14 = new DevExpress.XtraLayout.LayoutControlItem();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.btnSaveAndPrint = new DevExpress.XtraEditors.SimpleButton();
             this.btnSaveAndPreview = new DevExpress.XtraEditors.SimpleButton();
             this.BtnCreate = new DevExpress.XtraEditors.SimpleButton();
             this.EditBtn = new DevExpress.XtraEditors.SimpleButton();
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.scrollableControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -94,17 +94,17 @@
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlItems)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewItems)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDiscount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalAmount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNetAmount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // scrollableControl1
@@ -332,10 +332,8 @@
             this.cmbCompany.Properties.AppearanceFocused.Options.UseBorderColor = true;
             this.cmbCompany.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbCompany.Properties.NullText = "ابحث واختر الشركة...";
-            this.cmbCompany.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
-            this.cmbCompany.Properties.AutoSearchColumnIndex = 0;
             this.cmbCompany.Properties.ImmediatePopup = true;
+            this.cmbCompany.Properties.NullText = "ابحث واختر الشركة...";
             this.cmbCompany.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
             this.cmbCompany.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.cmbCompany.Size = new System.Drawing.Size(200, 28);
@@ -355,10 +353,8 @@
             this.cmbCategory.Properties.AppearanceFocused.Options.UseBorderColor = true;
             this.cmbCategory.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbCategory.Properties.NullText = "ابحث واختر الصنف...";
-            this.cmbCategory.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
-            this.cmbCategory.Properties.AutoSearchColumnIndex = 0;
             this.cmbCategory.Properties.ImmediatePopup = true;
+            this.cmbCategory.Properties.NullText = "ابحث واختر الصنف...";
             this.cmbCategory.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
             this.cmbCategory.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.cmbCategory.Size = new System.Drawing.Size(270, 28);
@@ -378,10 +374,8 @@
             this.cmbProduct.Properties.AppearanceFocused.Options.UseBorderColor = true;
             this.cmbProduct.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.cmbProduct.Properties.NullText = "ابحث واختر المنتج...";
-            this.cmbProduct.Properties.SearchMode = DevExpress.XtraEditors.Controls.SearchMode.AutoFilter;
-            this.cmbProduct.Properties.AutoSearchColumnIndex = 0;
             this.cmbProduct.Properties.ImmediatePopup = true;
+            this.cmbProduct.Properties.NullText = "ابحث واختر المنتج...";
             this.cmbProduct.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
             this.cmbProduct.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.cmbProduct.Size = new System.Drawing.Size(425, 28);
@@ -399,7 +393,7 @@
             this.spinQuantity.Margin = new System.Windows.Forms.Padding(4);
             this.spinQuantity.Name = "spinQuantity";
             this.spinQuantity.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.spinQuantity.Properties.Appearance.ForeColor = System.Drawing.Color.DarkOrange;
+            this.spinQuantity.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
             this.spinQuantity.Properties.Appearance.Options.UseFont = true;
             this.spinQuantity.Properties.Appearance.Options.UseForeColor = true;
             this.spinQuantity.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.Orange;
@@ -485,6 +479,11 @@
             this.gridViewItems.Name = "gridViewItems";
             this.gridViewItems.OptionsView.ShowGroupPanel = false;
             // 
+            // gridView1
+            // 
+            this.gridView1.GridControl = this.gridControlItems;
+            this.gridView1.Name = "gridView1";
+            // 
             // txtDiscount
             // 
             this.txtDiscount.Location = new System.Drawing.Point(355, 403);
@@ -498,7 +497,6 @@
             this.txtDiscount.Properties.AppearanceFocused.Options.UseBorderColor = true;
             this.txtDiscount.Properties.NullText = "أدخل قيمة الخصم";
             this.txtDiscount.Properties.NullValuePrompt = "أدخل قيمة الخصم";
-            this.txtDiscount.Properties.NullValuePromptShowForEmptyValue = true;
             this.txtDiscount.Size = new System.Drawing.Size(283, 28);
             this.txtDiscount.StyleController = this.layoutControl1;
             this.txtDiscount.TabIndex = 11;
@@ -572,18 +570,6 @@
             this.layoutControlItem13.TextLocation = DevExpress.Utils.Locations.Top;
             this.layoutControlItem13.TextSize = new System.Drawing.Size(52, 18);
             // 
-            // layoutControlItem14
-            // 
-            this.layoutControlItem14.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.layoutControlItem14.AppearanceItemCaption.Options.UseFont = true;
-            this.layoutControlItem14.Control = this.txtNetAmount;
-            this.layoutControlItem14.Location = new System.Drawing.Point(0, 370);
-            this.layoutControlItem14.Name = "layoutControlItem14";
-            this.layoutControlItem14.Size = new System.Drawing.Size(343, 55);
-            this.layoutControlItem14.Text = "الصافي";
-            this.layoutControlItem14.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem14.TextSize = new System.Drawing.Size(52, 18);
-            // 
             // layoutControlItem12
             // 
             this.layoutControlItem12.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -595,6 +581,18 @@
             this.layoutControlItem12.Text = "الخصم";
             this.layoutControlItem12.TextLocation = DevExpress.Utils.Locations.Top;
             this.layoutControlItem12.TextSize = new System.Drawing.Size(52, 18);
+            // 
+            // layoutControlItem14
+            // 
+            this.layoutControlItem14.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.layoutControlItem14.AppearanceItemCaption.Options.UseFont = true;
+            this.layoutControlItem14.Control = this.txtNetAmount;
+            this.layoutControlItem14.Location = new System.Drawing.Point(0, 370);
+            this.layoutControlItem14.Name = "layoutControlItem14";
+            this.layoutControlItem14.Size = new System.Drawing.Size(343, 55);
+            this.layoutControlItem14.Text = "الصافي";
+            this.layoutControlItem14.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutControlItem14.TextSize = new System.Drawing.Size(52, 18);
             // 
             // panelControl2
             // 
@@ -686,11 +684,6 @@
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "إلغاء";
             // 
-            // gridView1
-            // 
-            this.gridView1.GridControl = this.gridControlItems;
-            this.gridView1.Name = "gridView1";
-            // 
             // InvoiceCUForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -730,17 +723,17 @@
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlItems)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewItems)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDiscount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalAmount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNetAmount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.ResumeLayout(false);
 
         }

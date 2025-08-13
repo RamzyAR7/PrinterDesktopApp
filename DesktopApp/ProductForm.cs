@@ -69,7 +69,7 @@ namespace DesktopApp
             var searchLabel = new LabelControl
             {
                 Text = "بحث:",
-                Appearance = { Font = new Font("Arial", 10, FontStyle.Bold) },
+                Appearance = { Font = new Font("Arial", 12, FontStyle.Bold) },
                 AutoSizeMode = LabelAutoSizeMode.None,
                 Size = new Size(35, 20)
             };
@@ -82,7 +82,7 @@ namespace DesktopApp
                     NullText = "ابحث عن اسم المنتج، الشركة، أو الصنف...",
                     Appearance = { 
                         TextOptions = { HAlignment = DevExpress.Utils.HorzAlignment.Near },
-                        Font = new Font("Arial", 10)
+                        Font = new Font("Arial", 11)
                     }
                 },
                 Size = new Size(300, 25)
@@ -133,7 +133,7 @@ namespace DesktopApp
             {
                 NewBtn.Size = buttonSize;
                 NewBtn.Location = new Point(xStart, yPosition);
-                NewBtn.Text = "جديد";
+                NewBtn.Text = "+ اضافة منتج";
             }
         }
 
@@ -253,22 +253,29 @@ namespace DesktopApp
                 productGrid.EmbeddedNavigator.Buttons.EndEdit.Visible = false;
                 productGrid.EmbeddedNavigator.Buttons.Remove.Visible = false;
 
-                // Format price columns with thousands separator if they exist
+                // Format price columns using Arabic numerals and thousands separators
+                // Keep DisplayFormat minimal and override via CustomColumnDisplayText for Arabic digits
                 if (gridView1.Columns["SellingPrice"] != null)
                 {
-                    gridView1.Columns["SellingPrice"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-                    gridView1.Columns["SellingPrice"].DisplayFormat.FormatString = "N0";
+                    gridView1.Columns["SellingPrice"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.None;
                 }
 
                 if (gridView1.Columns["PurchasingPrice"] != null)
                 {
-                    gridView1.Columns["PurchasingPrice"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-                    gridView1.Columns["PurchasingPrice"].DisplayFormat.FormatString = "N0";
+                    gridView1.Columns["PurchasingPrice"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.None;
                 }
 
-                // Configure grid appearance
-                gridView1.Appearance.HeaderPanel.Font = new Font(gridView1.Appearance.HeaderPanel.Font.FontFamily, 12, FontStyle.Bold);
-                gridView1.Appearance.Row.Font = new Font(gridView1.Appearance.Row.Font.FontFamily, 11);
+                // Customize display text to show Arabic digits (e.g., 12000 -> ١٢,٠٠٠)
+                gridView1.CustomColumnDisplayText -= GridView1_CustomColumnDisplayText;
+                gridView1.CustomColumnDisplayText += GridView1_CustomColumnDisplayText;
+
+                // Configure grid appearance (bold medium font for rows and larger header)
+                gridView1.Appearance.HeaderPanel.Font = new Font(gridView1.Appearance.HeaderPanel.Font.FontFamily, 13, FontStyle.Bold);
+                gridView1.Appearance.Row.Font = new Font(gridView1.Appearance.Row.Font.FontFamily, 11, FontStyle.Bold);
+                gridView1.Appearance.Row.Options.UseFont = true;
+                // Ensure even-row appearance also uses the same bold font
+                gridView1.Appearance.EvenRow.Font = new Font(gridView1.Appearance.EvenRow.Font.FontFamily, 11, FontStyle.Bold);
+                gridView1.Appearance.EvenRow.Options.UseFont = true;
 
                 // Configure auto-sizing options
                 gridView1.OptionsView.ColumnAutoWidth = true;
@@ -545,6 +552,37 @@ namespace DesktopApp
         {
             // Legacy synchronous method - now calls async version
             Task.Run(async () => await RefreshProductDataAsync());
+        }
+
+        // Render price columns (SellingPrice, PurchasingPrice) with Arabic digits and thousands separators
+        private void GridView1_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
+        {
+            try
+            {
+                if (e == null || e.Column == null)
+                    return;
+
+                if (e.Column.FieldName == "SellingPrice" || e.Column.FieldName == "PurchasingPrice")
+                {
+                    string raw = e.Value?.ToString() ?? string.Empty;
+                    // Ensure we parse English digits; dataset may already contain strings
+                    string english = ArabicNumberConverter.ConvertToEnglishDigits(raw);
+
+                    if (decimal.TryParse(english, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal value))
+                    {
+                        e.DisplayText = ArabicNumberConverter.ConvertDecimalToArabic(value);
+                    }
+                    else
+                    {
+                        // Fallback to original text if parsing fails
+                        e.DisplayText = raw;
+                    }
+                }
+            }
+            catch
+            {
+                // Ignore formatting errors; show default text
+            }
         }
 
         // Add double-click to open ActionForm with product actions
