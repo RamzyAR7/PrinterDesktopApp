@@ -123,7 +123,7 @@ namespace DesktopApp
         private void SetButtonActive(DevExpress.XtraEditors.SimpleButton button)
         {
             // Active button styling - Green with white text and border indicator
-            button.Appearance.BackColor = System.Drawing.Color.FromArgb(40, 167, 69); // Success green
+            button.Appearance.BackColor = System.Drawing.Color.FromArgb(40, 167, 69);// Success green
             button.Appearance.ForeColor = System.Drawing.Color.White;
             button.Appearance.BorderColor = System.Drawing.Color.FromArgb(255, 193, 7); // Warning yellow border for indicator
             button.Appearance.Options.UseBackColor = true;
@@ -140,8 +140,8 @@ namespace DesktopApp
             button.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
             
             // Hover effects for active button
-            button.AppearanceHovered.BackColor = System.Drawing.Color.FromArgb(52, 181, 85);
-            button.AppearanceHovered.ForeColor = System.Drawing.Color.White;
+            button.AppearanceHovered.BackColor = System.Drawing.Color.White;
+            button.AppearanceHovered.ForeColor = System.Drawing.Color.RoyalBlue;
             button.AppearanceHovered.BorderColor = System.Drawing.Color.FromArgb(255, 193, 7);
             button.AppearanceHovered.Options.UseBackColor = true;
             button.AppearanceHovered.Options.UseForeColor = true;
@@ -155,8 +155,8 @@ namespace DesktopApp
         private void SetButtonInactive(DevExpress.XtraEditors.SimpleButton button)
         {
             // Inactive button styling - Original blue with no special indicators
-            button.Appearance.BackColor = System.Drawing.Color.RoyalBlue;
-            button.Appearance.ForeColor = System.Drawing.Color.White;
+            button.Appearance.BackColor = System.Drawing.Color.White;
+            button.Appearance.ForeColor = System.Drawing.Color.RoyalBlue;
             button.Appearance.BorderColor = System.Drawing.Color.RoyalBlue;
             button.Appearance.Options.UseBackColor = true;
             button.Appearance.Options.UseForeColor = true;
@@ -173,7 +173,7 @@ namespace DesktopApp
             
             // Hover effects for inactive button
             button.AppearanceHovered.BackColor = System.Drawing.Color.FromArgb(100, 149, 237); // Lighter blue
-            button.AppearanceHovered.ForeColor = System.Drawing.Color.White;
+            button.AppearanceHovered.ForeColor = System.Drawing.Color.RoyalBlue;
             button.AppearanceHovered.BorderColor = System.Drawing.Color.FromArgb(100, 149, 237);
             button.AppearanceHovered.Options.UseBackColor = true;
             button.AppearanceHovered.Options.UseForeColor = true;

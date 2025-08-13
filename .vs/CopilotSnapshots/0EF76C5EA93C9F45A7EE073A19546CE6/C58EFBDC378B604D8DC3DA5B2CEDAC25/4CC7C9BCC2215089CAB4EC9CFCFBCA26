@@ -1,5 +1,4 @@
 ﻿using DevExpress.XtraEditors;
-using DevExpress.XtraEditors.Controls; // For ChangingEventArgs
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,8 +16,6 @@ namespace DesktopApp
         private List<InvoiceItem> invoiceItems;
         public bool InvoiceSaved { get; private set; } = false;
         private bool isInitializing = true; // Flag to prevent validation during initialization
-        private bool isUpdatingDiscount = false; // Flag to prevent recursive validation
-    private bool discountExceededNotified = false; // Show warning once per invalid entry
 
         public InvoiceCUForm()
         {
@@ -52,10 +49,6 @@ namespace DesktopApp
                 
                 // Add KeyDown event handler for Enter key handling
                 txtDiscount.KeyDown += TxtDiscount_KeyDown;
-                // Add KeyPress handler to restrict input to numbers/decimal
-                txtDiscount.KeyPress += txtDiscount_KeyPress;
-                // Add EditValueChanging for real-time validation before commit
-                txtDiscount.EditValueChanging += txtDiscount_EditValueChanging;
             }
             
             // ADDITIONAL: Initialize total fields to be empty for new invoices
@@ -831,41 +824,20 @@ namespace DesktopApp
 
                 decimal totalAmount = invoiceItems.Sum(i => i.UnitPrice * i.Quantity);
                 decimal discount = GetDiscountValue(); // Use new safe method
-
-                // Secondary guard: if discount > total, clear discount field here as well
-                if (totalAmount > 0 && discount > totalAmount)
-                {
-                    isUpdatingDiscount = true;
-                    if (txtDiscount != null)
-                    {
-                        txtDiscount.Text = "";      // clear field
-                        txtDiscount.EditValue = null; // clear value
-                    }
-                    isUpdatingDiscount = false;
-                    discount = 0; // treat empty as 0 for calculation
-
-                    if (!discountExceededNotified)
-                    {
-                        discountExceededNotified = true;
-                        XtraMessageBox.Show($"قيمة الخصم لا يمكن أن تكون أكبر من إجمالي الفاتورة ({totalAmount:N0}).\nتم مسح قيمة الخصم.",
-                                            "خطأ في قيمة الخصم",
-                                            MessageBoxButtons.OK,
-                                            MessageBoxIcon.Warning);
-                    }
-                }
-
                 decimal netAmount = totalAmount - discount;
 
-                // Ensure net amount doesn't go negative (but don't auto-correct discount here)
+                // Ensure net amount doesn't go negative
                 if (netAmount < 0)
                 {
                     netAmount = 0;
+                    discount = totalAmount; // Adjust discount to not exceed total
+                    if (txtDiscount != null)
+                        txtDiscount.Text = discount > 0 ? discount.ToString("N0") : "";
                 }
 
                 // FIXED: Use N0 format for cleaner display (1,500 instead of 1,500.00)
                 txtTotalAmount.Text = totalAmount > 0 ? totalAmount.ToString("N0") : "";
-                // If there is a total but net is 0, show 0; otherwise empty when total is empty
-                txtNetAmount.Text = totalAmount > 0 ? (netAmount > 0 ? netAmount.ToString("N0") : "0") : "";
+                txtNetAmount.Text = netAmount > 0 ? netAmount.ToString("N0") : "";
             }
             catch (Exception)
             {
@@ -874,9 +846,6 @@ namespace DesktopApp
                     txtTotalAmount.Text = "";
                 if (txtNetAmount != null)
                     txtNetAmount.Text = "";
-                
-                // Reset flag on error
-                isUpdatingDiscount = false;
             }
         }
 
@@ -1240,114 +1209,26 @@ namespace DesktopApp
 
         private void txtDiscount_EditValueChanged(object sender, EventArgs e)
         {
-            // Skip validation during form initialization or when we're updating the discount programmatically
-            if (isInitializing || isUpdatingDiscount) return;
+            // Skip validation during form initialization
+            if (isInitializing) return;
             
             // Add validation for numeric input
             if (sender is DevExpress.XtraEditors.TextEdit textEdit)
             {
                 ValidateDiscountInput(textEdit);
             }
-            // CalculateTotals will be invoked from ValidateDiscountInput to avoid duplicate calls
+            CalculateTotals();
         }
 
-        private void txtDiscount_KeyPress(object sender, KeyPressEventArgs e)
+        private void ValidateDiscountInput(DevExpress.XtraEditors.TextEdit textEdit)
         {
-            // Allow only digits, decimal point, backspace, and delete
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != (char)Keys.Back && e.KeyChar != (char)Keys.Delete)
-            {
-                e.Handled = true; // Prevent the character from being entered
-            }
-            
-            // Allow only one decimal point
-            if (e.KeyChar == '.' && sender is DevExpress.XtraEditors.TextEdit textEdit && textEdit.Text.Contains('.'))
-            {
-                e.Handled = true; // Prevent multiple decimal points
-            }
-        }
-
-        private void TxtDiscount_KeyDown(object sender, KeyEventArgs e)
-        {
-            // Handle Enter key press to validate and auto-correct discount
-            if (e.KeyCode == Keys.Enter)
-            {
-                // Skip validation during form initialization
-                if (isInitializing) return;
-                
-                // Apply validation for numeric input
-                if (sender is DevExpress.XtraEditors.TextEdit textEdit)
-                {
-                    ValidateDiscountInput(textEdit); // totals are recalculated inside validation
-                }
-                
-                // Prevent the beep sound when Enter is pressed
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
-        // Real-time guard: block changes that would exceed total before committing
-        private void txtDiscount_EditValueChanging(object sender, ChangingEventArgs e)
-        {
-            if (isInitializing || isUpdatingDiscount) return;
-            if (!(sender is DevExpress.XtraEditors.TextEdit textEdit)) return;
-
-            string newText = e.NewValue?.ToString() ?? "";
-            if (string.IsNullOrWhiteSpace(newText))
-            {
-                discountExceededNotified = false;
-                return; // allow empty
-            }
-
-            // Normalize new input to numeric string (digits + optional one dot)
-            string numeric = "";
-            bool hasDot = false;
-            foreach (char c in newText)
-            {
-                if (char.IsDigit(c)) numeric += c;
-                else if (c == '.' && !hasDot) { numeric += c; hasDot = true; }
-            }
-
-            if (!decimal.TryParse(numeric, out decimal val))
-                return; // let ValidateDiscountInput handle clearing later
-
-            decimal totalAmount = GetTotalAmountBeforeDiscount();
-            if (totalAmount > 0 && val > totalAmount)
-            {
-                // Cancel this change and clear the field immediately
-                e.Cancel = true;
-                isUpdatingDiscount = true;
-                textEdit.Text = "";
-                textEdit.EditValue = null;
-                isUpdatingDiscount = false;
-                CalculateTotals();
-
-                if (!discountExceededNotified)
-                {
-                    discountExceededNotified = true;
-                    XtraMessageBox.Show($"قيمة الخصم لا يمكن أن تكون أكبر من إجمالي الفاتورة ({totalAmount:N0}).\nتم مسح قيمة الخصم.",
-                                        "خطأ في قيمة الخصم",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Warning);
-                }
-            }
-            else
-            {
-                discountExceededNotified = false;
-            }
-        }
-
-    private void ValidateDiscountInput(DevExpress.XtraEditors.TextEdit textEdit)
-        {
-            if (textEdit == null || isUpdatingDiscount) return;
+            if (textEdit == null) return;
 
             string text = textEdit.Text;
             if (string.IsNullOrWhiteSpace(text))
             {
                 // Discount is optional, empty is allowed
-        discountExceededNotified = false; // reset notify flag when empty
-        CalculateTotals(); // live update totals (net = total)
-        return;
+                return;
             }
 
             // Remove any non-numeric characters except decimal point
@@ -1367,77 +1248,49 @@ namespace DesktopApp
                 }
             }
 
-            // If text was modified to remove invalid characters, update it silently
-            if (numericText != text)
-            {
-                isUpdatingDiscount = true;
-                int cursorPosition = textEdit.SelectionStart;
-                textEdit.Text = numericText;
-                textEdit.EditValue = numericText; // keep EditValue/Text in sync
-                textEdit.SelectionStart = Math.Min(cursorPosition, textEdit.Text.Length);
-                isUpdatingDiscount = false;
-                CalculateTotals(); // live update after normalization
-                return; // Exit early to avoid further validation during character filtering
-            }
-
-            // Only validate numeric value if parsing is successful
+            // Validate the numeric value
             if (decimal.TryParse(numericText, out decimal value))
             {
-                // Silently correct negative values
+                // Ensure value is not negative
                 if (value < 0)
                 {
-                    isUpdatingDiscount = true;
+                    XtraMessageBox.Show("قيمة الخصم لا يمكن أن تكون سالبة", "خطأ في الإدخال", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     textEdit.Text = "0";
-                    textEdit.EditValue = "0";
-                    isUpdatingDiscount = false;
-                    discountExceededNotified = false;
-                    CalculateTotals();
+                    textEdit.Focus();
                     return;
                 }
 
-                // Check if discount exceeds total amount - clear and show error
-                decimal totalAmount = GetTotalAmountBeforeDiscount();
-                if (totalAmount > 0 && value > totalAmount)
+                // Check if discount exceeds total amount
+                if (GetTotalAmountBeforeDiscount() > 0 && value > GetTotalAmountBeforeDiscount())
                 {
-                    // Clear discount value (empty field)
-                    isUpdatingDiscount = true;
-                    textEdit.Text = "";
-                    textEdit.EditValue = null;
-                    textEdit.SelectionStart = 0;
-                    isUpdatingDiscount = false;
-                    CalculateTotals();
-
-                    // Show one warning message to the user (once per invalid entry)
-                    if (!discountExceededNotified)
-                    {
-                        discountExceededNotified = true;
-                        XtraMessageBox.Show($"قيمة الخصم لا يمكن أن تكون أكبر من إجمالي الفاتورة ({totalAmount:N0}).\nتم مسح قيمة الخصم.",
-                                            "خطأ في قيمة الخصم",
-                                            MessageBoxButtons.OK,
-                                            MessageBoxIcon.Warning);
-                    }
+                    // Show error message and automatically set discount to 0 when user clicks OK
+                    XtraMessageBox.Show("قيمة الخصم لا يمكن أن تتجاوز إجمالي المبلغ", "خطأ في الإدخال", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    // Automatically reset discount to 0 to avoid repeated error messages
+                    textEdit.Text = "0";
+                    textEdit.Focus();
                     return;
                 }
 
-                // Valid value: reset notification flag
-                discountExceededNotified = false;
+                // Update the text if it was modified to remove invalid characters
+                if (numericText != text)
+                {
+                    int cursorPosition = textEdit.SelectionStart;
+                    textEdit.Text = numericText;
+                    textEdit.SelectionStart = Math.Min(cursorPosition, textEdit.Text.Length);
+                }
             }
             else
             {
-                // If parsing fails and field is not empty, clear it silently
-                if (!string.IsNullOrWhiteSpace(text))
-                {
-                    isUpdatingDiscount = true;
-                    textEdit.Text = "";
-                    textEdit.EditValue = null;
-                    isUpdatingDiscount = false;
-                }
-                discountExceededNotified = false;
-                CalculateTotals();
+                // If parsing fails, but field is empty, allow it
+                if (string.IsNullOrWhiteSpace(text)) return;
+                // Otherwise, show error and set to 0
+                XtraMessageBox.Show("يرجى إدخال رقم صحيح للخصم", "خطأ في الإدخال", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textEdit.Text = "0";
+                textEdit.Focus();
             }
-            
-            // Ensure totals are up to date for valid inputs too
-            CalculateTotals();
         }
 
         private decimal GetTotalAmountBeforeDiscount()
@@ -1448,6 +1301,16 @@ namespace DesktopApp
                 total += item.Quantity * item.UnitPrice;
             }
             return total;
+        }
+
+        private void TxtDiscount_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                CalculateTotals();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
         }
 
         // Empty event handlers (from original file)

@@ -45,10 +45,12 @@
             // btnProduct
             // 
             this.btnProduct.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnProduct.Appearance.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnProduct.Appearance.BackColor = System.Drawing.Color.White;
             this.btnProduct.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProduct.Appearance.ForeColor = System.Drawing.Color.Blue;
             this.btnProduct.Appearance.Options.UseBackColor = true;
             this.btnProduct.Appearance.Options.UseFont = true;
+            this.btnProduct.Appearance.Options.UseForeColor = true;
             this.btnProduct.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnProduct.ImageOptions.SvgImage")));
             this.btnProduct.Location = new System.Drawing.Point(208, 3);
             this.btnProduct.Name = "btnProduct";
@@ -60,10 +62,12 @@
             // btnInvoice
             // 
             this.btnInvoice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnInvoice.Appearance.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnInvoice.Appearance.BackColor = System.Drawing.Color.White;
             this.btnInvoice.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInvoice.Appearance.ForeColor = System.Drawing.Color.Blue;
             this.btnInvoice.Appearance.Options.UseBackColor = true;
             this.btnInvoice.Appearance.Options.UseFont = true;
+            this.btnInvoice.Appearance.Options.UseForeColor = true;
             this.btnInvoice.AutoWidthInLayoutControl = true;
             this.btnInvoice.ImageOptions.ImageUri.Uri = "dashboards/insertlistbox";
             this.btnInvoice.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnInvoice.ImageOptions.SvgImage")));

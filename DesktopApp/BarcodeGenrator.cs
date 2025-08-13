@@ -42,10 +42,10 @@ namespace DesktopApp
                 graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
 
                 // Draw Top Text (معرض الطنطاوي ...)
-                using (var font = new Font("Arial", 14, FontStyle.Bold))
+                using (var font = new Font("Arial", 16, FontStyle.Bold))
                 using (var sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Near })
                 {
-                    graphics.DrawString("معرض الطنطاوي للأجهزة الكهربائية والأدوات المنزلية", font, Brushes.Black,
+                    graphics.DrawString("معرض الطنطاوي", font, Brushes.Black,
                         new RectangleF(0, 0, labelWidth, 30), sf);
                 }
 
@@ -68,7 +68,7 @@ namespace DesktopApp
                 }
 
                 // Draw Bottom Text (اسم المنتج)
-                using (var font = new Font("Arial", 12, FontStyle.Bold))
+                using (var font = new Font("Arial", 16, FontStyle.Bold))
                 using (var sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Near })
                 {
                     graphics.DrawString(productName, font, Brushes.Black,

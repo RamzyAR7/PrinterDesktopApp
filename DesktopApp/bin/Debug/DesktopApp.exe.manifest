@@ -32,7 +32,7 @@
   <dependency>
     <dependentOS>
       <osVersionInfo>
-        <os majorVersion="4" minorVersion="10" buildNumber="0" servicePackMajor="0" />
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
       </osVersionInfo>
     </dependentOS>
   </dependency>
@@ -234,14 +234,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesktopApp.exe" size="1355264">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesktopApp.exe" size="1356800">
       <assemblyIdentity name="DesktopApp" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>0DaKY2eOp9tE59pss55G/izWNsOKx43ssaB0GHgd6wk=</dsig:DigestValue>
+        <dsig:DigestValue>c67HJyvtdCNSS65SsofocxlnaS9PgViZ7knAXeCOaqY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -487,7 +487,7 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="stdole.dll" size="16384">
-      <assemblyIdentity name="stdole" version="7.0.3300.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="stdole" version="7.0.3300.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
@@ -527,7 +527,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>ehj1fNsU8PS8PLL0oRAz24E9bMUNkp6wIya/jRbPK+s=</dsig:DigestValue>
+      <dsig:DigestValue>ygWxFXDQnvW2CjUXcnUN1iaAEMgafq/7W8LAZRSdSis=</dsig:DigestValue>
     </hash>
   </file>
   <file name="CrystalReports\Invoice.rpt" size="983040">
@@ -536,7 +536,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>C96oKTYK2e5B62FCLkbBUY10B7SvNye9OuOQVCNBzzM=</dsig:DigestValue>
+      <dsig:DigestValue>fEQeLpYVcB0P74SXdQc98UShMZI9bU+s7GB8BL099eI=</dsig:DigestValue>
     </hash>
   </file>
   <file name="DesktopApp.exe.config" size="2746">

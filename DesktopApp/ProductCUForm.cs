@@ -157,7 +157,7 @@ namespace DesktopApp
                 cmbCompany.Properties.DataSource = companies;
                 cmbCompany.Properties.DisplayMember = "Name";
                 cmbCompany.Properties.ValueMember = "Id";
-                cmbCompany.Properties.NullText = "ابحث أو اختر الشركة...";
+                cmbCompany.Properties.NullText = " اختر الشركة";
                 
                 // Configure company dropdown for search/filter
                 ConfigureSearchableDropdown(cmbCompany, "شركة");
@@ -172,7 +172,7 @@ namespace DesktopApp
                 cmbCategory.Properties.DataSource = categories;
                 cmbCategory.Properties.DisplayMember = "Name";
                 cmbCategory.Properties.ValueMember = "Id";
-                cmbCategory.Properties.NullText = "ابحث أو اختر الصنف...";
+                cmbCategory.Properties.NullText = "اختر الصنف";
                 
                 // Configure category dropdown for search/filter
                 ConfigureSearchableDropdown(cmbCategory, "صنف");
@@ -563,6 +563,11 @@ namespace DesktopApp
         {
             // Let the control handle new values naturally for search functionality  
             e.Handled = false;
+        }
+
+        private void panelControl2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

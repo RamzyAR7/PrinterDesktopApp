@@ -57,7 +57,7 @@
             this.NewBtn.Name = "NewBtn";
             this.NewBtn.Size = new System.Drawing.Size(160, 30);
             this.NewBtn.TabIndex = 0;
-            this.NewBtn.Text = "جديد";
+            this.NewBtn.Text = "+ اضافة منتج";
             // 
             // productGrid
             // 

@@ -503,6 +503,7 @@
             this.txtDiscount.StyleController = this.layoutControl1;
             this.txtDiscount.TabIndex = 11;
             this.txtDiscount.EditValueChanged += new System.EventHandler(this.txtDiscount_EditValueChanged);
+            this.txtDiscount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDiscount_KeyPress);
             // 
             // txtTotalAmount
             // 
