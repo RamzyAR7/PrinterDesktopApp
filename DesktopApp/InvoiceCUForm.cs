@@ -190,6 +190,8 @@ namespace DesktopApp
             
             // Apply button styling
             StyleButtons();
+            ApplyModernStyling();
+            ApplyModernInputStyling();
         }
 
         private Size CalculateOptimalFormSize()
@@ -284,25 +286,122 @@ namespace DesktopApp
 
         private void StyleButtons()
         {
-            StyleButton(BtnCreate, Color.FromArgb(0, 123, 255), Color.White);
-            StyleButton(EditBtn, Color.FromArgb(0, 123, 255), Color.White);
-            StyleButton(btnSaveAndPreview, Color.FromArgb(23, 162, 184), Color.White);
-            StyleButton(btnSaveAndPrint, Color.FromArgb(40, 167, 69), Color.White);
-            StyleButton(btnCancel, Color.FromArgb(108, 117, 125), Color.White);
+            StyleModernButton(BtnCreate, Color.FromArgb(0, 123, 255), Color.White, "💾");
+            StyleModernButton(EditBtn, Color.FromArgb(0, 123, 255), Color.White, "💾");
+            StyleModernButton(btnSaveAndPreview, Color.FromArgb(23, 162, 184), Color.White, "👁");
+            StyleModernButton(btnSaveAndPrint, Color.FromArgb(40, 167, 69), Color.White, "🖨");
+            StyleModernButton(btnCancel, Color.FromArgb(108, 117, 125), Color.White, "✖");
         }
 
-        private void StyleButton(DevExpress.XtraEditors.SimpleButton button, Color backColor, Color foreColor)
+        private void StyleModernButton(SimpleButton button, Color backColor, Color foreColor, string icon = "")
         {
-            if (button != null)
-            {
+            if (button == null) return;
+            button.Appearance.BackColor = backColor;
+            button.Appearance.ForeColor = foreColor;
+            button.Appearance.BorderColor = backColor;
+            button.Appearance.Options.UseBackColor = true;
+            button.Appearance.Options.UseForeColor = true;
+            button.Appearance.Options.UseBorderColor = true;
+            button.Appearance.Font = new Font("Tahoma", 11F, FontStyle.Bold);
+            button.Appearance.Options.UseFont = true;
+            button.LookAndFeel.UseDefaultLookAndFeel = false;
+            button.LookAndFeel.SkinName = "Office 2019 Colorful";
+            if (!string.IsNullOrEmpty(icon))
+                button.Text = $"{icon} {button.Text}";
+            button.MouseEnter += (s, e) => {
+                var lighter = ControlPaint.Light(backColor, 0.2f);
+                button.Appearance.BackColor = lighter;
+                button.Appearance.BorderColor = lighter;
+            };
+            button.MouseLeave += (s, e) => {
                 button.Appearance.BackColor = backColor;
-                button.Appearance.ForeColor = foreColor;
-                button.Appearance.Options.UseBackColor = true;
-                button.Appearance.Options.UseForeColor = true;
-                button.Appearance.Font = new Font("Tahoma", 11F, FontStyle.Bold);
-                button.Appearance.Options.UseFont = true;
                 button.Appearance.BorderColor = backColor;
-                button.Appearance.Options.UseBorderColor = true;
+            };
+        }
+
+        private void ApplyModernStyling()
+        {
+            // Set modern background color
+            this.BackColor = Color.FromArgb(248, 249, 250);
+            if (groupControl1 != null)
+            {
+                groupControl1.AppearanceCaption.Font = new Font("Tahoma", 16F, FontStyle.Bold);
+                groupControl1.AppearanceCaption.ForeColor = Color.FromArgb(52, 58, 64);
+                groupControl1.AppearanceCaption.BackColor = Color.FromArgb(248, 249, 250);
+                groupControl1.AppearanceCaption.Options.UseFont = true;
+                groupControl1.AppearanceCaption.Options.UseForeColor = true;
+                groupControl1.AppearanceCaption.Options.UseBackColor = true;
+                groupControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                groupControl1.Appearance.BorderColor = Color.FromArgb(222, 226, 230);
+            }
+            if (groupControlClientData != null)
+            {
+                groupControlClientData.AppearanceCaption.Font = new Font("Tahoma", 13F, FontStyle.Bold);
+                groupControlClientData.AppearanceCaption.ForeColor = Color.FromArgb(52, 58, 64);
+                groupControlClientData.AppearanceCaption.BackColor = Color.FromArgb(248, 249, 250);
+                groupControlClientData.AppearanceCaption.Options.UseFont = true;
+                groupControlClientData.AppearanceCaption.Options.UseForeColor = true;
+                groupControlClientData.AppearanceCaption.Options.UseBackColor = true;
+                groupControlClientData.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                groupControlClientData.Appearance.BorderColor = Color.FromArgb(222, 226, 230);
+            }
+            if (groupControlAddProduct != null)
+            {
+                groupControlAddProduct.AppearanceCaption.Font = new Font("Tahoma", 13F, FontStyle.Bold);
+                groupControlAddProduct.AppearanceCaption.ForeColor = Color.FromArgb(40, 167, 69);
+                groupControlAddProduct.AppearanceCaption.BackColor = Color.FromArgb(248, 249, 250);
+                groupControlAddProduct.AppearanceCaption.Options.UseFont = true;
+                groupControlAddProduct.AppearanceCaption.Options.UseForeColor = true;
+                groupControlAddProduct.AppearanceCaption.Options.UseBackColor = true;
+                groupControlAddProduct.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+                groupControlAddProduct.Appearance.BorderColor = Color.FromArgb(222, 226, 230);
+            }
+        }
+
+        private void ApplyModernInputStyling()
+        {
+            // Example for text edits
+            if (txtCustomerName != null)
+            {
+                txtCustomerName.Properties.Appearance.Font = new Font("Tahoma", 12F);
+                txtCustomerName.Properties.Appearance.ForeColor = Color.FromArgb(52, 58, 64);
+                txtCustomerName.Properties.Appearance.Options.UseFont = true;
+                txtCustomerName.Properties.Appearance.Options.UseForeColor = true;
+            }
+            if (txtCustomerPhone != null)
+            {
+                txtCustomerPhone.Properties.Appearance.Font = new Font("Tahoma", 12F);
+                txtCustomerPhone.Properties.Appearance.ForeColor = Color.FromArgb(52, 58, 64);
+                txtCustomerPhone.Properties.Appearance.Options.UseFont = true;
+                txtCustomerPhone.Properties.Appearance.Options.UseForeColor = true;
+            }
+            if (txtInvoiceNumber != null)
+            {
+                txtInvoiceNumber.Properties.Appearance.Font = new Font("Tahoma", 12F, FontStyle.Bold);
+                txtInvoiceNumber.Properties.Appearance.ForeColor = Color.FromArgb(52, 58, 64);
+                txtInvoiceNumber.Properties.Appearance.Options.UseFont = true;
+                txtInvoiceNumber.Properties.Appearance.Options.UseForeColor = true;
+            }
+            if (txtDiscount != null)
+            {
+                txtDiscount.Properties.Appearance.Font = new Font("Tahoma", 12F, FontStyle.Bold);
+                txtDiscount.Properties.Appearance.ForeColor = Color.FromArgb(220, 53, 69);
+                txtDiscount.Properties.Appearance.Options.UseFont = true;
+                txtDiscount.Properties.Appearance.Options.UseForeColor = true;
+            }
+            if (txtTotalAmount != null)
+            {
+                txtTotalAmount.Properties.Appearance.Font = new Font("Tahoma", 12F, FontStyle.Bold);
+                txtTotalAmount.Properties.Appearance.ForeColor = Color.FromArgb(0, 123, 255);
+                txtTotalAmount.Properties.Appearance.Options.UseFont = true;
+                txtTotalAmount.Properties.Appearance.Options.UseForeColor = true;
+            }
+            if (txtNetAmount != null)
+            {
+                txtNetAmount.Properties.Appearance.Font = new Font("Tahoma", 13F, FontStyle.Bold);
+                txtNetAmount.Properties.Appearance.ForeColor = Color.FromArgb(40, 167, 69);
+                txtNetAmount.Properties.Appearance.Options.UseFont = true;
+                txtNetAmount.Properties.Appearance.Options.UseForeColor = true;
             }
         }
 
@@ -1511,6 +1610,16 @@ namespace DesktopApp
         private void panelControl1_Paint(object sender, PaintEventArgs e) { }
 
         private void groupControlAddProduct_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dtInvoiceDate_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelControl4_Click(object sender, EventArgs e)
         {
 
         }

@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\invoicecuform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\invoicecuform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\invoicecuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\invoicecuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\desktopapp\\invoicecuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\invoicecuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|c:\\users\\ahmed ramzy\\ramzyproject\\shopping\\printerdesktopapp\\desktopapp\\utilities\\networkhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\desktopapp\\utilities\\networkhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\utilities\\networkhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\desktopapp\\productcuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\productcuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\desktopapp\\invoicecuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|solutionrelative:desktopapp\\invoicecuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{62EA6D46-4FAB-424D-9EE2-CBD3B18E4E46}|DesktopApp\\DesktopApp.csproj|C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\desktopapp\\utilities\\responsiveformhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,7 +54,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 255,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,7 +74,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 0,
+              "Title": "InvoiceCUForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\InvoiceCUForm.Designer.cs",
+              "RelativeDocumentMoniker": "DesktopApp\\InvoiceCUForm.Designer.cs",
+              "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\InvoiceCUForm.Designer.cs",
+              "RelativeToolTip": "DesktopApp\\InvoiceCUForm.Designer.cs",
+              "ViewState": "AgIAAAMDAAAAAAAAAAAYwCwAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T12:01:53.504Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "InvoicePreviewForm.cs",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\InvoicePreviewForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\InvoicePreviewForm.cs",
@@ -82,7 +99,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "InvoiceActionForm.cs",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\InvoiceActionForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\InvoiceActionForm.cs",
@@ -94,7 +111,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "InvoiceForm.cs",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\InvoiceForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\InvoiceForm.cs",
@@ -106,7 +123,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "NetworkHelper.cs",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\Utilities\\NetworkHelper.cs",
               "RelativeDocumentMoniker": "DesktopApp\\Utilities\\NetworkHelper.cs",
@@ -114,12 +131,11 @@
               "RelativeToolTip": "DesktopApp\\Utilities\\NetworkHelper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-14T11:28:34.002Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-14T11:28:34.002Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "ProductCUForm.cs",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\ProductCUForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\ProductCUForm.cs",
@@ -131,20 +147,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "InvoiceCUForm.cs",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\InvoiceCUForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\InvoiceCUForm.cs",
               "ToolTip": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\InvoiceCUForm.cs",
               "RelativeToolTip": "DesktopApp\\InvoiceCUForm.cs",
-              "ViewState": "AgIAAOgEAAAAAAAAAAD4v5gFAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAiwFcGAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-14T11:07:31.446Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "InvoiceCUForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\InvoiceCUForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\InvoiceCUForm.cs",
@@ -156,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "ResponsiveFormHelper.cs",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\Utilities\\ResponsiveFormHelper.cs",
               "RelativeDocumentMoniker": "DesktopApp\\Utilities\\ResponsiveFormHelper.cs",
@@ -168,7 +184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Invoice.rpt",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\CrystalReports\\Invoice.rpt",
               "RelativeDocumentMoniker": "DesktopApp\\CrystalReports\\Invoice.rpt",
@@ -179,7 +195,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "LoginForm.cs",
               "DocumentMoniker": "C:\\Users\\Ahmed Ramzy\\RamzyProject\\Shopping\\PrinterDesktopApp\\DesktopApp\\LoginForm.cs",
               "RelativeDocumentMoniker": "DesktopApp\\LoginForm.cs",
