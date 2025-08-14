@@ -19,6 +19,17 @@
         <AssociationConnector Association="ShoppingDBModel.FK_InvoiceItems_Invoices_InvoiceId" ManuallyRouted="false" />
         <AssociationConnector Association="ShoppingDBModel.FK_Prices_Products_ProductId" ManuallyRouted="false" />
         <AssociationConnector Association="ShoppingDBModel.FK_ProductImages_Products_ProductId" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ShoppingDBModel.AspNetRoleClaim" Width="1.5" PointX="7.625" PointY="18.5" />
+        <EntityTypeShape EntityType="ShoppingDBModel.AspNetRole" Width="1.5" PointX="5.375" PointY="14.375" />
+        <EntityTypeShape EntityType="ShoppingDBModel.AspNetUserClaim" Width="1.5" PointX="9.875" PointY="15.75" />
+        <EntityTypeShape EntityType="ShoppingDBModel.AspNetUserLogin" Width="1.5" PointX="9.875" PointY="13.125" />
+        <EntityTypeShape EntityType="ShoppingDBModel.AspNetUser" Width="1.5" PointX="7.625" PointY="11.75" />
+        <EntityTypeShape EntityType="ShoppingDBModel.AspNetUserToken" Width="1.5" PointX="9.875" PointY="10.375" />
+        <AssociationConnector Association="ShoppingDBModel.FK_AspNetRoleClaims_AspNetRoles_RoleId" />
+        <AssociationConnector Association="ShoppingDBModel.FK_AspNetUserClaims_AspNetUsers_UserId" />
+        <AssociationConnector Association="ShoppingDBModel.FK_AspNetUserLogins_AspNetUsers_UserId" />
+        <AssociationConnector Association="ShoppingDBModel.FK_AspNetUserTokens_AspNetUsers_UserId" />
+        <AssociationConnector Association="ShoppingDBModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

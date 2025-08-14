@@ -183,7 +183,7 @@
             // 
             this.cmbCompany.Location = new System.Drawing.Point(14, 126);
             this.cmbCompany.Name = "cmbCompany";
-            this.cmbCompany.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.cmbCompany.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbCompany.Properties.Appearance.Options.UseFont = true;
             this.cmbCompany.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
             this.cmbCompany.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {

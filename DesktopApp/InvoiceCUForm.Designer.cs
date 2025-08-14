@@ -114,7 +114,7 @@
             this.scrollableControl1.Location = new System.Drawing.Point(0, 0);
             this.scrollableControl1.Margin = new System.Windows.Forms.Padding(4);
             this.scrollableControl1.Name = "scrollableControl1";
-            this.scrollableControl1.Size = new System.Drawing.Size(1000, 700);
+            this.scrollableControl1.Size = new System.Drawing.Size(1000, 675);
             this.scrollableControl1.TabIndex = 0;
             // 
             // panelControl1
@@ -124,14 +124,11 @@
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Margin = new System.Windows.Forms.Padding(4);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(1000, 700);
+            this.panelControl1.Size = new System.Drawing.Size(1000, 675);
             this.panelControl1.TabIndex = 0;
             // 
             // groupControl1
             // 
-            this.groupControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.groupControl1.Appearance.ForeColor = System.Drawing.Color.DarkSlateBlue;
             this.groupControl1.Appearance.Options.UseFont = true;
@@ -142,19 +139,24 @@
             this.groupControl1.AppearanceCaption.Options.UseBackColor = true;
             this.groupControl1.AppearanceCaption.Options.UseFont = true;
             this.groupControl1.AppearanceCaption.Options.UseForeColor = true;
+            this.groupControl1.AutoSize = true;
+            this.groupControl1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupControl1.Controls.Add(this.groupControlClientData);
             this.groupControl1.Controls.Add(this.groupControlAddProduct);
             this.groupControl1.Controls.Add(this.layoutControl1);
-            this.groupControl1.Location = new System.Drawing.Point(10, 10);
+            this.groupControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupControl1.Location = new System.Drawing.Point(2, 2);
             this.groupControl1.Margin = new System.Windows.Forms.Padding(4);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(980, 675);
+            this.groupControl1.Size = new System.Drawing.Size(996, 669);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "بيانات الفاتورة";
             this.groupControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.groupControl1_Paint);
             // 
             // groupControlClientData
             // 
+            this.groupControlClientData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupControlClientData.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
             this.groupControlClientData.Appearance.ForeColor = System.Drawing.Color.DarkBlue;
             this.groupControlClientData.Appearance.Options.UseFont = true;
@@ -165,6 +167,7 @@
             this.groupControlClientData.AppearanceCaption.Options.UseBackColor = true;
             this.groupControlClientData.AppearanceCaption.Options.UseFont = true;
             this.groupControlClientData.AppearanceCaption.Options.UseForeColor = true;
+            this.groupControlClientData.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupControlClientData.Controls.Add(this.labelControl4);
             this.groupControlClientData.Controls.Add(this.labelControl3);
             this.groupControlClientData.Controls.Add(this.labelControl2);
@@ -173,9 +176,9 @@
             this.groupControlClientData.Controls.Add(this.dtInvoiceDate);
             this.groupControlClientData.Controls.Add(this.txtCustomerName);
             this.groupControlClientData.Controls.Add(this.txtCustomerPhone);
-            this.groupControlClientData.Location = new System.Drawing.Point(5, 30);
+            this.groupControlClientData.Location = new System.Drawing.Point(2, 29);
             this.groupControlClientData.Name = "groupControlClientData";
-            this.groupControlClientData.Size = new System.Drawing.Size(970, 85);
+            this.groupControlClientData.Size = new System.Drawing.Size(983, 82);
             this.groupControlClientData.TabIndex = 0;
             this.groupControlClientData.Text = "بيانات العميل والفاتورة";
             // 
@@ -193,7 +196,7 @@
             // 
             this.labelControl3.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl3.Appearance.Options.UseFont = true;
-            this.labelControl3.Location = new System.Drawing.Point(420, 25);
+            this.labelControl3.Location = new System.Drawing.Point(479, 25);
             this.labelControl3.Name = "labelControl3";
             this.labelControl3.Size = new System.Drawing.Size(79, 18);
             this.labelControl3.TabIndex = 2;
@@ -203,7 +206,7 @@
             // 
             this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl2.Appearance.Options.UseFont = true;
-            this.labelControl2.Location = new System.Drawing.Point(640, 25);
+            this.labelControl2.Location = new System.Drawing.Point(686, 25);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(76, 18);
             this.labelControl2.TabIndex = 1;
@@ -214,7 +217,7 @@
             // 
             this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl1.Appearance.Options.UseFont = true;
-            this.labelControl1.Location = new System.Drawing.Point(850, 25);
+            this.labelControl1.Location = new System.Drawing.Point(896, 25);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(69, 18);
             this.labelControl1.TabIndex = 0;
@@ -223,7 +226,7 @@
             // 
             // txtInvoiceNumber
             // 
-            this.txtInvoiceNumber.Location = new System.Drawing.Point(745, 50);
+            this.txtInvoiceNumber.Location = new System.Drawing.Point(791, 50);
             this.txtInvoiceNumber.Margin = new System.Windows.Forms.Padding(4);
             this.txtInvoiceNumber.Name = "txtInvoiceNumber";
             this.txtInvoiceNumber.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
@@ -240,7 +243,7 @@
             // dtInvoiceDate
             // 
             this.dtInvoiceDate.EditValue = null;
-            this.dtInvoiceDate.Location = new System.Drawing.Point(520, 50);
+            this.dtInvoiceDate.Location = new System.Drawing.Point(566, 50);
             this.dtInvoiceDate.Margin = new System.Windows.Forms.Padding(4);
             this.dtInvoiceDate.Name = "dtInvoiceDate";
             this.dtInvoiceDate.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
@@ -267,7 +270,7 @@
             this.txtCustomerName.Properties.Appearance.Options.UseForeColor = true;
             this.txtCustomerName.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.Blue;
             this.txtCustomerName.Properties.AppearanceFocused.Options.UseBorderColor = true;
-            this.txtCustomerName.Size = new System.Drawing.Size(250, 28);
+            this.txtCustomerName.Size = new System.Drawing.Size(298, 28);
             this.txtCustomerName.TabIndex = 2;
             // 
             // txtCustomerPhone
@@ -287,6 +290,8 @@
             // 
             // groupControlAddProduct
             // 
+            this.groupControlAddProduct.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupControlAddProduct.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
             this.groupControlAddProduct.Appearance.ForeColor = System.Drawing.Color.DarkGreen;
             this.groupControlAddProduct.Appearance.Options.UseFont = true;
@@ -297,6 +302,7 @@
             this.groupControlAddProduct.AppearanceCaption.Options.UseBackColor = true;
             this.groupControlAddProduct.AppearanceCaption.Options.UseFont = true;
             this.groupControlAddProduct.AppearanceCaption.Options.UseForeColor = true;
+            this.groupControlAddProduct.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupControlAddProduct.Controls.Add(this.labelControl5);
             this.groupControlAddProduct.Controls.Add(this.cmbCompany);
             this.groupControlAddProduct.Controls.Add(this.cmbCategory);
@@ -305,9 +311,10 @@
             this.groupControlAddProduct.Controls.Add(this.btnAddItem);
             this.groupControlAddProduct.Location = new System.Drawing.Point(5, 120);
             this.groupControlAddProduct.Name = "groupControlAddProduct";
-            this.groupControlAddProduct.Size = new System.Drawing.Size(970, 100);
+            this.groupControlAddProduct.Size = new System.Drawing.Size(981, 99);
             this.groupControlAddProduct.TabIndex = 1;
             this.groupControlAddProduct.Text = "إضافة منتج للفاتورة";
+            this.groupControlAddProduct.Paint += new System.Windows.Forms.PaintEventHandler(this.groupControlAddProduct_Paint);
             // 
             // labelControl5
             // 
@@ -336,7 +343,7 @@
             this.cmbCompany.Properties.NullText = "ابحث واختر الشركة...";
             this.cmbCompany.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
             this.cmbCompany.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-            this.cmbCompany.Size = new System.Drawing.Size(200, 28);
+            this.cmbCompany.Size = new System.Drawing.Size(238, 28);
             this.cmbCompany.TabIndex = 4;
             this.cmbCompany.EditValueChanged += new System.EventHandler(this.cmbCompany_EditValueChanged);
             // 
@@ -442,22 +449,25 @@
             this.layoutControl1.Controls.Add(this.txtDiscount);
             this.layoutControl1.Controls.Add(this.txtTotalAmount);
             this.layoutControl1.Controls.Add(this.txtNetAmount);
-            this.layoutControl1.Location = new System.Drawing.Point(5, 225);
+            this.layoutControl1.Location = new System.Drawing.Point(11, 227);
             this.layoutControl1.Margin = new System.Windows.Forms.Padding(4);
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsView.RightToLeftMirroringApplied = true;
             this.layoutControl1.Root = this.Root;
-            this.layoutControl1.Size = new System.Drawing.Size(970, 445);
+            this.layoutControl1.Size = new System.Drawing.Size(984, 438);
             this.layoutControl1.TabIndex = 2;
             this.layoutControl1.Text = "layoutControl1";
             // 
             // gridControlItems
             // 
+            this.gridControlItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridControlItems.Location = new System.Drawing.Point(12, 31);
             this.gridControlItems.MainView = this.gridViewItems;
             this.gridControlItems.Margin = new System.Windows.Forms.Padding(4);
             this.gridControlItems.Name = "gridControlItems";
-            this.gridControlItems.Size = new System.Drawing.Size(946, 347);
+            this.gridControlItems.Size = new System.Drawing.Size(960, 340);
             this.gridControlItems.TabIndex = 10;
             this.gridControlItems.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewItems,
@@ -486,7 +496,7 @@
             // 
             // txtDiscount
             // 
-            this.txtDiscount.Location = new System.Drawing.Point(355, 403);
+            this.txtDiscount.Location = new System.Drawing.Point(360, 396);
             this.txtDiscount.Margin = new System.Windows.Forms.Padding(4);
             this.txtDiscount.Name = "txtDiscount";
             this.txtDiscount.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
@@ -497,7 +507,7 @@
             this.txtDiscount.Properties.AppearanceFocused.Options.UseBorderColor = true;
             this.txtDiscount.Properties.NullText = "أدخل قيمة الخصم";
             this.txtDiscount.Properties.NullValuePrompt = "أدخل قيمة الخصم";
-            this.txtDiscount.Size = new System.Drawing.Size(283, 28);
+            this.txtDiscount.Size = new System.Drawing.Size(287, 28);
             this.txtDiscount.StyleController = this.layoutControl1;
             this.txtDiscount.TabIndex = 11;
             this.txtDiscount.EditValueChanged += new System.EventHandler(this.txtDiscount_EditValueChanged);
@@ -505,7 +515,7 @@
             // 
             // txtTotalAmount
             // 
-            this.txtTotalAmount.Location = new System.Drawing.Point(642, 403);
+            this.txtTotalAmount.Location = new System.Drawing.Point(651, 396);
             this.txtTotalAmount.Margin = new System.Windows.Forms.Padding(4);
             this.txtTotalAmount.Name = "txtTotalAmount";
             this.txtTotalAmount.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
@@ -515,13 +525,13 @@
             this.txtTotalAmount.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.LightCyan;
             this.txtTotalAmount.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtTotalAmount.Properties.ReadOnly = true;
-            this.txtTotalAmount.Size = new System.Drawing.Size(316, 28);
+            this.txtTotalAmount.Size = new System.Drawing.Size(321, 28);
             this.txtTotalAmount.StyleController = this.layoutControl1;
             this.txtTotalAmount.TabIndex = 12;
             // 
             // txtNetAmount
             // 
-            this.txtNetAmount.Location = new System.Drawing.Point(12, 403);
+            this.txtNetAmount.Location = new System.Drawing.Point(12, 396);
             this.txtNetAmount.Margin = new System.Windows.Forms.Padding(4);
             this.txtNetAmount.Name = "txtNetAmount";
             this.txtNetAmount.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
@@ -531,7 +541,7 @@
             this.txtNetAmount.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.LightGreen;
             this.txtNetAmount.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtNetAmount.Properties.ReadOnly = true;
-            this.txtNetAmount.Size = new System.Drawing.Size(339, 30);
+            this.txtNetAmount.Size = new System.Drawing.Size(344, 30);
             this.txtNetAmount.StyleController = this.layoutControl1;
             this.txtNetAmount.TabIndex = 13;
             // 
@@ -545,7 +555,7 @@
             this.layoutControlItem12,
             this.layoutControlItem14});
             this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(970, 445);
+            this.Root.Size = new System.Drawing.Size(984, 438);
             this.Root.TextVisible = false;
             // 
             // layoutControlItem11
@@ -553,46 +563,46 @@
             this.layoutControlItem11.Control = this.gridControlItems;
             this.layoutControlItem11.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem11.Name = "layoutControlItem11";
-            this.layoutControlItem11.Size = new System.Drawing.Size(950, 370);
+            this.layoutControlItem11.Size = new System.Drawing.Size(964, 363);
             this.layoutControlItem11.Text = "المنتجات";
             this.layoutControlItem11.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem11.TextSize = new System.Drawing.Size(52, 16);
+            this.layoutControlItem11.TextSize = new System.Drawing.Size(87, 16);
             // 
             // layoutControlItem13
             // 
             this.layoutControlItem13.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.layoutControlItem13.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem13.Control = this.txtTotalAmount;
-            this.layoutControlItem13.Location = new System.Drawing.Point(630, 370);
+            this.layoutControlItem13.Location = new System.Drawing.Point(639, 363);
             this.layoutControlItem13.Name = "layoutControlItem13";
-            this.layoutControlItem13.Size = new System.Drawing.Size(320, 55);
+            this.layoutControlItem13.Size = new System.Drawing.Size(325, 55);
             this.layoutControlItem13.Text = "المجموع";
             this.layoutControlItem13.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem13.TextSize = new System.Drawing.Size(52, 18);
+            this.layoutControlItem13.TextSize = new System.Drawing.Size(87, 18);
             // 
             // layoutControlItem12
             // 
             this.layoutControlItem12.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.layoutControlItem12.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem12.Control = this.txtDiscount;
-            this.layoutControlItem12.Location = new System.Drawing.Point(343, 370);
+            this.layoutControlItem12.Location = new System.Drawing.Point(348, 363);
             this.layoutControlItem12.Name = "layoutControlItem12";
-            this.layoutControlItem12.Size = new System.Drawing.Size(287, 55);
+            this.layoutControlItem12.Size = new System.Drawing.Size(291, 55);
             this.layoutControlItem12.Text = "الخصم";
             this.layoutControlItem12.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem12.TextSize = new System.Drawing.Size(52, 18);
+            this.layoutControlItem12.TextSize = new System.Drawing.Size(87, 18);
             // 
             // layoutControlItem14
             // 
             this.layoutControlItem14.AppearanceItemCaption.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.layoutControlItem14.AppearanceItemCaption.Options.UseFont = true;
             this.layoutControlItem14.Control = this.txtNetAmount;
-            this.layoutControlItem14.Location = new System.Drawing.Point(0, 370);
+            this.layoutControlItem14.Location = new System.Drawing.Point(0, 363);
             this.layoutControlItem14.Name = "layoutControlItem14";
-            this.layoutControlItem14.Size = new System.Drawing.Size(343, 55);
-            this.layoutControlItem14.Text = "الصافي";
+            this.layoutControlItem14.Size = new System.Drawing.Size(348, 55);
+            this.layoutControlItem14.Text = "الاجمــــــــالى";
             this.layoutControlItem14.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutControlItem14.TextSize = new System.Drawing.Size(52, 18);
+            this.layoutControlItem14.TextSize = new System.Drawing.Size(87, 18);
             // 
             // panelControl2
             // 
@@ -602,10 +612,10 @@
             this.panelControl2.Controls.Add(this.EditBtn);
             this.panelControl2.Controls.Add(this.btnCancel);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelControl2.Location = new System.Drawing.Point(0, 700);
+            this.panelControl2.Location = new System.Drawing.Point(0, 675);
             this.panelControl2.Margin = new System.Windows.Forms.Padding(4);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(1000, 60);
+            this.panelControl2.Size = new System.Drawing.Size(1000, 85);
             this.panelControl2.TabIndex = 1;
             this.panelControl2.Paint += new System.Windows.Forms.PaintEventHandler(this.panelControl2_Paint);
             // 
@@ -702,6 +712,7 @@
             this.scrollableControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
+            this.panelControl1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.groupControlClientData)).EndInit();

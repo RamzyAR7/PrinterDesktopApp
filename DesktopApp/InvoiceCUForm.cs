@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using DesktopApp.Utilities;
 
 namespace DesktopApp
 {
@@ -18,12 +19,17 @@ namespace DesktopApp
         public bool InvoiceSaved { get; private set; } = false;
         private bool isInitializing = true; // Flag to prevent validation during initialization
         private bool isUpdatingDiscount = false; // Flag to prevent recursive validation
-    private bool discountExceededNotified = false; // Show warning once per invalid entry
+        private bool discountExceededNotified = false; // Show warning once per invalid entry
 
         public InvoiceCUForm()
         {
             InitializeComponent();
-            
+            if (!NetworkHelper.IsInternetAvailable())
+            {
+                XtraMessageBox.Show("لا يوجد اتصال بالإنترنت. يرجى التأكد من الاتصال قبل المتابعة.", "تنبيه الاتصال", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close();
+                return;
+            }
             // Initialize database context first
             try
             {
@@ -341,6 +347,12 @@ namespace DesktopApp
                     // Configure popup settings
                     cmbCompany.Properties.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFitResizePopup;
                     cmbCompany.Properties.PopupFormSize = new Size(250, 200);
+
+                    // ENHANCED: Set bigger font for dropdown
+                    cmbCompany.Properties.AppearanceDropDown.Font = new Font("Tahoma", 12F, FontStyle.Regular);
+                    cmbCompany.Properties.AppearanceDropDown.Options.UseFont = true;
+                    cmbCompany.Properties.AppearanceDropDownHeader.Font = new Font("Tahoma", 12F, FontStyle.Bold);
+                    cmbCompany.Properties.AppearanceDropDownHeader.Options.UseFont = true;
                 }
 
                 LoadCategories();
@@ -392,6 +404,12 @@ namespace DesktopApp
                     // Configure popup settings
                     cmbCategory.Properties.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFitResizePopup;
                     cmbCategory.Properties.PopupFormSize = new Size(250, 200);
+
+                    // ENHANCED: Set bigger font for dropdown
+                    cmbCategory.Properties.AppearanceDropDown.Font = new Font("Tahoma", 12F, FontStyle.Regular);
+                    cmbCategory.Properties.AppearanceDropDown.Options.UseFont = true;
+                    cmbCategory.Properties.AppearanceDropDownHeader.Font = new Font("Tahoma", 12F, FontStyle.Bold);
+                    cmbCategory.Properties.AppearanceDropDownHeader.Options.UseFont = true;
                 }
 
                 // Clear product selection when categories change
@@ -460,6 +478,12 @@ namespace DesktopApp
                     // Configure popup settings
                     cmbProduct.Properties.BestFitMode = DevExpress.XtraEditors.Controls.BestFitMode.BestFitResizePopup;
                     cmbProduct.Properties.PopupFormSize = new Size(400, 250);
+
+                    // ENHANCED: Set bigger font for dropdown
+                    cmbProduct.Properties.AppearanceDropDown.Font = new Font("Tahoma", 12F, FontStyle.Regular);
+                    cmbProduct.Properties.AppearanceDropDown.Options.UseFont = true;
+                    cmbProduct.Properties.AppearanceDropDownHeader.Font = new Font("Tahoma", 12F, FontStyle.Bold);
+                    cmbProduct.Properties.AppearanceDropDownHeader.Options.UseFont = true;
                 }
             }
             catch (Exception ex)
@@ -920,6 +944,16 @@ namespace DesktopApp
             }
         }
 
+        private decimal GetTotalAmountBeforeDiscount()
+        {
+            decimal total = 0;
+            foreach (var item in invoiceItems)
+            {
+                total += item.Quantity * item.UnitPrice;
+            }
+            return total;
+        }
+
         private void InvoiceCUForm_Resize(object sender, EventArgs e)
         {
             // Adjust grid column widths dynamically when the form is resized
@@ -1359,7 +1393,7 @@ namespace DesktopApp
             }
         }
 
-    private void ValidateDiscountInput(DevExpress.XtraEditors.TextEdit textEdit)
+        private void ValidateDiscountInput(DevExpress.XtraEditors.TextEdit textEdit)
         {
             if (textEdit == null || isUpdatingDiscount) return;
 
@@ -1367,9 +1401,9 @@ namespace DesktopApp
             if (string.IsNullOrWhiteSpace(text))
             {
                 // Discount is optional, empty is allowed
-        discountExceededNotified = false; // reset notify flag when empty
-        CalculateTotals(); // live update totals (net = total)
-        return;
+                discountExceededNotified = false; // reset notify flag when empty
+                CalculateTotals(); // live update totals (net = total)
+                return;
             }
 
             // Remove any non-numeric characters except decimal point
@@ -1462,16 +1496,6 @@ namespace DesktopApp
             CalculateTotals();
         }
 
-        private decimal GetTotalAmountBeforeDiscount()
-        {
-            decimal total = 0;
-            foreach (var item in invoiceItems)
-            {
-                total += item.Quantity * item.UnitPrice;
-            }
-            return total;
-        }
-
         // Empty event handlers (from original file)
         private void InvoiceCUForm_Load(object sender, EventArgs e) { }
         private void panelControl2_Paint(object sender, PaintEventArgs e) { }
@@ -1485,5 +1509,10 @@ namespace DesktopApp
         private void groupControlClientData_Paint(object sender, PaintEventArgs e) { }
         private void gridControlItems_Click(object sender, EventArgs e) { }
         private void panelControl1_Paint(object sender, PaintEventArgs e) { }
+
+        private void groupControlAddProduct_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

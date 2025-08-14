@@ -1,0 +1,23 @@
+using System.Net.NetworkInformation;
+
+namespace DesktopApp.Utilities
+{
+    public static class NetworkHelper
+    {
+        public static bool IsInternetAvailable()
+        {
+            try
+            {
+                using (var ping = new Ping())
+                {
+                    var reply = ping.Send("8.8.8.8", 2000); // 2 second timeout
+                    return reply.Status == IPStatus.Success;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+    }
+}

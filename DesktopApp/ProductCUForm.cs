@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
+using DesktopApp.Utilities;
 
 namespace DesktopApp
 {
@@ -18,6 +20,12 @@ namespace DesktopApp
         public ProductCUForm()
         {
             InitializeComponent();
+            if (!NetworkHelper.IsInternetAvailable())
+            {
+                XtraMessageBox.Show("لا يوجد اتصال بالإنترنت. يرجى التأكد من الاتصال قبل المتابعة.", "تنبيه الاتصال", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close();
+                return;
+            }
             dbContext = new ShoppingDBEntities();
             
             SetupForm();
@@ -239,12 +247,20 @@ namespace DesktopApp
             lookupEdit.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
             lookupEdit.Properties.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.True;
             
-            // Modern popup styling
-            lookupEdit.Properties.PopupFormSize = new Size(400, 300);
-            lookupEdit.Properties.DropDownRows = 15;
+            // ENHANCED: Modern popup styling with BIGGER FONTS
+            lookupEdit.Properties.PopupFormSize = new Size(450, 380); // INCREASED size for larger fonts
+            lookupEdit.Properties.DropDownRows = 10; // REDUCED from 15 to 10 for larger fonts
             lookupEdit.Properties.ShowHeader = true;
             lookupEdit.Properties.ShowFooter = false;
             lookupEdit.Properties.PopupSizeable = true;
+            
+            // ENHANCED: Dropdown appearance with bigger fonts
+            lookupEdit.Properties.AppearanceDropDown.Font = new Font("Tahoma", 12F, FontStyle.Regular); // BIGGER font for dropdown items
+            lookupEdit.Properties.AppearanceDropDown.Options.UseFont = true;
+            
+            // ENHANCED: Header appearance with bigger fonts
+            lookupEdit.Properties.AppearanceDropDownHeader.Font = new Font("Tahoma", 12F, FontStyle.Bold); // BIGGER font for headers
+            lookupEdit.Properties.AppearanceDropDownHeader.Options.UseFont = true;
             
             // Add keyboard shortcuts
             lookupEdit.KeyDown += (s, e) => {
@@ -370,16 +386,21 @@ namespace DesktopApp
             lookupEdit.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
             lookupEdit.Properties.AcceptEditorTextAsNewValue = DevExpress.Utils.DefaultBoolean.False;
 
-            // Modern column styling
+            // ENHANCED: Modern column styling with BIGGER FONTS for dropdown items
             lookupEdit.Properties.AppearanceDropDown.BackColor = Color.White;
             lookupEdit.Properties.AppearanceDropDown.ForeColor = Color.FromArgb(52, 58, 64);
+            lookupEdit.Properties.AppearanceDropDown.Font = new Font("Tahoma", 12F, FontStyle.Regular); // INCREASED from 11F to 16F
+            lookupEdit.Properties.AppearanceDropDown.Options.UseFont = true;
+            
+            // ENHANCED: Header styling with bigger font
             lookupEdit.Properties.AppearanceDropDownHeader.BackColor = Color.FromArgb(248, 249, 250);
             lookupEdit.Properties.AppearanceDropDownHeader.ForeColor = Color.FromArgb(52, 58, 64);
-            lookupEdit.Properties.AppearanceDropDownHeader.Font = new Font("Tahoma", 11F, FontStyle.Bold);
+            lookupEdit.Properties.AppearanceDropDownHeader.Font = new Font("Tahoma", 12F, FontStyle.Bold); // INCREASED from 11F to 17F
+            lookupEdit.Properties.AppearanceDropDownHeader.Options.UseFont = true;
 
-            // Popup sizing similar to invoice form (slightly wider for long names)
-            lookupEdit.Properties.PopupFormSize = new Size(350, 250);
-            lookupEdit.Properties.DropDownRows = 15;
+            // ENHANCED: Popup sizing with increased height to accommodate larger fonts
+            lookupEdit.Properties.PopupFormSize = new Size(380, 350); // INCREASED both width and height for bigger fonts
+            lookupEdit.Properties.DropDownRows = 10; // REDUCED from 15 to 10 due to larger font requiring more space per row
             lookupEdit.Properties.ShowHeader = true;
             lookupEdit.Properties.ShowFooter = false;
             lookupEdit.Properties.PopupSizeable = true;
