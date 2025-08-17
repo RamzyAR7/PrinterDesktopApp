@@ -77,9 +77,10 @@ namespace DesktopApp
             this.NewBtn.Appearance.Options.UseFont = true;
             this.NewBtn.Location = new System.Drawing.Point(10, 10);
             this.NewBtn.Name = "NewBtn";
-            this.NewBtn.Size = new System.Drawing.Size(140, 30);
+            this.NewBtn.Size = new System.Drawing.Size(151, 30);
             this.NewBtn.TabIndex = 5;
-            this.NewBtn.Text = "+ اضافة فتورة";
+            this.NewBtn.Text = "+ اضافة فاتورة";
+            this.NewBtn.Click += new System.EventHandler(this.BtnCreate_Click);
             // 
             // InvoiceForm
             // 

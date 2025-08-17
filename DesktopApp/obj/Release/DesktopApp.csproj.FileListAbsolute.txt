@@ -167,3 +167,4 @@ c:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\bin\Rele
 c:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
 c:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\bin\Release\System.Text.Encodings.Web.xml
 c:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Release\DesktopApp.LoginForm.resources
+c:\Users\Ahmed Ramzy\RamzyProject\Shopping\PrinterDesktopApp\DesktopApp\obj\Release\DesktopApp.InvoiceCUFormv2.resources

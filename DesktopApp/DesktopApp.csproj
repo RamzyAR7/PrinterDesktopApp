@@ -338,6 +338,12 @@
     <Compile Include="InvoiceCUForm.Designer.cs">
       <DependentUpon>InvoiceCUForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="InvoiceCUFormv2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InvoiceCUFormv2.Designer.cs">
+      <DependentUpon>InvoiceCUFormv2.cs</DependentUpon>
+    </Compile>
     <Compile Include="InvoiceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -453,6 +459,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InvoiceCUForm.resx">
       <DependentUpon>InvoiceCUForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InvoiceCUFormv2.resx">
+      <DependentUpon>InvoiceCUFormv2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InvoiceForm.resx">
       <DependentUpon>InvoiceForm.cs</DependentUpon>

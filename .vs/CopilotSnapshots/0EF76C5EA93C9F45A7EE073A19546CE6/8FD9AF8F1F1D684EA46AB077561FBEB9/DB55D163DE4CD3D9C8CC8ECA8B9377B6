@@ -1,0 +1,38 @@
+﻿using DevExpress.XtraEditors;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class InvoiceCUFormv2 : DevExpress.XtraEditors.XtraForm
+    {
+        private ShoppingDBEntities dbContext;
+        private List<Product> allProducts;
+        private List<InvoiceItem> invoiceItems;
+        private Product selectedProduct;
+
+        public InvoiceCUFormv2()
+        {
+            InitializeComponent();
+            dbContext = new ShoppingDBEntities();
+            invoiceItems = new List<InvoiceItem>();
+            LoadProductData();
+            SetupProductGridEvents();
+            SetupFilterEvents();
+            btnAddItem.Click += BtnAddItem_Click;
+        }
+
+        private void LoadProductData()
+        {
+            // Load all products with name and price
+            allProducts = dbContext.Products
+                .Where(p => !p.IsDeleted)
+                .Select(p => new Product
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    CompanyId = p.Company

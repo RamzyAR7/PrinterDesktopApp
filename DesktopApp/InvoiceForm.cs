@@ -122,9 +122,9 @@ namespace DesktopApp
             // Only NewBtn exists in designer now
             if (NewBtn != null)
             {
-                NewBtn.Size = new Size(120, 30);
+                NewBtn.Size = new Size(125, 30);
                 NewBtn.Location = new Point(10, 10);
-                NewBtn.Text = "+ اضافة فتورة";
+                NewBtn.Text = "+ اضافة فاتورة";
             }
         }
 
@@ -374,7 +374,7 @@ namespace DesktopApp
         {
             try
             {
-                using (var createForm = new InvoiceCUForm())
+                using (var createForm = new InvoiceCUFormv2())
                 {
                     if (createForm.ShowDialog() == DialogResult.OK && createForm.InvoiceSaved)
                     {

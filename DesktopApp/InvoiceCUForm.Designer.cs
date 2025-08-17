@@ -237,7 +237,7 @@
             this.txtInvoiceNumber.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.LightGray;
             this.txtInvoiceNumber.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtInvoiceNumber.Properties.ReadOnly = true;
-            this.txtInvoiceNumber.Size = new System.Drawing.Size(180, 28);
+            this.txtInvoiceNumber.Size = new System.Drawing.Size(179, 28);
             this.txtInvoiceNumber.TabIndex = 0;
             this.txtInvoiceNumber.EditValueChanged += new System.EventHandler(this.txtInvoiceNumber_EditValueChanged);
             // 
@@ -330,7 +330,7 @@
             // 
             // cmbCompany
             // 
-            this.cmbCompany.Location = new System.Drawing.Point(730, 30);
+            this.cmbCompany.Location = new System.Drawing.Point(732, 30);
             this.cmbCompany.Margin = new System.Windows.Forms.Padding(4);
             this.cmbCompany.Name = "cmbCompany";
             this.cmbCompany.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
@@ -345,7 +345,7 @@
             this.cmbCompany.Properties.NullText = "ابحث واختر الشركة...";
             this.cmbCompany.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
             this.cmbCompany.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-            this.cmbCompany.Size = new System.Drawing.Size(238, 28);
+            this.cmbCompany.Size = new System.Drawing.Size(236, 28);
             this.cmbCompany.TabIndex = 4;
             this.cmbCompany.EditValueChanged += new System.EventHandler(this.cmbCompany_EditValueChanged);
             // 

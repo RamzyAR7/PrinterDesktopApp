@@ -1,0 +1,625 @@
+﻿namespace DesktopApp
+{
+    partial class InvoiceCUFormv2
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.cmbCompany = new DevExpress.XtraEditors.LookUpEdit();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.panelControl3 = new DevExpress.XtraEditors.PanelControl();
+            this.panelControl6 = new DevExpress.XtraEditors.PanelControl();
+            this.txtCustomerPhone = new DevExpress.XtraEditors.TextEdit();
+            this.dtInvoiceDate = new DevExpress.XtraEditors.DateEdit();
+            this.txtCustomerName = new DevExpress.XtraEditors.TextEdit();
+            this.txtInvoiceNumber = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.btnAddItem = new DevExpress.XtraEditors.SimpleButton();
+            this.spinQuantity = new DevExpress.XtraEditors.SpinEdit();
+            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
+            this.NewBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSaveAndPrint = new DevExpress.XtraEditors.SimpleButton();
+            this.EditBtn = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSaveAndPreview = new DevExpress.XtraEditors.SimpleButton();
+            this.panelControl5 = new DevExpress.XtraEditors.PanelControl();
+            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.textEdit4 = new DevExpress.XtraEditors.TextEdit();
+            this.textEdit3 = new DevExpress.XtraEditors.TextEdit();
+            this.textEdit2 = new DevExpress.XtraEditors.TextEdit();
+            this.panelControl4 = new DevExpress.XtraEditors.PanelControl();
+            this.InvoiceGrid = new DevExpress.XtraGrid.GridControl();
+            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+            this.ProductGrid = new DevExpress.XtraGrid.GridControl();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.ProductSearch = new DevExpress.XtraEditors.TextEdit();
+            this.cmbCategory = new DevExpress.XtraEditors.LookUpEdit();
+            this.btnClearFilters = new DevExpress.XtraEditors.SimpleButton();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCompany.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+            this.panelControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).BeginInit();
+            this.panelControl3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl6)).BeginInit();
+            this.panelControl6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerPhone.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtInvoiceDate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtInvoiceDate.Properties.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtInvoiceNumber.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinQuantity.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl5)).BeginInit();
+            this.panelControl5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit4.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit3.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl4)).BeginInit();
+            this.panelControl4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.InvoiceGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
+            this.panelControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ProductGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ProductSearch.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCategory.Properties)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // cmbCompany
+            // 
+            this.cmbCompany.Location = new System.Drawing.Point(5, 6);
+            this.cmbCompany.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbCompany.Name = "cmbCompany";
+            this.cmbCompany.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbCompany.Properties.Appearance.ForeColor = System.Drawing.Color.DarkGreen;
+            this.cmbCompany.Properties.Appearance.Options.UseFont = true;
+            this.cmbCompany.Properties.Appearance.Options.UseForeColor = true;
+            this.cmbCompany.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.Green;
+            this.cmbCompany.Properties.AppearanceFocused.Options.UseBorderColor = true;
+            this.cmbCompany.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Clear)});
+            this.cmbCompany.Properties.ImmediatePopup = true;
+            this.cmbCompany.Properties.NullText = "ابحث واختر الشركة...";
+            this.cmbCompany.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
+            this.cmbCompany.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+            this.cmbCompany.Size = new System.Drawing.Size(353, 30);
+            this.cmbCompany.TabIndex = 5;
+            // 
+            // panelControl1
+            // 
+            this.panelControl1.Controls.Add(this.panelControl3);
+            this.panelControl1.Controls.Add(this.panelControl2);
+            this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelControl1.Location = new System.Drawing.Point(0, 0);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.panelControl1.Size = new System.Drawing.Size(1081, 638);
+            this.panelControl1.TabIndex = 6;
+            // 
+            // panelControl3
+            // 
+            this.panelControl3.Controls.Add(this.panelControl6);
+            this.panelControl3.Controls.Add(this.NewBtn);
+            this.panelControl3.Controls.Add(this.btnSaveAndPrint);
+            this.panelControl3.Controls.Add(this.EditBtn);
+            this.panelControl3.Controls.Add(this.btnSaveAndPreview);
+            this.panelControl3.Controls.Add(this.panelControl5);
+            this.panelControl3.Controls.Add(this.panelControl4);
+            this.panelControl3.Location = new System.Drawing.Point(10, 12);
+            this.panelControl3.Name = "panelControl3";
+            this.panelControl3.Size = new System.Drawing.Size(689, 614);
+            this.panelControl3.TabIndex = 14;
+            this.panelControl3.Paint += new System.Windows.Forms.PaintEventHandler(this.panelControl3_Paint);
+            // 
+            // panelControl6
+            // 
+            this.panelControl6.Controls.Add(this.txtCustomerPhone);
+            this.panelControl6.Controls.Add(this.dtInvoiceDate);
+            this.panelControl6.Controls.Add(this.txtCustomerName);
+            this.panelControl6.Controls.Add(this.txtInvoiceNumber);
+            this.panelControl6.Controls.Add(this.labelControl1);
+            this.panelControl6.Controls.Add(this.btnAddItem);
+            this.panelControl6.Controls.Add(this.spinQuantity);
+            this.panelControl6.Controls.Add(this.labelControl5);
+            this.panelControl6.Location = new System.Drawing.Point(5, 5);
+            this.panelControl6.Name = "panelControl6";
+            this.panelControl6.Size = new System.Drawing.Size(678, 134);
+            this.panelControl6.TabIndex = 25;
+            // 
+            // txtCustomerPhone
+            // 
+            this.txtCustomerPhone.EditValue = "";
+            this.txtCustomerPhone.Location = new System.Drawing.Point(6, 47);
+            this.txtCustomerPhone.Margin = new System.Windows.Forms.Padding(4);
+            this.txtCustomerPhone.Name = "txtCustomerPhone";
+            this.txtCustomerPhone.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCustomerPhone.Properties.Appearance.ForeColor = System.Drawing.Color.DarkBlue;
+            this.txtCustomerPhone.Properties.Appearance.Options.UseFont = true;
+            this.txtCustomerPhone.Properties.Appearance.Options.UseForeColor = true;
+            this.txtCustomerPhone.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.Blue;
+            this.txtCustomerPhone.Properties.AppearanceFocused.Options.UseBorderColor = true;
+            this.txtCustomerPhone.Properties.NullValuePrompt = "رقم الهاتف";
+            this.txtCustomerPhone.Size = new System.Drawing.Size(350, 30);
+            this.txtCustomerPhone.TabIndex = 13;
+            // 
+            // dtInvoiceDate
+            // 
+            this.dtInvoiceDate.EditValue = null;
+            this.dtInvoiceDate.Location = new System.Drawing.Point(393, 47);
+            this.dtInvoiceDate.Margin = new System.Windows.Forms.Padding(4);
+            this.dtInvoiceDate.Name = "dtInvoiceDate";
+            this.dtInvoiceDate.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.dtInvoiceDate.Properties.Appearance.ForeColor = System.Drawing.Color.DarkBlue;
+            this.dtInvoiceDate.Properties.Appearance.Options.UseFont = true;
+            this.dtInvoiceDate.Properties.Appearance.Options.UseForeColor = true;
+            this.dtInvoiceDate.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.Blue;
+            this.dtInvoiceDate.Properties.AppearanceFocused.Options.UseBorderColor = true;
+            this.dtInvoiceDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dtInvoiceDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dtInvoiceDate.Size = new System.Drawing.Size(279, 28);
+            this.dtInvoiceDate.TabIndex = 11;
+            // 
+            // txtCustomerName
+            // 
+            this.txtCustomerName.EditValue = "";
+            this.txtCustomerName.Location = new System.Drawing.Point(6, 11);
+            this.txtCustomerName.Margin = new System.Windows.Forms.Padding(4);
+            this.txtCustomerName.Name = "txtCustomerName";
+            this.txtCustomerName.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCustomerName.Properties.Appearance.ForeColor = System.Drawing.Color.DarkBlue;
+            this.txtCustomerName.Properties.Appearance.Options.UseFont = true;
+            this.txtCustomerName.Properties.Appearance.Options.UseForeColor = true;
+            this.txtCustomerName.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.Blue;
+            this.txtCustomerName.Properties.AppearanceFocused.Options.UseBorderColor = true;
+            this.txtCustomerName.Properties.NullValuePrompt = "اسم العميل";
+            this.txtCustomerName.Size = new System.Drawing.Size(350, 30);
+            this.txtCustomerName.TabIndex = 12;
+            // 
+            // txtInvoiceNumber
+            // 
+            this.txtInvoiceNumber.Location = new System.Drawing.Point(393, 11);
+            this.txtInvoiceNumber.Margin = new System.Windows.Forms.Padding(4);
+            this.txtInvoiceNumber.Name = "txtInvoiceNumber";
+            this.txtInvoiceNumber.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.txtInvoiceNumber.Properties.Appearance.ForeColor = System.Drawing.Color.DarkBlue;
+            this.txtInvoiceNumber.Properties.Appearance.Options.UseFont = true;
+            this.txtInvoiceNumber.Properties.Appearance.Options.UseForeColor = true;
+            this.txtInvoiceNumber.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.LightGray;
+            this.txtInvoiceNumber.Properties.AppearanceReadOnly.Options.UseBackColor = true;
+            this.txtInvoiceNumber.Properties.ReadOnly = true;
+            this.txtInvoiceNumber.Size = new System.Drawing.Size(279, 28);
+            this.txtInvoiceNumber.TabIndex = 10;
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl1.Appearance.Options.UseFont = true;
+            this.labelControl1.Location = new System.Drawing.Point(384, 97);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(96, 24);
+            this.labelControl1.TabIndex = 14;
+            this.labelControl1.Text = "اسم المنتج";
+            this.labelControl1.Click += new System.EventHandler(this.labelControl1_Click);
+            // 
+            // btnAddItem
+            // 
+            this.btnAddItem.Appearance.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.btnAddItem.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.btnAddItem.Appearance.ForeColor = System.Drawing.Color.White;
+            this.btnAddItem.Appearance.Options.UseBackColor = true;
+            this.btnAddItem.Appearance.Options.UseFont = true;
+            this.btnAddItem.Appearance.Options.UseForeColor = true;
+            this.btnAddItem.AppearanceHovered.BackColor = System.Drawing.Color.LimeGreen;
+            this.btnAddItem.AppearanceHovered.Options.UseBackColor = true;
+            this.btnAddItem.AppearancePressed.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnAddItem.AppearancePressed.Options.UseBackColor = true;
+            this.btnAddItem.Location = new System.Drawing.Point(38, 94);
+            this.btnAddItem.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddItem.Name = "btnAddItem";
+            this.btnAddItem.Size = new System.Drawing.Size(136, 30);
+            this.btnAddItem.TabIndex = 17;
+            this.btnAddItem.Text = "إضافة";
+            // 
+            // spinQuantity
+            // 
+            this.spinQuantity.EditValue = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.spinQuantity.Location = new System.Drawing.Point(208, 97);
+            this.spinQuantity.Margin = new System.Windows.Forms.Padding(4);
+            this.spinQuantity.Name = "spinQuantity";
+            this.spinQuantity.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.spinQuantity.Properties.Appearance.ForeColor = System.Drawing.Color.Black;
+            this.spinQuantity.Properties.Appearance.Options.UseFont = true;
+            this.spinQuantity.Properties.Appearance.Options.UseForeColor = true;
+            this.spinQuantity.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.Orange;
+            this.spinQuantity.Properties.AppearanceFocused.Options.UseBorderColor = true;
+            this.spinQuantity.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.spinQuantity.Properties.IsFloatValue = false;
+            this.spinQuantity.Properties.MaskSettings.Set("mask", "N00");
+            this.spinQuantity.Properties.MaxValue = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.spinQuantity.Properties.MinValue = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.spinQuantity.Size = new System.Drawing.Size(79, 28);
+            this.spinQuantity.TabIndex = 16;
+            // 
+            // labelControl5
+            // 
+            this.labelControl5.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl5.Appearance.Options.UseFont = true;
+            this.labelControl5.Location = new System.Drawing.Point(295, 100);
+            this.labelControl5.Name = "labelControl5";
+            this.labelControl5.Size = new System.Drawing.Size(66, 24);
+            this.labelControl5.TabIndex = 15;
+            this.labelControl5.Text = "الكمية:";
+            // 
+            // NewBtn
+            // 
+            this.NewBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NewBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.NewBtn.Appearance.Options.UseFont = true;
+            this.NewBtn.Location = new System.Drawing.Point(547, 572);
+            this.NewBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.NewBtn.Name = "NewBtn";
+            this.NewBtn.Size = new System.Drawing.Size(136, 36);
+            this.NewBtn.TabIndex = 20;
+            this.NewBtn.Text = "حفظ";
+            // 
+            // btnSaveAndPrint
+            // 
+            this.btnSaveAndPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveAndPrint.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            this.btnSaveAndPrint.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.btnSaveAndPrint.Appearance.ForeColor = System.Drawing.Color.White;
+            this.btnSaveAndPrint.Appearance.Options.UseBackColor = true;
+            this.btnSaveAndPrint.Appearance.Options.UseFont = true;
+            this.btnSaveAndPrint.Appearance.Options.UseForeColor = true;
+            this.btnSaveAndPrint.Location = new System.Drawing.Point(265, 572);
+            this.btnSaveAndPrint.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSaveAndPrint.Name = "btnSaveAndPrint";
+            this.btnSaveAndPrint.Size = new System.Drawing.Size(136, 36);
+            this.btnSaveAndPrint.TabIndex = 22;
+            this.btnSaveAndPrint.Text = "حفظ وطباعة";
+            // 
+            // EditBtn
+            // 
+            this.EditBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditBtn.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.EditBtn.Appearance.Options.UseFont = true;
+            this.EditBtn.Location = new System.Drawing.Point(547, 572);
+            this.EditBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.EditBtn.Name = "EditBtn";
+            this.EditBtn.Size = new System.Drawing.Size(136, 36);
+            this.EditBtn.TabIndex = 23;
+            this.EditBtn.Text = "حفظ التعديلات";
+            this.EditBtn.Click += new System.EventHandler(this.EditBtn_Click_1);
+            // 
+            // btnSaveAndPreview
+            // 
+            this.btnSaveAndPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveAndPreview.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(162)))), ((int)(((byte)(184)))));
+            this.btnSaveAndPreview.Appearance.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.btnSaveAndPreview.Appearance.ForeColor = System.Drawing.Color.White;
+            this.btnSaveAndPreview.Appearance.Options.UseBackColor = true;
+            this.btnSaveAndPreview.Appearance.Options.UseFont = true;
+            this.btnSaveAndPreview.Appearance.Options.UseForeColor = true;
+            this.btnSaveAndPreview.Location = new System.Drawing.Point(409, 572);
+            this.btnSaveAndPreview.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSaveAndPreview.Name = "btnSaveAndPreview";
+            this.btnSaveAndPreview.Size = new System.Drawing.Size(131, 36);
+            this.btnSaveAndPreview.TabIndex = 21;
+            this.btnSaveAndPreview.Text = "حفظ ومعاينة";
+            // 
+            // panelControl5
+            // 
+            this.panelControl5.Appearance.BackColor = System.Drawing.Color.White;
+            this.panelControl5.Appearance.Options.UseBackColor = true;
+            this.panelControl5.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl5.Controls.Add(this.labelControl4);
+            this.panelControl5.Controls.Add(this.labelControl3);
+            this.panelControl5.Controls.Add(this.labelControl2);
+            this.panelControl5.Controls.Add(this.textEdit4);
+            this.panelControl5.Controls.Add(this.textEdit3);
+            this.panelControl5.Controls.Add(this.textEdit2);
+            this.panelControl5.Location = new System.Drawing.Point(4, 480);
+            this.panelControl5.Name = "panelControl5";
+            this.panelControl5.Size = new System.Drawing.Size(679, 85);
+            this.panelControl5.TabIndex = 24;
+            // 
+            // labelControl4
+            // 
+            this.labelControl4.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.labelControl4.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(0)))));
+            this.labelControl4.Appearance.Options.UseFont = true;
+            this.labelControl4.Appearance.Options.UseForeColor = true;
+            this.labelControl4.Location = new System.Drawing.Point(161, 6);
+            this.labelControl4.Name = "labelControl4";
+            this.labelControl4.Size = new System.Drawing.Size(84, 24);
+            this.labelControl4.TabIndex = 0;
+            this.labelControl4.Text = "الاجمالى";
+            // 
+            // labelControl3
+            // 
+            this.labelControl3.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.labelControl3.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
+            this.labelControl3.Appearance.Options.UseFont = true;
+            this.labelControl3.Appearance.Options.UseForeColor = true;
+            this.labelControl3.Location = new System.Drawing.Point(372, 6);
+            this.labelControl3.Name = "labelControl3";
+            this.labelControl3.Size = new System.Drawing.Size(63, 24);
+            this.labelControl3.TabIndex = 1;
+            this.labelControl3.Text = "الخصم";
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.labelControl2.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(180)))));
+            this.labelControl2.Appearance.Options.UseFont = true;
+            this.labelControl2.Appearance.Options.UseForeColor = true;
+            this.labelControl2.Location = new System.Drawing.Point(596, 4);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(79, 24);
+            this.labelControl2.TabIndex = 2;
+            this.labelControl2.Text = "المجموع";
+            // 
+            // textEdit4
+            // 
+            this.textEdit4.Location = new System.Drawing.Point(6, 33);
+            this.textEdit4.Name = "textEdit4";
+            this.textEdit4.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(240)))), ((int)(((byte)(180)))));
+            this.textEdit4.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Bold);
+            this.textEdit4.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(0)))));
+            this.textEdit4.Properties.Appearance.Options.UseBackColor = true;
+            this.textEdit4.Properties.Appearance.Options.UseFont = true;
+            this.textEdit4.Properties.Appearance.Options.UseForeColor = true;
+            this.textEdit4.Properties.Appearance.Options.UseTextOptions = true;
+            this.textEdit4.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.textEdit4.Size = new System.Drawing.Size(239, 40);
+            this.textEdit4.TabIndex = 3;
+            // 
+            // textEdit3
+            // 
+            this.textEdit3.Location = new System.Drawing.Point(251, 33);
+            this.textEdit3.Name = "textEdit3";
+            this.textEdit3.Properties.Appearance.BackColor = System.Drawing.Color.White;
+            this.textEdit3.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Bold);
+            this.textEdit3.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
+            this.textEdit3.Properties.Appearance.Options.UseBackColor = true;
+            this.textEdit3.Properties.Appearance.Options.UseFont = true;
+            this.textEdit3.Properties.Appearance.Options.UseForeColor = true;
+            this.textEdit3.Properties.Appearance.Options.UseTextOptions = true;
+            this.textEdit3.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.textEdit3.Size = new System.Drawing.Size(184, 40);
+            this.textEdit3.TabIndex = 4;
+            // 
+            // textEdit2
+            // 
+            this.textEdit2.Location = new System.Drawing.Point(443, 33);
+            this.textEdit2.Name = "textEdit2";
+            this.textEdit2.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
+            this.textEdit2.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Bold);
+            this.textEdit2.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(180)))));
+            this.textEdit2.Properties.Appearance.Options.UseBackColor = true;
+            this.textEdit2.Properties.Appearance.Options.UseFont = true;
+            this.textEdit2.Properties.Appearance.Options.UseForeColor = true;
+            this.textEdit2.Properties.Appearance.Options.UseTextOptions = true;
+            this.textEdit2.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.textEdit2.Size = new System.Drawing.Size(232, 40);
+            this.textEdit2.TabIndex = 5;
+            // 
+            // panelControl4
+            // 
+            this.panelControl4.Controls.Add(this.InvoiceGrid);
+            this.panelControl4.Location = new System.Drawing.Point(4, 161);
+            this.panelControl4.Name = "panelControl4";
+            this.panelControl4.Size = new System.Drawing.Size(679, 319);
+            this.panelControl4.TabIndex = 18;
+            // 
+            // InvoiceGrid
+            // 
+            this.InvoiceGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InvoiceGrid.Location = new System.Drawing.Point(2, 2);
+            this.InvoiceGrid.MainView = this.gridView2;
+            this.InvoiceGrid.Name = "InvoiceGrid";
+            this.InvoiceGrid.Size = new System.Drawing.Size(675, 315);
+            this.InvoiceGrid.TabIndex = 0;
+            this.InvoiceGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView2});
+            this.InvoiceGrid.Click += new System.EventHandler(this.InvoiceGrid_Click);
+            // 
+            // gridView2
+            // 
+            this.gridView2.GridControl = this.InvoiceGrid;
+            this.gridView2.Name = "gridView2";
+            this.gridView2.OptionsEditForm.PopupEditFormWidth = 700;
+            // 
+            // panelControl2
+            // 
+            this.panelControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelControl2.AutoSize = true;
+            this.panelControl2.Controls.Add(this.ProductGrid);
+            this.panelControl2.Controls.Add(this.cmbCompany);
+            this.panelControl2.Controls.Add(this.ProductSearch);
+            this.panelControl2.Controls.Add(this.cmbCategory);
+            this.panelControl2.Controls.Add(this.btnClearFilters);
+            this.panelControl2.Location = new System.Drawing.Point(705, 12);
+            this.panelControl2.Name = "panelControl2";
+            this.panelControl2.Size = new System.Drawing.Size(366, 616);
+            this.panelControl2.TabIndex = 9;
+            this.panelControl2.Paint += new System.Windows.Forms.PaintEventHandler(this.panelControl2_Paint);
+            // 
+            // ProductGrid
+            // 
+            this.ProductGrid.Location = new System.Drawing.Point(4, 158);
+            this.ProductGrid.MainView = this.gridView1;
+            this.ProductGrid.Name = "ProductGrid";
+            this.ProductGrid.Size = new System.Drawing.Size(355, 451);
+            this.ProductGrid.TabIndex = 8;
+            this.ProductGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView1});
+            // 
+            // gridView1
+            // 
+            this.gridView1.GridControl = this.ProductGrid;
+            this.gridView1.Name = "gridView1";
+            this.gridView1.OptionsEditForm.PopupEditFormWidth = 700;
+            // 
+            // ProductSearch
+            // 
+            this.ProductSearch.EditValue = "";
+            this.ProductSearch.Location = new System.Drawing.Point(5, 90);
+            this.ProductSearch.Name = "ProductSearch";
+            this.ProductSearch.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProductSearch.Properties.Appearance.Options.UseFont = true;
+            this.ProductSearch.Properties.NullValuePrompt = "ابحث عن المنتج";
+            this.ProductSearch.Size = new System.Drawing.Size(354, 30);
+            this.ProductSearch.TabIndex = 7;
+            // 
+            // cmbCategory
+            // 
+            this.cmbCategory.Location = new System.Drawing.Point(4, 52);
+            this.cmbCategory.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbCategory.Name = "cmbCategory";
+            this.cmbCategory.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbCategory.Properties.Appearance.ForeColor = System.Drawing.Color.DarkGreen;
+            this.cmbCategory.Properties.Appearance.Options.UseFont = true;
+            this.cmbCategory.Properties.Appearance.Options.UseForeColor = true;
+            this.cmbCategory.Properties.AppearanceFocused.BorderColor = System.Drawing.Color.Green;
+            this.cmbCategory.Properties.AppearanceFocused.Options.UseBorderColor = true;
+            this.cmbCategory.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Clear)});
+            this.cmbCategory.Properties.ImmediatePopup = true;
+            this.cmbCategory.Properties.NullText = "ابحث واختر الصنف...";
+            this.cmbCategory.Properties.PopupFilterMode = DevExpress.XtraEditors.PopupFilterMode.Contains;
+            this.cmbCategory.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+            this.cmbCategory.Size = new System.Drawing.Size(354, 30);
+            this.cmbCategory.TabIndex = 6;
+            // 
+            // btnClearFilters
+            // 
+            this.btnClearFilters.Text = "مسح الفلاتر";
+            this.btnClearFilters.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.btnClearFilters.Size = new System.Drawing.Size(120, 32);
+            this.btnClearFilters.Location = new System.Drawing.Point(5, 125); // Below ProductSearch
+            this.btnClearFilters.Click += new System.EventHandler(this.BtnClearFilters_Click);
+            this.panelControl2.Controls.Add(this.btnClearFilters);
+            // 
+            // InvoiceCUFormv2
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1081, 638);
+            this.Controls.Add(this.panelControl1);
+            this.Name = "InvoiceCUFormv2";
+            this.Text = "InvoiceCUFormv2";
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCompany.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+            this.panelControl1.ResumeLayout(false);
+            this.panelControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).EndInit();
+            this.panelControl3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl6)).EndInit();
+            this.panelControl6.ResumeLayout(false);
+            this.panelControl6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerPhone.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtInvoiceDate.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtInvoiceDate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCustomerName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtInvoiceNumber.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinQuantity.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl5)).EndInit();
+            this.panelControl5.ResumeLayout(false);
+            this.panelControl5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit4.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit3.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl4)).EndInit();
+            this.panelControl4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.InvoiceGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
+            this.panelControl2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ProductGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ProductSearch.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cmbCategory.Properties)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private DevExpress.XtraEditors.LookUpEdit cmbCompany;
+        private DevExpress.XtraEditors.PanelControl panelControl1;
+        private DevExpress.XtraEditors.PanelControl panelControl2;
+        private DevExpress.XtraEditors.TextEdit ProductSearch;
+        private DevExpress.XtraEditors.LookUpEdit cmbCategory;
+        private DevExpress.XtraGrid.GridControl ProductGrid;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraEditors.PanelControl panelControl3;
+        private DevExpress.XtraEditors.SimpleButton NewBtn;
+        private DevExpress.XtraEditors.SimpleButton btnSaveAndPrint;
+        private DevExpress.XtraEditors.SimpleButton EditBtn;
+        private DevExpress.XtraEditors.SimpleButton btnSaveAndPreview;
+        private DevExpress.XtraEditors.PanelControl panelControl5;
+        private DevExpress.XtraEditors.LabelControl labelControl4;
+        private DevExpress.XtraEditors.LabelControl labelControl3;
+        private DevExpress.XtraEditors.LabelControl labelControl2;
+        private DevExpress.XtraEditors.TextEdit textEdit4;
+        private DevExpress.XtraEditors.TextEdit textEdit3;
+        private DevExpress.XtraEditors.TextEdit textEdit2;
+        private DevExpress.XtraEditors.PanelControl panelControl4;
+        private DevExpress.XtraGrid.GridControl InvoiceGrid;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
+        private DevExpress.XtraEditors.LabelControl labelControl5;
+        private DevExpress.XtraEditors.SpinEdit spinQuantity;
+        private DevExpress.XtraEditors.SimpleButton btnAddItem;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
+        private DevExpress.XtraEditors.TextEdit txtCustomerPhone;
+        private DevExpress.XtraEditors.TextEdit txtInvoiceNumber;
+        private DevExpress.XtraEditors.TextEdit txtCustomerName;
+        private DevExpress.XtraEditors.DateEdit dtInvoiceDate;
+        private DevExpress.XtraEditors.PanelControl panelControl6;
+        private DevExpress.XtraEditors.SimpleButton btnClearFilters;
+    }
+}
