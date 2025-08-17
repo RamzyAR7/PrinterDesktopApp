@@ -234,14 +234,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesktopApp.exe" size="1439232">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesktopApp.exe" size="1441280">
       <assemblyIdentity name="DesktopApp" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>j/ciDlnc7evHo4CGwkCvDmTw0n203XsyILP3cwEWgU8=</dsig:DigestValue>
+        <dsig:DigestValue>AjpKGPt042OQTHMPWbR2go2+XNVJsirh1p272s1NtdU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

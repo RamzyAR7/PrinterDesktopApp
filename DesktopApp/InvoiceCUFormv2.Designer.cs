@@ -231,7 +231,7 @@
             this.panelControl6.Controls.Add(this.labelControl5);
             this.panelControl6.Location = new System.Drawing.Point(5, 5);
             this.panelControl6.Name = "panelControl6";
-            this.panelControl6.Size = new System.Drawing.Size(704, 133);
+            this.panelControl6.Size = new System.Drawing.Size(691, 133);
             this.panelControl6.TabIndex = 25;
             // 
             // txtCustomerPhone
@@ -266,7 +266,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.dtInvoiceDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dtInvoiceDate.Size = new System.Drawing.Size(303, 28);
+            this.dtInvoiceDate.Size = new System.Drawing.Size(290, 28);
             this.dtInvoiceDate.TabIndex = 11;
             // 
             // txtCustomerName
@@ -297,7 +297,7 @@
             this.txtInvoiceNumber.Properties.AppearanceReadOnly.BackColor = System.Drawing.Color.LightGray;
             this.txtInvoiceNumber.Properties.AppearanceReadOnly.Options.UseBackColor = true;
             this.txtInvoiceNumber.Properties.ReadOnly = true;
-            this.txtInvoiceNumber.Size = new System.Drawing.Size(303, 28);
+            this.txtInvoiceNumber.Size = new System.Drawing.Size(290, 28);
             this.txtInvoiceNumber.TabIndex = 10;
             // 
             // labelControl1
@@ -310,9 +310,8 @@
             this.labelControl1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
             this.labelControl1.Location = new System.Drawing.Point(405, 94);
             this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(33, 24);
+            this.labelControl1.Size = new System.Drawing.Size(0, 24);
             this.labelControl1.TabIndex = 14;
-            this.labelControl1.Text = "___";
             this.labelControl1.Click += new System.EventHandler(this.labelControl1_Click);
             // 
             // btnAddItem
@@ -533,6 +532,7 @@
             this.ProductGrid.TabIndex = 8;
             this.ProductGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
+            this.ProductGrid.Click += new System.EventHandler(this.ProductGrid_Click);
             // 
             // gridView1
             // 
@@ -543,12 +543,12 @@
             // ProductSearch
             // 
             this.ProductSearch.EditValue = "";
-            this.ProductSearch.Location = new System.Drawing.Point(117, 91);
+            this.ProductSearch.Location = new System.Drawing.Point(59, 91);
             this.ProductSearch.Name = "ProductSearch";
             this.ProductSearch.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ProductSearch.Properties.Appearance.Options.UseFont = true;
             this.ProductSearch.Properties.NullValuePrompt = "ابحث عن المنتج";
-            this.ProductSearch.Size = new System.Drawing.Size(275, 30);
+            this.ProductSearch.Size = new System.Drawing.Size(333, 30);
             this.ProductSearch.TabIndex = 7;
             this.ProductSearch.EditValueChanged += new System.EventHandler(this.ProductSearch_EditValueChanged_1);
             // 
@@ -581,9 +581,8 @@
             this.btnClearFilters.Appearance.Options.UseFont = true;
             this.btnClearFilters.Location = new System.Drawing.Point(19, 90);
             this.btnClearFilters.Name = "btnClearFilters";
-            this.btnClearFilters.Size = new System.Drawing.Size(92, 32);
+            this.btnClearFilters.Size = new System.Drawing.Size(34, 32);
             this.btnClearFilters.TabIndex = 9;
-            this.btnClearFilters.Text = "مسح";
             this.btnClearFilters.Click += new System.EventHandler(this.BtnClearFilters_Click);
             // 
             // InvoiceCUFormv2
@@ -593,7 +592,7 @@
             this.ClientSize = new System.Drawing.Size(1144, 638);
             this.Controls.Add(this.panelControl1);
             this.Name = "InvoiceCUFormv2";
-            this.Text = "InvoiceCUFormv2";
+            this.Text = "اضافة فاتورة";
             ((System.ComponentModel.ISupportInitialize)(this.cmbCompany.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);

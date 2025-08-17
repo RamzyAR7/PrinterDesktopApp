@@ -1,0 +1,449 @@
+﻿using DevExpress.XtraEditors;
+using DesktopApp.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DesktopApp
+{
+    public partial class InvoiceForm : DevExpress.XtraEditors.XtraForm
+    {
+        private ShoppingDBEntities dbContext;
+        private List<Invoice> allInvoices;
+        private DataView invoiceView;
+        
+        public InvoiceForm()
+        {
+            InitializeComponent();
+            if (!NetworkHelper.IsInternetAvailable())
+            {
+                XtraMessageBox.Show("لا يوجد اتصال بالإنترنت. يرجى التأكد من الاتصال قبل المتابعة.", "تنبيه الاتصال", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close();
+                return;
+            }
+            dbContext = new ShoppingDBEntities();
+
+            // Configure layout
+            panelControl1.Dock = DockStyle.Top;
+
+            // Set form to RTL
+            this.RightToLeft = RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+
+            // Initialize components
+            SetupSearchPanel();
+            LoadDataAsync();
+            SetupCrudButtons();
+
+            // Handle window resize to adjust columns
+            this.Resize += (s, e) => AdjustColumnWidths();
+        }
+
+        private async void LoadDataAsync()
+        {
+            await LoadingManager.ExecuteDatabaseOperationAsync(this, LoadInvoiceDataAsync, DatabaseOperationType.Load);
+            ConfigureGridView();
+        }
+
+        private void SetupCrudButtons()
+        {
+            // Setup Create button only - following ProductForm pattern
+            if (NewBtn != null)
+            {
+                NewBtn.Click += BtnCreate_Click;
+                NewBtn.Appearance.Font = new Font("Tahoma", 10, FontStyle.Bold);
+                NewBtn.Appearance.BackColor = Color.ForestGreen;
+                NewBtn.Appearance.ForeColor = Color.White;
+            }
+
+            // Add double-click to open InvoiceActionForm
+            gridView1.DoubleClick += GridView1_DoubleClick;
+        }
+
+        private void SetupSearchPanel()
+        {
+            // Configure the panel
+            panelControl1.Height = 50;
+            panelControl1.Padding = new Padding(5);
+            panelControl1.RightToLeft = RightToLeft.Yes;
+
+            ResizeAndRepositionButtons();
+
+            // Create search controls
+            var searchLabel = new LabelControl
+            {
+                Text = "بحث:",
+                Appearance = { Font = new Font("Arial", 13, FontStyle.Bold) },
+                AutoSizeMode = LabelAutoSizeMode.None,
+                Size = new Size(35, 20)
+            };
+
+            var searchTextBox = new TextEdit
+            {
+                Properties =
+                {
+                    NullText = "ابحث عن رقم الفاتورة، اسم العميل، أو رقم الهاتف...",
+                    Appearance = { 
+                        TextOptions = { HAlignment = DevExpress.Utils.HorzAlignment.Near },
+                        Font = new Font("Arial", 12)
+                    }
+                },
+                Size = new Size(300, 25)
+            };
+
+            // Position search controls on the right side
+            searchLabel.Location = new Point(panelControl1.Width - searchLabel.Width - 10, 15);
+            searchTextBox.Location = new Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 20, 13);
+
+            // Handle search text changed
+            searchTextBox.TextChanged += (s, e) => FilterInvoices(searchTextBox.Text);
+
+            // Add controls to panel
+            panelControl1.Controls.Add(searchLabel);
+            panelControl1.Controls.Add(searchTextBox);
+
+            // Ensure search controls stay positioned on resize
+            this.Resize += (s, e) =>
+            {
+                if (panelControl1.Width > 0)
+                {
+                    searchLabel.Location = new Point(panelControl1.Width - searchLabel.Width - 10, 15);
+                    searchTextBox.Location = new Point(panelControl1.Width - searchLabel.Width - searchTextBox.Width - 20, 13);
+                }
+            };
+        }
+
+        private void ResizeAndRepositionButtons()
+        {
+            // Only NewBtn exists in designer now
+            if (NewBtn != null)
+            {
+                NewBtn.Size = new Size(125, 30);
+                NewBtn.Location = new Point(10, 10);
+                NewBtn.Text = "+ اضافة فاتورة";
+            }
+        }
+
+        private async Task LoadInvoiceDataAsync()
+        {
+            try
+            {
+                await Task.Delay(300);
+                
+                allInvoices = await Task.Run(() =>
+                {
+                    return dbContext.Invoices
+                        .OrderByDescending(i => i.InvoiceDate)
+                        .ToList();
+                });
+
+                var invoiceTable = CreateInvoiceDataTable();
+                invoiceView = new DataView(invoiceTable);
+                gridControl1.DataSource = invoiceView;
+                gridControl1.RefreshDataSource();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في تحميل البيانات: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private DataTable CreateInvoiceDataTable()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Id", typeof(int));
+            table.Columns.Add("InvoiceNumber", typeof(string));
+            table.Columns.Add("InvoiceDate", typeof(DateTime));
+            table.Columns.Add("CustomerName", typeof(string));
+            table.Columns.Add("CustomerPhone", typeof(string));
+            table.Columns.Add("TotalAmount", typeof(decimal));
+            table.Columns.Add("TotalAmountArabic", typeof(string));
+
+            if (allInvoices != null)
+            {
+                foreach (var invoice in allInvoices)
+                {
+                    try
+                    {
+                        table.Rows.Add(
+                            invoice.Id,
+                            invoice.InvoiceNumber,
+                            invoice.InvoiceDate,
+                            invoice.CustomerName,
+                            invoice.CustomerPhone,
+                            invoice.TotalAmount,
+                            ArabicNumberConverter.ConvertDecimalToArabic(invoice.TotalAmount)
+                        );
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error adding invoice to table: {ex.Message}");
+                        continue;
+                    }
+                }
+            }
+
+            return table;
+        }
+
+        private void ConfigureGridView()
+        {
+            try
+            {
+                if (gridView1 == null || gridControl1 == null) return;
+
+                // Hide unnecessary columns
+                if (gridView1.Columns["Id"] != null)
+                    gridView1.Columns["Id"].Visible = false;
+                
+                if (gridView1.Columns["TotalAmount"] != null)
+                    gridView1.Columns["TotalAmount"].Visible = false;
+
+                // Show row numbers
+                gridView1.IndicatorWidth = 50;
+                gridView1.CustomDrawRowIndicator += (s, e) =>
+                {
+                    if (e.Info.IsRowIndicator && e.RowHandle >= 0)
+                    {
+                        e.Info.DisplayText = (e.RowHandle + 1).ToString();
+                    }
+                };
+
+                // Set Arabic captions
+                SetColumnCaption("InvoiceNumber", "رقم الفاتورة");
+                SetColumnCaption("InvoiceDate", "تاريخ الفاتورة");
+                SetColumnCaption("CustomerName", "اسم العميل");
+                SetColumnCaption("CustomerPhone", "رقم الهاتف");
+                SetColumnCaption("TotalAmountArabic", "المبلغ الإجمالي");
+
+                // Configure grid appearance
+                gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                gridView1.Appearance.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                gridView1.OptionsView.ShowGroupPanel = false;
+                gridView1.OptionsView.EnableAppearanceEvenRow = true;
+                gridView1.Appearance.EvenRow.BackColor = Color.FromArgb(242, 242, 242);
+                gridView1.RowHeight = 30;
+
+                // Make grid read-only
+                gridView1.OptionsBehavior.Editable = false;
+                gridView1.OptionsBehavior.ReadOnly = true;
+                gridView1.OptionsEditForm.ShowOnEnterKey = DevExpress.Utils.DefaultBoolean.False;
+                gridView1.OptionsEditForm.ShowOnDoubleClick = DevExpress.Utils.DefaultBoolean.False;
+
+                // Format date column
+                if (gridView1.Columns["InvoiceDate"] != null)
+                {
+                    gridView1.Columns["InvoiceDate"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+                    gridView1.Columns["InvoiceDate"].DisplayFormat.FormatString = "yyyy-MM-dd";
+                }
+
+                // Configure fonts: header 13 bold, rows 11 bold
+                gridView1.Appearance.HeaderPanel.Font = new Font(gridView1.Appearance.HeaderPanel.Font.FontFamily, 13, FontStyle.Bold);
+                gridView1.Appearance.Row.Font = new Font(gridView1.Appearance.Row.Font.FontFamily, 11, FontStyle.Bold);
+                gridView1.Appearance.Row.Options.UseFont = true;
+                gridView1.Appearance.EvenRow.Font = new Font(gridView1.Appearance.EvenRow.Font.FontFamily, 11, FontStyle.Bold);
+                gridView1.Appearance.EvenRow.Options.UseFont = true;
+
+                gridView1.OptionsView.ColumnAutoWidth = true;
+                gridView1.BestFitColumns();
+                AdjustColumnWidths();
+                ConfigureKeyboardNavigation();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error configuring grid view: {ex.Message}");
+            }
+        }
+
+        private void ConfigureKeyboardNavigation()
+        {
+            try
+            {
+                gridView1.OptionsNavigation.EnterMoveNextColumn = false;
+                gridView1.OptionsNavigation.AutoMoveRowFocus = true;
+                gridView1.KeyDown += GridView1_KeyDown;
+                gridView1.OptionsSelection.EnableAppearanceFocusedCell = true;
+                gridView1.OptionsSelection.EnableAppearanceHideSelection = false;
+                this.Text = $"الفواتير - عدد الفواتير: {gridView1.RowCount}";
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error configuring keyboard navigation: {ex.Message}");
+            }
+        }
+
+        private void GridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Home:
+                        if (e.Control)
+                        {
+                            gridView1.MoveFirst();
+                            e.Handled = true;
+                        }
+                        break;
+                    
+                    case Keys.End:
+                        if (e.Control)
+                        {
+                            gridView1.MoveLast();
+                            e.Handled = true;
+                        }
+                        break;
+                    
+                    case Keys.F5:
+                        _ = RefreshInvoiceDataAsync();
+                        e.Handled = true;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error handling key navigation: {ex.Message}");
+            }
+        }
+
+        private void SetColumnCaption(string columnName, string caption)
+        {
+            if (gridView1.Columns[columnName] != null)
+            {
+                gridView1.Columns[columnName].Caption = caption;
+            }
+        }
+
+        private void AdjustColumnWidths()
+        {
+            if (gridControl1?.Width <= 0 || gridView1 == null) return;
+
+            try
+            {
+                int scrollbarWidth = 20;
+                int availableWidth = gridControl1.Width - gridView1.IndicatorWidth - scrollbarWidth;
+
+                var columnProportions = new Dictionary<string, int>
+                {
+                    { "InvoiceNumber", 15 },
+                    { "InvoiceDate", 15 },
+                    { "CustomerName", 35 },
+                    { "CustomerPhone", 20 },
+                    { "TotalAmountArabic", 15 }
+                };
+
+                foreach (var column in columnProportions)
+                {
+                    if (gridView1.Columns[column.Key] != null)
+                    {
+                        int width = (availableWidth * column.Value) / 100;
+                        gridView1.Columns[column.Key].Width = width;
+                    }
+                }
+
+                gridView1.OptionsView.ColumnAutoWidth = false;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error adjusting column widths: {ex.Message}");
+            }
+        }
+
+        private void FilterInvoices(string searchText)
+        {
+            if (invoiceView == null) return;
+
+            searchText = searchText?.Trim().ToLower() ?? "";
+            
+            if (string.IsNullOrEmpty(searchText))
+            {
+                invoiceView.RowFilter = "";
+            }
+            else
+            {
+                invoiceView.RowFilter = $"InvoiceNumber LIKE '%{searchText}%' OR CustomerName LIKE '%{searchText}%' OR CustomerPhone LIKE '%{searchText}%'";
+            }
+        }
+
+        private async void BtnCreate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var createForm = new InvoiceCUFormv2())
+                {
+                    if (createForm.ShowDialog() == DialogResult.OK && createForm.InvoiceSaved)
+                    {
+                        await RefreshInvoiceDataAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في إضافة فاتورة جديدة: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void GridView1_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                int focusedRowHandle = gridView1.FocusedRowHandle;
+                if (focusedRowHandle < 0) return;
+
+                var invoiceIdObj = gridView1.GetRowCellValue(focusedRowHandle, "Id");
+                if (invoiceIdObj == null || !int.TryParse(invoiceIdObj.ToString(), out int invoiceId))
+                {
+                    XtraMessageBox.Show("خطأ في تحديد الفاتورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                using (var context = new ShoppingDBEntities())
+                {
+                    var invoice = context.Invoices.FirstOrDefault(i => i.Id == invoiceId);
+                    if (invoice == null)
+                    {
+                        XtraMessageBox.Show("الفاتورة غير موجودة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    using (var actionForm = new InvoiceActionForm(invoice))
+                    {
+                        if (actionForm.ShowDialog() == DialogResult.OK || actionForm.InvoiceModified)
+                        {
+                            await RefreshInvoiceDataAsync();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show($"خطأ في فتح الفاتورة: {ex.Message}", 
+                    "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task RefreshInvoiceDataAsync()
+        {
+            await LoadingManager.ExecuteDatabaseOperationAsync(this, async () =>
+            {
+                await LoadInvoiceDataAsync();
+                AdjustColumnWidths();
+            }, DatabaseOperationType.Load);
+        }
+
+        private void InvoiceForm_Load(object sender, EventArgs e)
+        {
+            // Empty - initialization handled in constructor
+        }
+
+        private void InvoiceForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            dbContext?.Dispose();
+        }
+    }
+}
